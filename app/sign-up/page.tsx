@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "../components/logo";
 import Input from "../components/input";
 import Button from "../components/button";
+import Footer from "../components/footer";
 
 const Navbar = () => {
   return (
@@ -56,6 +57,7 @@ export default function Login() {
           </span>
         </span>
       </form>
+      <Footer/>
     </>
   );
 }

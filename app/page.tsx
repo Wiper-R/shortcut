@@ -8,6 +8,7 @@ import UserImg from "./icons/user.svg";
 import { useState, useEffect } from "react";
 import Input from "./components/input";
 import Logo from "./components/logo";
+import Footer from "./components/footer";
 
 const sriracha = Sriracha({ weight: "400", subsets: ["latin"] });
 const lato = Lato({ weight: "900", subsets: ["latin"] });
@@ -83,15 +84,15 @@ const Hero = () => {
   return (
     <main className="mx-5 mb-6 mt-24 md:mt-36">
       <h2
-        className={`text-6xl font-extrabold whitespace-break-spaces max-sm:max-w-lg max-sm:mx-auto sm:space-x-4 sm:text-center xl:mt-20`}
+        className={`text-5xl font-extrabold whitespace-break-spaces max-xsm:max-w-lg max-xsm:mx-auto xsm:space-x-4 xsm:text-center xl:mt-20`}
       >
-        <span className="max-sm:block text-primary">Success</span>
-        <span className="max-sm:block">Begins</span>
-        <span className="max-xl:block text-center">with</span>
+        <span className="max-xsm:block text-primary">Success</span>
+        <span className="max-xsm:block">Begins</span>
+        <span className="max-lg:block text-center">with</span>
 
-        <span className="max-sm:text-end sm:space-x-4">
-          <span className="max-sm:block text-primary">Simplified</span>
-          <span className="max-sm:block">Sharing!</span>
+        <span className="max-xsm:text-end xsm:space-x-4">
+          <span className="max-xsm:block text-primary">Simplified</span>
+          <span className="max-xsm:block">Sharing!</span>
         </span>
       </h2>
       <p className="text-gray-700 my-8 text-center text-xl md:text-2xl">
@@ -192,15 +193,7 @@ export default function Home() {
       <Hero />
       <DemoForm />
       <WhyLinkSwift />
-
-      <footer className="p-4 bg-white drop-shadow-md flex flex-col justify-center items-center space-y-3">
-        <Link href="/">
-          <Logo />
-        </Link>
-        <span className="text-center">
-          Copyright @2023 | LinkSwift - Shivang Rathore
-        </span>
-      </footer>
+      <Footer/>      
     </>
   );
 }
