@@ -1,113 +1,177 @@
-import Image from 'next/image'
+"use client";
+
+import { Sriracha, Lato } from "next/font/google";
+import Link from "next/link";
+import CrossImg from "./icons/cross.svg";
+import HamburgerImg from "./icons/hamburger.svg";
+import QRImg from "./icons/QR.svg";
+import LinkImg from "./icons/Link.svg";
+import UserImg from "./icons/user.svg";
+import { useRef, useState } from "react";
+import Input from "./components/input";
+
+const sriracha = Sriracha({ weight: "400", subsets: ["latin"] });
+const lato = Lato({ weight: "900", subsets: ["latin"] });
+
+const Navbar = () => {
+  const [checked, setChecked] = useState(false);
+  const handleClick = () => setChecked(!checked);
+  return (
+    <nav className="flex justify-between px-5 py-4  items-center drop-shadow-sm bg-white relative">
+      <Link href="/" className={`text-primary ${sriracha.className} text-3xl`}>
+        LinkSwift
+      </Link>
+      <input
+        type="checkbox"
+        className="self-end w-0 h-0"
+        id="hamburger"
+        value={checked ? "on" : "off"}
+        onClick={handleClick}
+      />
+      <label htmlFor="hamburger" className="md:hidden">
+        <img
+          src={!checked ? HamburgerImg.src : CrossImg.src}
+          alt=""
+          className="w-8"
+        />
+      </label>
+
+      <span
+        className={`space-x-4 md:space-x-10 max-md:absolute max-md:top-20
+       right-2 max-md:bg-white max-md:shadow-lg max-md:p-4 max-md:rounded-md flex justify-center items-center ${
+         checked ? "max-md:block" : "max-md:hidden"
+       }`}
+      >
+        <Link href="/login">Login</Link>
+        <Link href="/sign-up" className="text-primary">
+          Sign up
+        </Link>
+      </span>
+    </nav>
+  );
+};
+
+const Hero = () => {
+  return (
+    <main className="mx-5 my-6">
+      <h2
+        className={`text-6xl font-extrabold whitespace-break-spaces max-sm:max-w-lg max-sm:mx-auto sm:space-x-4 sm:text-center xl:mt-20`}
+      >
+        <span className="max-sm:block text-primary">Success</span>
+        <span className="max-sm:block">Begins</span>
+        <span className="max-xl:block text-center">with</span>
+
+        <span className="max-sm:text-end sm:space-x-4">
+          <span className="max-sm:block text-primary">Simplified</span>
+          <span className="max-sm:block">Sharing!</span>
+        </span>
+      </h2>
+      <p className="text-gray-700 my-8 text-center text-xl">
+        Are you tired of clunky links cluttering your online presence? Look no
+        further!
+        <br /> <b>LinkSwift</b> is your trusted companion for streamlining your
+        web sharing experience.
+      </p>
+    </main>
+  );
+};
+
+interface ITabBtnProps {
+  content: string;
+  image: string;
+}
+
+const TabBtn = (props: ITabBtnProps) => {
+  return (
+    <button className="flex flex-col items-center px-4 py-2 bg-white rounded-t-lg border-2 border-b-0">
+      <img src={props.image} className="w-5" />
+      <span className="text-xl">{props.content}</span>
+    </button>
+  );
+};
+
+const DemoForm = () => {
+  return (
+    <section className="relative">
+      <div className="flex justify-center relative z-10">
+        <TabBtn content="Short Link" image={LinkImg.src} />
+        <TabBtn content="QR Code" image={QRImg.src} />
+      </div>
+      <form className="bg-white flex flex-col space-y-4 p-5 border-y-2 relative bottom-0.5 z-0 shadow">
+        <Input
+          label="Long Url"
+          placeholder="ex: https://www.your-long-url.com/short-it"
+        />
+        <div className="space-y-4">
+          <div className="flex justify-center items-center">
+            <Input label="Domain" placeholder="LinkSwift.com" disabled={true} />
+            <span className="text-3xl p-4 mt-6 font-extrabold">/</span>
+          </div>
+
+          <Input label="Sub Path (Optional)" placeholder="eg: my-link" />
+        </div>
+
+        <span className="bg-orange-100 px-4 py-2 text-lg text-orange-700 rounded-md flex space-x-2">
+          <img src={UserImg.src} alt="" />
+          <span>Login to keep track of your shorten urls</span>
+        </span>
+        <button className="bg-primary text-white font-bold p-4 text-lg rounded-lg">
+          Shorten It!
+        </button>
+      </form>
+    </section>
+  );
+};
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <Navbar />
+      <Hero />
+      <DemoForm />
+      {/* Why LinkSwift? */}
+      <section className="box-border">
+        <h4 className="text-center text-3xl underline my-8 font-semibold">
+          Why LinkSwift?
+        </h4>
+        <div className="bg-white my-8 shadow">
+          {/* Wrapper */}
+          <ul className="p-5 text-xl space-y-5">
+            <li>
+              <b>Shorten Links:</b> Say goodbye to those sprawling URLs.
+              LinkSwift effortlessly trims them down into sleek, shareable
+              links.
+            </li>
+            <li>
+              <b>QR Code Generation:</b> Enhance user accessibility by
+              generating QR codes for your shortened links. It's quick, it's
+              easy, and it's all right here.
+            </li>
+            <li>
+              <b>Track with Confidence:</b> Securely log in to LinkSwift and
+              gain complete control. Track link performance, monitor traffic
+              sources, and manage your links, all from a user-friendly
+              dashboard.
+            </li>
+            <li>
+              <b>Absolutely Free:</b> Best of all, our premium features are at
+              your fingertips, without costing you a dime. No hidden fees, no
+              tricks – just powerful link management, free for you.
+            </li>
+          </ul>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
+      </section>
+      <footer className="p-4 bg-white drop-shadow-md flex flex-col justify-center items-center space-y-3">
+        <Link
+          href="/"
+          className={`text-primary ${sriracha.className} text-3xl`}
         >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+          LinkSwift
+        </Link>
+        <span className="text-center">
+          Copyright @2023 | LinkSwift - Shivang Rathore
+        </span>
+      </footer>
+    </>
+  );
 }
