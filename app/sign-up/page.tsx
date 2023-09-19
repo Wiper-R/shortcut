@@ -27,18 +27,31 @@ export default function Login() {
       >
         <span className="mb-5">
           <h4 className="text-center text-3xl font-semibold text-gray-700">
-            Login
+            Create an account
           </h4>
           <hr className="h-0.5 bg-gray-300 mt-1.5" />
         </span>
-        <Input label="Email / Username" />
-        <Input label="Password" type="password" />
-        <span className="flex flex-col gap-2 mt-3">
-          <Button text="Login" />
+        <Input label="Username" />
+        <Input label="Email" type="email"/>
+        <span>
+          <Input label="Password" type="password" />
+          <span className="mt-2 text-gray-600 block">
+            <span>A strong password must contain:</span>
+            <ul className="ml-6 list-disc">
+              <li>1 uppercase letter</li>
+              <li>1 lowercase letter</li>
+              <li>1 number</li>
+              <li>1 special character</li>
+              <li>6 or more characters</li>
+            </ul>
+          </span>
+        </span>
+        <span className="flex flex-col gap-2">
+          <Button text="Create account"/>
           <span className="text-center text-gray-600">
-            don't have an account?{" "}
-            <Link href="/sign-up" className="text-primary">
-              sign up
+            already have an account?{" "}
+            <Link href="/login" className="text-primary">
+              login
             </Link>
           </span>
         </span>

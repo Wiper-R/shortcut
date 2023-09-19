@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className={`${openSans.className} max-w-screen-2xl mx-auto`}>{children}</body>
     </html>
   )
 }

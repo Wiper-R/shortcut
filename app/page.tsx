@@ -2,24 +2,40 @@
 
 import { Sriracha, Lato } from "next/font/google";
 import Link from "next/link";
-import CrossImg from "./icons/cross.svg";
-import HamburgerImg from "./icons/hamburger.svg";
 import QRImg from "./icons/QR.svg";
 import LinkImg from "./icons/Link.svg";
 import UserImg from "./icons/user.svg";
-import { useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "./components/input";
+import Logo from "./components/logo";
 
 const sriracha = Sriracha({ weight: "400", subsets: ["latin"] });
 const lato = Lato({ weight: "900", subsets: ["latin"] });
 
 const Navbar = () => {
+  // Checkbox
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
+
+  // Navigation color and shadow change
+  const [isOut, setIsOut] = useState(false); // Out of screen
+  useEffect(() => {
+    const scroll = () => {
+      if (window.scrollY === 0) setIsOut(false);
+      else setIsOut(true);
+    };
+    window.addEventListener("scroll", scroll, { passive: true });
+    return () => window.removeEventListener("scroll", scroll);
+  }, []);
+
   return (
-    <nav className="flex justify-between px-5 py-4  items-center drop-shadow-sm bg-white relative">
-      <Link href="/" className={`text-primary ${sriracha.className} text-3xl`}>
-        LinkSwift
+    <nav
+      className={`md:px-12 xl:px-36 flex justify-between transition duration-500 ease-in-out px-5 py-4 items-center fixed top-0 w-full max-w-screen-2xl z-20 ${
+        isOut ? "drop-shadow-sm bg-white" : "bg-[#F5F4F4]"
+      }`}
+    >
+      <Link href="/">
+        <Logo />
       </Link>
       <input
         type="checkbox"
@@ -28,17 +44,29 @@ const Navbar = () => {
         value={checked ? "on" : "off"}
         onClick={handleClick}
       />
-      <label htmlFor="hamburger" className="md:hidden">
-        <img
-          src={!checked ? HamburgerImg.src : CrossImg.src}
-          alt=""
-          className="w-8"
-        />
+      <label
+        htmlFor="hamburger"
+        className="md:hidden relative cursor-pointer p-4"
+      >
+        <span className="block -translate-x-3 relative">
+          <span
+            className={`h-0.5 w-6 bg-black block absolute origin-center  transition duration-500 ease-in-out
+             ${checked ? "rotate-45" : "-translate-y-2"}`}
+          ></span>
+          <span
+            className={`h-0.5 w-6 bg-black block absolute transition duration-500 ease-in-out
+             ${checked ? "opacity-0" : ""}`}
+          ></span>
+          <span
+            className={`h-0.5 w-6 bg-black block absolute origin-center transition duration-500 ease-in-out
+             ${checked ? "-rotate-45" : "translate-y-2"}`}
+          ></span>
+        </span>
       </label>
 
       <span
         className={`space-x-4 md:space-x-10 max-md:absolute max-md:top-20
-       right-2 max-md:bg-white max-md:shadow-lg max-md:p-4 max-md:rounded-md flex justify-center items-center ${
+       right-2 max-md:bg-white max-md:shadow-lg max-md:p-4 max-md:rounded-md flex justify-center items-center text-md md:text-lg ${
          checked ? "max-md:block" : "max-md:hidden"
        }`}
       >
@@ -53,7 +81,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <main className="mx-5 my-6 md:mt-12">
+    <main className="mx-5 mb-6 mt-24 md:mt-36">
       <h2
         className={`text-6xl font-extrabold whitespace-break-spaces max-sm:max-w-lg max-sm:mx-auto sm:space-x-4 sm:text-center xl:mt-20`}
       >
@@ -112,7 +140,7 @@ const DemoForm = () => {
         </div>
 
         <span className="bg-orange-100 px-4 py-2 text-lg text-orange-700 rounded-md flex space-x-2 lg:text-xl">
-          <img src={UserImg.src} alt="" className="w-5"/>
+          <img src={UserImg.src} alt="" className="w-5" />
           <span>Login to keep track of your shorten urls</span>
         </span>
         <button className="bg-primary text-white font-bold p-4 text-lg rounded-lg lg:text-xl">
@@ -163,14 +191,11 @@ export default function Home() {
       <Navbar />
       <Hero />
       <DemoForm />
-      <WhyLinkSwift/>
+      <WhyLinkSwift />
 
       <footer className="p-4 bg-white drop-shadow-md flex flex-col justify-center items-center space-y-3">
-        <Link
-          href="/"
-          className={`text-primary ${sriracha.className} text-3xl`}
-        >
-          LinkSwift
+        <Link href="/">
+          <Logo />
         </Link>
         <span className="text-center">
           Copyright @2023 | LinkSwift - Shivang Rathore
