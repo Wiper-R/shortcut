@@ -53,7 +53,7 @@ const Navbar = () => {
 
 const Hero = () => {
   return (
-    <main className="mx-5 my-6">
+    <main className="mx-5 my-6 md:mt-12">
       <h2
         className={`text-6xl font-extrabold whitespace-break-spaces max-sm:max-w-lg max-sm:mx-auto sm:space-x-4 sm:text-center xl:mt-20`}
       >
@@ -66,7 +66,7 @@ const Hero = () => {
           <span className="max-sm:block">Sharing!</span>
         </span>
       </h2>
-      <p className="text-gray-700 my-8 text-center text-xl">
+      <p className="text-gray-700 my-8 text-center text-xl md:text-2xl">
         Are you tired of clunky links cluttering your online presence? Look no
         further!
         <br /> <b>LinkSwift</b> is your trusted companion for streamlining your
@@ -83,42 +83,76 @@ interface ITabBtnProps {
 
 const TabBtn = (props: ITabBtnProps) => {
   return (
-    <button className="flex flex-col items-center px-4 py-2 bg-white rounded-t-lg border-2 border-b-0">
-      <img src={props.image} className="w-5" />
-      <span className="text-xl">{props.content}</span>
+    <button className="flex max-xl:flex-col xl:space-x-3 items-center px-6 py-3 xl:py-4 bg-white rounded-t-xl border-2 border-b-0">
+      <img src={props.image} className="w-5 xl:w-6" />
+      <span className="text-xl xl:text-2xl text-gray-700">{props.content}</span>
     </button>
   );
 };
 
 const DemoForm = () => {
   return (
-    <section className="relative">
+    <section className="relative sm:mx-6 md:mx-12 lg:mx-20 xl:mx-44 md:my-20">
       <div className="flex justify-center relative z-10">
         <TabBtn content="Short Link" image={LinkImg.src} />
         <TabBtn content="QR Code" image={QRImg.src} />
       </div>
-      <form className="bg-white flex flex-col space-y-4 p-5 border-y-2 relative bottom-0.5 z-0 shadow">
+      <form className="bg-white flex flex-col space-y-4 p-5 lg:p-12 border-y-2 relative bottom-0.5 z-0 shadow sm:rounded-xl">
         <Input
           label="Long Url"
           placeholder="ex: https://www.your-long-url.com/short-it"
         />
-        <div className="space-y-4">
-          <div className="flex justify-center items-center">
+        <div className="flex max-xl:space-y-4 max-xl:flex-col xl:justify-center xl:items-center">
+          <div className="flex justify-center items-center xl:basis-2/4">
             <Input label="Domain" placeholder="LinkSwift.com" disabled={true} />
-            <span className="text-3xl p-4 mt-6 font-extrabold">/</span>
+            <span className="text-3xl p-4 mt-8 font-extrabold">/</span>
           </div>
 
           <Input label="Sub Path (Optional)" placeholder="eg: my-link" />
         </div>
 
-        <span className="bg-orange-100 px-4 py-2 text-lg text-orange-700 rounded-md flex space-x-2">
-          <img src={UserImg.src} alt="" />
+        <span className="bg-orange-100 px-4 py-2 text-lg text-orange-700 rounded-md flex space-x-2 lg:text-xl">
+          <img src={UserImg.src} alt="" className="w-5"/>
           <span>Login to keep track of your shorten urls</span>
         </span>
-        <button className="bg-primary text-white font-bold p-4 text-lg rounded-lg">
+        <button className="bg-primary text-white font-bold p-4 text-lg rounded-lg lg:text-xl">
           Shorten It!
         </button>
       </form>
+    </section>
+  );
+};
+
+const WhyLinkSwift = () => {
+  return (
+    <section className="box-border sm:mx-6 md:mx-12 lg:mx-20 xl:mx-44">
+      <h4 className="text-center text-3xl underline my-8 font-semibold">
+        Why LinkSwift?
+      </h4>
+      <div className="bg-white my-8 shadow sm:rounded-md">
+        {/* Wrapper */}
+        <ul className="p-5 text-xl space-y-5">
+          <li>
+            <b>Shorten Links:</b> Say goodbye to those sprawling URLs. LinkSwift
+            effortlessly trims them down into sleek, shareable links.
+          </li>
+          <li>
+            <b>QR Code Generation:</b> Enhance user accessibility by generating
+            QR codes for your shortened links. It's quick, it's easy, and it's
+            all right here.
+          </li>
+          <li>
+            <b>Track with Confidence:</b> Securely log in to LinkSwift and gain
+            complete control. Track link performance, monitor traffic sources,
+            and manage your links, all from a user-friendly dashboard.
+          </li>
+          <li>
+            <b>Absolutely Free:</b> Best of all, our premium features are at
+            your fingertips, without costing you a dime. No hidden fees, no
+            tricks – just powerful link management, free for you.
+          </li>
+        </ul>
+      </div>
     </section>
   );
 };
@@ -129,38 +163,8 @@ export default function Home() {
       <Navbar />
       <Hero />
       <DemoForm />
-      {/* Why LinkSwift? */}
-      <section className="box-border">
-        <h4 className="text-center text-3xl underline my-8 font-semibold">
-          Why LinkSwift?
-        </h4>
-        <div className="bg-white my-8 shadow">
-          {/* Wrapper */}
-          <ul className="p-5 text-xl space-y-5">
-            <li>
-              <b>Shorten Links:</b> Say goodbye to those sprawling URLs.
-              LinkSwift effortlessly trims them down into sleek, shareable
-              links.
-            </li>
-            <li>
-              <b>QR Code Generation:</b> Enhance user accessibility by
-              generating QR codes for your shortened links. It's quick, it's
-              easy, and it's all right here.
-            </li>
-            <li>
-              <b>Track with Confidence:</b> Securely log in to LinkSwift and
-              gain complete control. Track link performance, monitor traffic
-              sources, and manage your links, all from a user-friendly
-              dashboard.
-            </li>
-            <li>
-              <b>Absolutely Free:</b> Best of all, our premium features are at
-              your fingertips, without costing you a dime. No hidden fees, no
-              tricks – just powerful link management, free for you.
-            </li>
-          </ul>
-        </div>
-      </section>
+      <WhyLinkSwift/>
+
       <footer className="p-4 bg-white drop-shadow-md flex flex-col justify-center items-center space-y-3">
         <Link
           href="/"
