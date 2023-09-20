@@ -8,7 +8,9 @@ import UserImg from "./icons/user.svg";
 import { useState, useEffect } from "react";
 import Input from "./components/input";
 import Logo from "./components/logo";
+import { useSelector } from "react-redux";
 import Footer from "./components/footer";
+import { RootState } from "@/redux/store";
 
 const sriracha = Sriracha({ weight: "400", subsets: ["latin"] });
 const lato = Lato({ weight: "900", subsets: ["latin"] });
@@ -193,7 +195,7 @@ export default function Home() {
       <Hero />
       <DemoForm />
       <WhyLinkSwift />
-      <Footer/>      
+      <Footer />
     </>
   );
 }

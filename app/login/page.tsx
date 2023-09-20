@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "../components/logo";
 import Input from "../components/input";
 import Button from "../components/button";
 import Footer from "../components/footer";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const Navbar = () => {
   return (
@@ -19,6 +23,8 @@ const Navbar = () => {
 };
 
 export default function Login() {
+  // const state = useSelector<RootState, RootState>(state => state);
+  // console.log(state);
   return (
     <>
       <Navbar />
