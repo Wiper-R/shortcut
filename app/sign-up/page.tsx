@@ -24,7 +24,7 @@ export default function Login() {
       <Navbar />
       <form
         action=""
-        className="flex flex-col p-4 box-border gap-y-5 my-8 md:my-14 md:max-w-xl mx-auto md:p-8 md:bg-white md:rounded-xl md:shadow-md"
+        className="flex flex-col p-4 box-border gap-y-5 my-8 md:my-14 md:max-w-xl mx-auto md:p-8 md:bg-white md:rounded-xl md:shadow-md w-full"
       >
         <span className="mb-5">
           <h4 className="text-center text-3xl font-semibold text-gray-700">

@@ -84,7 +84,7 @@ const Hero = () => {
   return (
     <main className="mx-5 mb-6 mt-24 md:mt-36">
       <h2
-        className={`text-5xl font-extrabold whitespace-break-spaces max-xsm:max-w-lg max-xsm:mx-auto xsm:space-x-4 xsm:text-center xl:mt-20`}
+        className={`text-5xl xl:text-6xl font-extrabold whitespace-break-spaces max-xsm:max-w-lg max-xsm:mx-auto xsm:space-x-4 xsm:text-center xl:mt-20`}
       >
         <span className="max-xsm:block text-primary">Success</span>
         <span className="max-xsm:block">Begins</span>

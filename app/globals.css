@@ -15,3 +15,7 @@
 body {
     background-color: #F5F4F4;
 }
+
+html, body{
+    height: 100%
+}
