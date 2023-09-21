@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "../components/logo";
 import Input from "../components/input";
 import Button from "../components/button";
 import Footer from "../components/footer";
+import { FormEvent, useRef } from "react";
 
 const Navbar = () => {
   return (
@@ -18,13 +21,30 @@ const Navbar = () => {
   );
 };
 
-export default function Login() {
+export default function SignUp() {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    console.log(formRef);
+    if (formRef.current) {
+      const formData = new FormData(formRef.current);
+      const resp = await fetch("/api/auth/signup", {
+        method: "POST",
+        body: formData,
+      });
+      console.log(resp.status);
+      console.log(await resp.json());
+    }
+  }
+
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
     <>
       <Navbar />
       <form
-        action=""
         className="flex flex-col p-4 box-border gap-y-5 my-8 md:my-14 md:max-w-xl mx-auto md:p-8 md:bg-white md:rounded-xl md:shadow-md w-full"
+        onSubmit={onSubmit}
+        ref={formRef}
       >
         <span className="mb-5">
           <h4 className="text-center text-3xl font-semibold text-gray-700">
@@ -32,10 +52,15 @@ export default function Login() {
           </h4>
           <hr className="h-0.5 bg-gray-300 mt-1.5" />
         </span>
-        <Input label="Username" />
-        <Input label="Email" type="email"/>
+        <Input label="Email" type="email" id="email" name="email" />
+        <Input label="Username" type="text" id="username" name="username" />
         <span>
-          <Input label="Password" type="password" />
+          <Input
+            label="Password"
+            type="password"
+            id="password"
+            name="password"
+          />
           <span className="mt-2 text-gray-600 block">
             <span>A strong password must contain:</span>
             <ul className="ml-6 list-disc">
@@ -48,7 +73,7 @@ export default function Login() {
           </span>
         </span>
         <span className="flex flex-col gap-2">
-          <Button text="Create account"/>
+          <Button text="Create account" type="submit" />
           <span className="text-center text-gray-600">
             already have an account?{" "}
             <Link href="/login" className="text-primary">
@@ -57,7 +82,7 @@ export default function Login() {
           </span>
         </span>
       </form>
-      <Footer/>
+      <Footer />
     </>
   );
 }

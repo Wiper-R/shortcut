@@ -4,9 +4,6 @@
 @tailwind utilities;
 
 
-:root {
-}
-
 *{
     font-family: 'Lato', sans-serif;
 }

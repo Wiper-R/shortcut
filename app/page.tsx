@@ -74,7 +74,7 @@ const Navbar = () => {
        }`}
       >
         <Link href="/login">Login</Link>
-        <Link href="/sign-up" className="text-primary">
+        <Link href="/signup" className="text-primary">
           Sign up
         </Link>
       </span>
@@ -132,14 +132,27 @@ const DemoForm = () => {
         <Input
           label="Long Url"
           placeholder="ex: https://www.your-long-url.com/short-it"
+          id="long_url"
+          name="long_url"
         />
         <div className="flex max-xl:space-y-4 max-xl:flex-col xl:justify-center xl:items-center">
           <div className="flex justify-center items-center xl:basis-2/4">
-            <Input label="Domain" placeholder="LinkSwift.com" disabled={true} />
+            <Input
+              label="Domain"
+              placeholder="LinkSwift.com"
+              disabled={true}
+              id="domain"
+              name="domain"
+            />
             <span className="text-3xl p-4 mt-8 font-extrabold">/</span>
           </div>
 
-          <Input label="Sub Path (Optional)" placeholder="eg: my-link" />
+          <Input
+            label="Sub Path (Optional)"
+            placeholder="eg: my-link"
+            id="sub_path"
+            name="subpath"
+          />
         </div>
 
         <span className="bg-orange-100 px-4 py-2 text-lg text-orange-700 rounded-md flex space-x-2 lg:text-xl">

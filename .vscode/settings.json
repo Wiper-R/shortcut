@@ -1,0 +1,17 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "cSpell.words": [
+        "firstname",
+        "fullname",
+        "iconify",
+        "lastname",
+        "linkswift",
+        "reduxjs",
+        "signup"
+    ],
+    "cSpell.ignoreWords": [
+        "iconamoon",
+        "octicon",
+        "qrcode"
+    ]
+}

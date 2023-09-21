@@ -38,13 +38,13 @@ export default function Login() {
           </h4>
           <hr className="h-0.5 bg-gray-300 mt-1.5" />
         </span>
-        <Input label="Email / Username" />
-        <Input label="Password" type="password" />
+        <Input label="Email / Username" id="email_or_username" name="email_or_username"/>
+        <Input label="Password" type="password" id="password" name="password"/>
         <span className="flex flex-col gap-2 mt-3">
           <Button text="Login" />
           <span className="text-center text-gray-600">
             don't have an account?{" "}
-            <Link href="/sign-up" className="text-primary">
+            <Link href="/signup" className="text-primary">
               sign up
             </Link>
           </span>
