@@ -6,13 +6,13 @@ import { Icon } from "@iconify/react";
 
 const LinkEntry = () => {
   return (
-    <div className="bg-white py-3 px-5 rounded-lg shadow-sm flex justify-between gap-8">
+    <div className="bg-white py-3 px-5 rounded-lg shadow-sm flex flex-col justify-between gap-8">
       <div className="flex gap-2 justify-between flex-col">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 flex-col">
           <img
             src={TestImage.src}
             alt=""
-            className="w-12 rounded-full bg-white border"
+            className="w-12 rounded-full bg-white border self-start"
           />
           <h6 className="text-2xl font-semibold line-clamp-1 break-all hover:underline">
             <Link href="links/view/custom-back-half">
@@ -20,7 +20,7 @@ const LinkEntry = () => {
             </Link>
           </h6>
         </div>
-        <div className="flex flex-col text-lg ml-14 font-semibold">
+        <div className="text-lg font-semibold"> {/** ml-14 */}
           <Link
             href="https://linkswift.com/l/your-link"
             className="text-primary line-clamp-1 break-all"

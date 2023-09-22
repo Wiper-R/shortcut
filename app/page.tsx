@@ -1,6 +1,5 @@
 "use client";
 
-import { Sriracha, Lato } from "next/font/google";
 import Link from "next/link";
 import QRImg from "./icons/QR.svg";
 import LinkImg from "./icons/Link.svg";
@@ -8,17 +7,24 @@ import UserImg from "./icons/user.svg";
 import { useState, useEffect } from "react";
 import Input from "./components/input";
 import Logo from "./components/logo";
-import { useSelector } from "react-redux";
 import Footer from "./components/footer";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-
-const sriracha = Sriracha({ weight: "400", subsets: ["latin"] });
-const lato = Lato({ weight: "900", subsets: ["latin"] });
+import { AuthUser } from "@/redux/reducers/auth-reducer";
+import { redirect } from "next/navigation";
 
 const Navbar = () => {
   // Checkbox
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
+
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.auth.isLoggedIn
+  );
+
+  useEffect(() => {
+    if (isLoggedIn) return redirect("/manage");
+  }, [isLoggedIn]);
 
   // Navigation color and shadow change
   const [isOut, setIsOut] = useState(false); // Out of screen
@@ -86,7 +92,7 @@ const Hero = () => {
   return (
     <main className="mx-5 mb-6 mt-24 md:mt-36">
       <h2
-        className={`text-5xl xl:text-6xl font-extrabold whitespace-break-spaces max-xsm:max-w-lg max-xsm:mx-auto xsm:space-x-4 xsm:text-center xl:mt-20`}
+        className="text-5xl xl:text-6xl font-extrabold whitespace-break-spaces max-xsm:max-w-lg max-xsm:mx-auto xsm:space-x-4 xsm:text-center xl:mt-20"
       >
         <span className="max-xsm:block text-primary">Success</span>
         <span className="max-xsm:block">Begins</span>

@@ -1,6 +1,7 @@
 {
     "css.lint.unknownAtRules": "ignore",
     "cSpell.words": [
+        "alphanum",
         "firstname",
         "fullname",
         "iconify",

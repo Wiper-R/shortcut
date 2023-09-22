@@ -6,6 +6,7 @@ import Input from "../components/input";
 import Button from "../components/button";
 import Footer from "../components/footer";
 import { FormEvent, useRef } from "react";
+import { SignUp_POST } from "@/validators";
 
 const Navbar = () => {
   return (
@@ -22,21 +23,18 @@ const Navbar = () => {
 };
 
 export default function SignUp() {
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    console.log(formRef);
-    if (formRef.current) {
-      const formData = new FormData(formRef.current);
-      const resp = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: formData,
-      });
-      console.log(resp.status);
-      console.log(await resp.json());
-    }
-  }
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const result = await SignUp_POST.validateAsync(
+      Object.fromEntries(formData.entries())
+    );
 
-  const formRef = useRef<HTMLFormElement>(null);
+    const _resp = await fetch("/api/auth/signup", {
+      method: "POST",
+      body: JSON.stringify(result),
+    });
+  }
 
   return (
     <>
@@ -44,7 +42,6 @@ export default function SignUp() {
       <form
         className="flex flex-col p-4 box-border gap-y-5 my-8 md:my-14 md:max-w-xl mx-auto md:p-8 md:bg-white md:rounded-xl md:shadow-md w-full"
         onSubmit={onSubmit}
-        ref={formRef}
       >
         <span className="mb-5">
           <h4 className="text-center text-3xl font-semibold text-gray-700">

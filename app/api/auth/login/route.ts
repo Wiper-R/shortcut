@@ -6,7 +6,10 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
   const user = await prisma.user.findFirst({
     where: {
-      OR: [{ email: data.username }, { username: data.username }],
+      OR: [
+        { email: data.email_or_username },
+        { username: data.email_or_username },
+      ],
       password: data.password,
     },
   });
@@ -26,6 +29,5 @@ export async function POST(request: NextRequest) {
     .sign(secret);
   const response = NextResponse.json({});
   response.cookies.set("token", token, { httpOnly: true });
-  response.cookies.set("userId", user.id, { httpOnly: true });
   return response;
 }

@@ -1,16 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db";
 import { Prisma } from "@prisma/client";
+import { SignUp_POST } from "@/validators";
+import { ValidationError } from "joi";
 
 export async function POST(request: NextRequest) {
-  const data = await request.formData();
+  const data = await request.json();
+  try {
+    const result = await SignUp_POST.validateAsync(data);
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      console.log(e);
+    }
+  }
 
   try {
     const user = await prisma.user.create({
       data: {
-        email: data.get("email") as string,
-        username: data.get("username") as string,
-        password: data.get("password") as string,
+        email: data.email,
+        username: data.username,
+        password: data.password,
       },
     });
 

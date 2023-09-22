@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import AuthReducer from "./reducers/AuthReducer";
+import auth from "./reducers/auth-reducer";
 
 export const store = configureStore({
   reducer: {
-    AuthReducer,
+    auth,
   },
 });
 
