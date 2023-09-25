@@ -11,4 +11,9 @@ export const SignUp_POST = Joi.object({
 export const Login_POST = Joi.object({
   email_or_username: Joi.string().required(),
   password: Joi.string().required(),
-});
+}).options({ stripUnknown: true, abortEarly: false });
+
+export const ManageCreateNewLink_POST = Joi.object({
+  url: Joi.string().uri().required(),
+  subpath: Joi.string().optional(),
+}).options({ stripUnknown: true, abortEarly: false });

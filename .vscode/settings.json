@@ -2,6 +2,7 @@
     "css.lint.unknownAtRules": "ignore",
     "cSpell.words": [
         "alphanum",
+        "endregion",
         "firstname",
         "fullname",
         "iconify",

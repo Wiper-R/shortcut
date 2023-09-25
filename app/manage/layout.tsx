@@ -1,16 +1,20 @@
 "use client";
 
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 import Logo from "../components/logo";
 
-import { ReactElement, useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { AuthState, AuthUser } from "@/redux/reducers/auth-reducer";
 
 const Navbar = () => {
   return (
     <nav
-      className={`bg-white md:px-4 xl:px-6 flex justify-between transition duration-500 ease-in-out px-5 py-4 items-center w-full max-w-screen-2xl drop-shadow-sm fixed z-10`}
+      className={`bg-white md:px-4 xl:px-6 flex justify-between transition duration-500 ease-in-out px-5 py-4 items-center w-full max-w-screen-2xl drop-shadow-sm`}
+      id="navbar"
     >
       <Link href="/">
         <Logo />
@@ -25,10 +29,10 @@ const Navbar = () => {
   );
 };
 
-interface INavigationLink {
-  href: string;
+interface INavigationLink extends LinkProps {
+  icon: string;
   text: string;
-  icon: ReactElement;
+  disabled?: boolean;
 }
 
 const NavigationLink = (props: INavigationLink) => {
@@ -36,43 +40,87 @@ const NavigationLink = (props: INavigationLink) => {
   return (
     <Link
       href={props.href}
-      className={`px-4 py-2 bg-white rounded-sm flex gap-4  text-black items-center text-2xl hover:bg-gray-100 ${
-        pathname == props.href ? "bg-sky-100" : ""
-      }`}
+      className={`relative flex px-4 py-1 justify-start items-center gap-3 text-lg rounded-sm hover:bg-sky-100 ${
+        pathname.includes(props.href.toString())
+          ? "bg-sky-100"
+          : props.disabled
+          ? "bg-gray-300"
+          : "bg-white"
+      } ${props.disabled ? "pointer-events-none" : ""}`}
     >
-      {props.icon}
-      <span className="hidden">{props.text}</span>
+      <Icon icon={props.icon} />
+      <span>{props.text}</span>
+      {props.disabled ? (
+        <span className="absolute right-2" title="Will available in future">
+          <Icon icon="material-symbols:lock-outline" />
+        </span>
+      ) : (
+        ""
+      )}
     </Link>
   );
 };
 
-const Sidebar = ({ className }: { className: string }) => {
+const Sidebar = ({ navHeight }: { navHeight: Number }) => {
+  const [toggled, setToggled] = useState(true);
+
   return (
-    <div
-      className={`absolute w-fit h-full bg-white max-h-full overflow-y-auto flex flex-col p-2 pb-[4.5rem] gap-y-2 z-10 ${className} transition-all duration-250 ease-linear`}
+    <nav
+      className={`h-full bg-white transition-all duration-200 shadow-md relative ${
+        toggled ? "w-[16rem]" : "w-0"
+      }`}
+      // style={{ height: `calc(100% - ${navHeight}px)` }}
     >
-      <button className="text-2xl flex items-center gap-4 bg-primary px-4 py-2 text-white rounded-md">
-        <Icon icon="fe:plus" />
-        <span className="hidden">New</span>
-      </button>
-      <hr className="my-2" />
-      <NavigationLink
-        text="Links"
-        icon={<Icon icon="octicon:link-16" />}
-        href="/manage/links"
+      <label
+        htmlFor="sidebarToggle"
+        className="absolute -right-6 z-20 top-10 rounded-tr-full rounded-br-full w-6 h-6 bg-white flex flex-col gap-[0.2rem] cursor-pointer justify-center items-center shadow-md"
+      >
+        <span
+          className={`w-2 h-[0.1rem] bg-black block transition-all duration-200 ${
+            toggled ? "-rotate-45" : "rotate-45"
+          }`}
+        ></span>
+        <span
+          className={`w-2 h-[0.1rem] bg-black block transition-all duration-200 ${
+            toggled ? "rotate-45" : "-rotate-45"
+          }`}
+        ></span>
+      </label>
+      <input
+        type="checkbox"
+        className="hidden"
+        id="sidebarToggle"
+        value={toggled ? "on" : "off"}
+        onClick={() => setToggled(!toggled)}
       />
-      <NavigationLink
-        text="QR Code"
-        icon={<Icon icon="uil:qrcode-scan" />}
-        href="/manage/qr-codes"
-      />
-      <hr />
-      <NavigationLink
-        text="Settings"
-        icon={<Icon icon="fluent:settings-24-regular" />}
-        href="/manage/settings"
-      />
-    </div>
+      <div className="h-full flex flex-col overflow-y-auto gap-2 mt-2">
+        <Link
+          href={"/manage/new"}
+          className="bg-primary text-white flex px-4 py-1 justify-start items-center gap-3 text-lg rounded-sm"
+        >
+          <Icon icon="majesticons:plus-line" />
+          <span>New</span>
+        </Link>
+        <hr />
+        <NavigationLink
+          icon="octicon:link-16"
+          text="Links"
+          href={"/manage/links"}
+        />
+        <NavigationLink
+          disabled
+          icon="ph:qr-code"
+          text="QR Codes"
+          href={"/manage/qrcodes"}
+        />
+        <hr />
+        <NavigationLink
+          icon="fluent:settings-24-regular"
+          text="Settings"
+          href={"/manage/settings"}
+        />
+      </div>
+    </nav>
   );
 };
 
@@ -82,17 +130,28 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [toggled, setToggled] = useState(false);
+  const [height, setHeight] = useState(0);
 
-  return (
-    <div className="h-full overflow-clip relative">
-      <Navbar />
-      <button onClick={() => setToggled(!toggled)} className="absolute right-10 top-20  z-30">Click to Test</button>
-      <div className="top-[4.5rem] relative flex h-full">
-        <Sidebar className={!toggled ? "-left-20" : "-left-0"} />
-        <div className="overflow-y-auto relative max-h-full pb-[4.5rem] overflow-x-hidden w-full">
-          {children}
+  useEffect(() => {
+    const navbar = document.getElementById("navbar");
+    setHeight(navbar?.offsetHeight || 0);
+  }, []);
+
+  const auth = useSelector<RootState, AuthState>((state) => state.auth);
+
+  // if (auth.isPopulated && !auth.isLoggedIn) {
+  //   redirect("/login");
+  // } else {
+    return (
+      <div className="flex h-full flex-col overflow-y-hidden">
+        <Navbar />
+        <div className={`flex h-full overflow-hidden`}>
+          <Sidebar navHeight={height} />
+          <div className="overflow-y-auto h-full w-full no-scrollbar">
+            {children}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+// }

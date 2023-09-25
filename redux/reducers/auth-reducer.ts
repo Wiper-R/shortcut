@@ -3,13 +3,15 @@ import type { User } from "@prisma/client";
 
 export interface AuthUser extends Omit<User, "password"> {}
 
-type AuthState = {
+export type AuthState = {
   isLoggedIn: boolean;
+  isPopulated: boolean;
   user: AuthUser | null;
 };
 
 const initialState: AuthState = {
   isLoggedIn: false,
+  isPopulated: false,
   user: null,
 };
 
@@ -36,11 +38,18 @@ export const authSlice = createSlice({
       delete data.password;
       state.user = data;
       state.isLoggedIn = true;
-
+      state.isPopulated = true;
       return state;
+    });
+
+    builder.addCase(loadUser.rejected, (state, action) => {
+      state.user = null;
+      state.isLoggedIn = false;
+      state.isPopulated = true;
     });
   },
 });
 
 export const { loginSuccess, loginFailed } = authSlice.actions;
-export default authSlice.reducer;1
+export default authSlice.reducer;
+1;
