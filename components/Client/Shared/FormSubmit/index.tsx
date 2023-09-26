@@ -1,6 +1,6 @@
 import { SubmitButtonProps } from "./types";
 
-const FormSubmitSubmit = (props: SubmitButtonProps) => {
+const FormSubmit = (props: SubmitButtonProps) => {
   return (
     <button
       className="bg-primary text-white font-bold p-4 text-lg rounded-lg lg:text-xl"
@@ -10,4 +10,4 @@ const FormSubmitSubmit = (props: SubmitButtonProps) => {
   );
 };
 
-export default FormSubmitSubmit;
+export default FormSubmit;

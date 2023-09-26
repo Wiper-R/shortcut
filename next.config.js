@@ -3,7 +3,7 @@ const nextConfig = {
   compiler: { styledComponents: true },
   async redirects() {
     return [
-      { source: "/manage", destination: "/manage/links", permanent: true },
+      { source: "/dashboard", destination: "/dashboard/links", permanent: true },
     ];
   },
 };

@@ -26,6 +26,11 @@ body {
   background-color: #f5f4f4;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 /*#region Alert*/
 
 .alert-progress {

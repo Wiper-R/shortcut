@@ -26,7 +26,7 @@ export default function AlertHandler() {
     const newParams = new URLSearchParams(params.toString());
     newParams.delete("alertType");
     newParams.delete("alertMsg");
-    router.push("?" + newParams.toString());
+    router.push("?" + newParams.toString(), {scroll: false});
   }, [_alertMsg]);
 
   if (!alertMsg) {
@@ -40,13 +40,13 @@ const Alert = ({ message, type }: AlertProps) => {
   const _type = type == "success" ? "success" : "error";
   const classes = {
     success: {
-      element: "bg-green-300 text-green-900 border-green-900",
-      progress: "bg-green-900",
+      element: "bg-green-300 text-green-900 border-green-500",
+      progress: "bg-green-500",
     },
 
     error: {
-      element: "bg-red-300 text-red-900 border-red-900",
-      progress: "bg-red-900",
+      element: "bg-red-300 text-red-900 border-red-500",
+      progress: "bg-red-500",
     },
   };
   return (

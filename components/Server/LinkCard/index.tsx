@@ -1,13 +1,12 @@
-
-
-import Link from "next/link";
-import { ActionButton } from "./components";
-import { Link as PrismaLink } from "@prisma/client";
 import { formatDateTimeToUTC, trimProtocols } from "@/utils";
-import {BiCopy, BiEditAlt} from "react-icons/bi";
+import { Link as PrismaLink } from "@prisma/client";
+import Link from "next/link";
+import EditActionButton from "@/components/Client/LinksContainer/EditActionButton";
+import CopyActionButton from "@/components/Client/LinksContainer/CopyActionButton";
 
-export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
-  const urlObj = new URL(url);
+const LinkCard = ({ id, url, title, createdAt }: PrismaLink) => {
+  const shortenUrl = `https://linkswift.com/l/${id}`;
+  const _url = new URL(url);
   createdAt = new Date(createdAt);
   title = title || "Untitled " + formatDateTimeToUTC(createdAt);
   return (
@@ -15,7 +14,7 @@ export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
       <div className="flex gap-6 justify-between">
         <img
           src={`https://www.google.com/s2/favicons?domain=http://${
-            urlObj.hostname || "localhost"
+            _url.hostname || "localhost"
           }&sz=32`}
           alt=""
           className="w-10 rounded-full bg-white border self-start"
@@ -28,11 +27,11 @@ export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
           <div className="flex flex-col leading-6 text-lg font-medium">
             <Link
               href={`https://linkswift.com/l/${id}`}
-              className="text-primary line-clamp-1 break-all"
+              className="text-primary line-clamp-1 break-all w-fit"
             >
-              {`linkswift.com/l/${id}`}
+              {shortenUrl}
             </Link>
-            <Link href={url} className="line-clamp-1 break-all">
+            <Link href={url} className="line-clamp-1 break-all w-fit">
               {trimProtocols(url)}
             </Link>
           </div>
@@ -40,9 +39,11 @@ export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
       </div>
 
       <div className="flex gap-3 self-start">
-        <ActionButton icon={<BiCopy/>} text="Copy" />
-        <ActionButton icon={<BiEditAlt/>} text="Edit" />
+        <CopyActionButton shortenUrl={shortenUrl} />
+        <EditActionButton />
       </div>
     </div>
   );
-}
+};
+
+export default LinkCard;

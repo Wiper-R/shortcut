@@ -16,7 +16,7 @@ const useAlert = () => {
 
   useEffect(() => {
     if (!alert.message) return;
-    router.push("?" + newParams.toString());
+    router.push("?" + newParams.toString(), { scroll: false });
   }, [alert]);
 
   return { alert, setAlert };

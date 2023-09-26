@@ -1,15 +1,15 @@
 "use client";
 
-import FormInput from "@/components/Client/Shared/FormInput";
-import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
 import useAlert from "@/hooks/useAlert";
-import { ManageCreateNewLink_POST } from "@/validators";
+import FormInput from "../Shared/FormInput";
+import FormSubmit from "../Shared/FormSubmit";
 import { FormEvent } from "react";
+import { ManageCreateNewLink_POST } from "@/validators";
 
-export const CreateNewLinkForm = () => {
-  const { setAlert } = useAlert();
+type dispatchType = Pick<ReturnType<typeof useAlert>, "setAlert">;
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+const OnSubmit = ({ setAlert }: dispatchType) => {
+  const Wrapper = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const result = await ManageCreateNewLink_POST.validateAsync(
@@ -37,9 +37,19 @@ export const CreateNewLinkForm = () => {
     } else {
       setAlert({ message: "An unknown error occurred", type: "error" });
     }
-  }
+  };
+
+  return Wrapper;
+};
+
+const CreateNewLinkForm = () => {
+  const { setAlert } = useAlert();
   return (
-    <form action="" className="flex flex-col gap-4 mt-8" onSubmit={onSubmit}>
+    <form
+      action=""
+      className="flex flex-col gap-4 mt-8"
+      onSubmit={OnSubmit({ setAlert })}
+    >
       <FormInput
         label="URL"
         id="url"
@@ -64,7 +74,9 @@ export const CreateNewLinkForm = () => {
           name="subpath"
         />
       </div>
-      <FormSubmitSubmit>Create</FormSubmitSubmit>
+      <FormSubmit>Create</FormSubmit>
     </form>
   );
 };
+
+export default CreateNewLinkForm;

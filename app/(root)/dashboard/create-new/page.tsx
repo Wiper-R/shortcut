@@ -1,11 +1,6 @@
-import { Metadata } from "next";
-import { CreateNewLinkForm } from "./components";
+import CreateNewLinkForm from "@/components/Client/CreateNewLinkForm";
 
-export const metadata: Metadata = {
-  title: "Create New Link",
-};
-
-export default function CreateNew() {
+export default function Dashboard_CreateNew() {
   return (
     <div className="bg-white h-full px-8 py-4 overflow-y-auto">
       <div className="max-w-4xl mx-auto">
