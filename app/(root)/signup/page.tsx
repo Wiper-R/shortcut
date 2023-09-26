@@ -4,9 +4,10 @@ import Link from "next/link";
 import { FormEvent } from "react";
 import { SignUp_POST } from "@/validators";
 import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
-import Logo from "@/components/Server/Shared/Logo";
 import Footer from "@/components/Server/Shared/Footer";
 import FormInput from "@/components/Client/Shared/FormInput";
+import Image from "next/image";
+import LogoSVG from "@/assets/LinkSwift.svg";
 
 const Navbar = () => {
   return (
@@ -16,7 +17,7 @@ const Navbar = () => {
       `}
     >
       <Link href="/">
-        <Logo />
+      <Image src={LogoSVG} alt="LinkSwift" className="h-7"/>
       </Link>
     </nav>
   );

@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="max-w-screen-2xl mx-auto min-h-screen">
+      <body>
         <AppContainer>{children}</AppContainer>
       </body>
     </html>

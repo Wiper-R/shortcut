@@ -4,9 +4,10 @@ import Link from "next/link";
 import { FormEvent } from "react";
 import { Login_POST } from "@/validators";
 import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
-import Logo from "@/components/Server/Shared/Logo";
 import Footer from "@/components/Server/Shared/Footer";
 import FormInput from "@/components/Client/Shared/FormInput";
+import LogoSVG from "@/assets/LinkSwift.svg";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -16,7 +17,7 @@ const Navbar = () => {
       `}
     >
       <Link href="/">
-        <Logo />
+        <Image src={LogoSVG} alt="LinkSwift" className="h-7" />
       </Link>
     </nav>
   );
@@ -55,7 +56,12 @@ export default function Login() {
           id="email_or_username"
           name="email_or_username"
         />
-        <FormInput label="Password" type="password" id="password" name="password" />
+        <FormInput
+          label="Password"
+          type="password"
+          id="password"
+          name="password"
+        />
         <span className="flex flex-col gap-2 mt-3">
           <FormSubmitSubmit>Login</FormSubmitSubmit>
           <span className="text-center text-gray-600">

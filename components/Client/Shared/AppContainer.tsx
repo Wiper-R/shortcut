@@ -5,7 +5,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <Providers>
       <AlertHandler />
-      {children}
+      <main className="max-w-screen-2xl mx-auto h-screen">{children}</main>
     </Providers>
   );
 };

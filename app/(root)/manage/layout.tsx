@@ -2,13 +2,17 @@
 
 import Link, { LinkProps } from "next/link";
 
-import { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
+import { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AuthState, AuthUser } from "@/redux/reducers/auth-reducer";
-import Logo from "@/components/Server/Shared/Logo";
+import LogoSVG from "@/assets/LinkSwift.svg";
+import { BiLink } from "react-icons/bi";
+import { PiQrCode } from "react-icons/pi";
+import { GoGear } from "react-icons/go";
+import { AiOutlineLock, AiOutlinePlus } from "react-icons/ai";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -17,7 +21,7 @@ const Navbar = () => {
       id="navbar"
     >
       <Link href="/">
-        <Logo />
+        <Image src={LogoSVG} alt="LinkSwift" className="h-7" />
       </Link>
       <div className="flex gap-4 items-center">
         <span className="rounded-full bg-gray-700 w-10 h-10 leading-10 block text-center text-white">
@@ -30,7 +34,7 @@ const Navbar = () => {
 };
 
 interface INavigationLink extends LinkProps {
-  icon: string;
+  icon: ReactNode;
   text: string;
   disabled?: boolean;
 }
@@ -48,11 +52,11 @@ const NavigationLink = (props: INavigationLink) => {
           : "bg-white"
       } ${props.disabled ? "pointer-events-none" : ""}`}
     >
-      <Icon icon={props.icon} />
+      {props.icon}
       <span>{props.text}</span>
       {props.disabled ? (
         <span className="absolute right-2" title="Will available in future">
-          <Icon icon="material-symbols:lock-outline" />
+          <AiOutlineLock />
         </span>
       ) : (
         ""
@@ -98,24 +102,20 @@ const Sidebar = ({ navHeight }: { navHeight: Number }) => {
           href={"/manage/new"}
           className="bg-primary text-white flex px-4 py-1 justify-start items-center gap-3 text-lg rounded-sm"
         >
-          <Icon icon="majesticons:plus-line" />
+          <AiOutlinePlus />
           <span>New</span>
         </Link>
         <hr />
-        <NavigationLink
-          icon="octicon:link-16"
-          text="Links"
-          href={"/manage/links"}
-        />
+        <NavigationLink icon={<BiLink />} text="Links" href={"/manage/links"} />
         <NavigationLink
           disabled
-          icon="ph:qr-code"
+          icon={<PiQrCode />}
           text="QR Codes"
           href={"/manage/qrcodes"}
         />
         <hr />
         <NavigationLink
-          icon="fluent:settings-24-regular"
+          icon={<GoGear />}
           text="Settings"
           href={"/manage/settings"}
         />

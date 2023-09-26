@@ -1,7 +1,10 @@
+
+
 import Link from "next/link";
 import { ActionButton } from "./components";
 import { Link as PrismaLink } from "@prisma/client";
 import { formatDateTimeToUTC, trimProtocols } from "@/utils";
+import {BiCopy, BiEditAlt} from "react-icons/bi";
 
 export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
   const urlObj = new URL(url);
@@ -37,8 +40,8 @@ export default function LinkEntry({ id, url, title, createdAt }: PrismaLink) {
       </div>
 
       <div className="flex gap-3 self-start">
-        <ActionButton icon="iconamoon:copy" text="Copy" />
-        <ActionButton icon="fluent:edit-12-regular" text="Edit" />
+        <ActionButton icon={<BiCopy/>} text="Copy" />
+        <ActionButton icon={<BiEditAlt/>} text="Edit" />
       </div>
     </div>
   );
