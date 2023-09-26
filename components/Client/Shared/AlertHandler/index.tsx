@@ -1,33 +1,8 @@
 "use client";
+
 import { useRouter, useSearchParams } from "next/navigation";
-import { CSSProperties, useEffect, useState } from "react";
-
-export type AlertProps = {
-  message: string;
-  type: AlertType;
-};
-
-type AlertType = "success" | "error";
-
-const useAlert = () => {
-  const [alert, setAlert] = useState<AlertProps>({
-    message: "",
-    type: "success",
-  });
-
-  const router = useRouter();
-  const params = useSearchParams();
-  const newParams = new URLSearchParams(params.toString());
-  newParams.set("alertType", alert.type);
-  newParams.set("alertMsg", alert.message);
-
-  useEffect(() => {
-    if (!alert.message) return;
-    router.push("?" + newParams.toString());
-  }, [alert]);
-
-  return { alert, setAlert };
-};
+import { useEffect, useState } from "react";
+import { AlertProps, AlertType } from "./types";
 
 export default function AlertHandler() {
   const params = useSearchParams();
@@ -85,5 +60,3 @@ const Alert = ({ message, type }: AlertProps) => {
     </div>
   );
 };
-
-export { useAlert };

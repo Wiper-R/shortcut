@@ -1,14 +1,14 @@
 "use client";
 
 import Link, { LinkProps } from "next/link";
-import Logo from "../components/logo";
 
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { AuthState, AuthUser } from "@/redux/reducers/auth-reducer";
+import Logo from "@/components/Server/Shared/Logo";
 
 const Navbar = () => {
   return (
@@ -142,16 +142,16 @@ export default function DashboardLayout({
   // if (auth.isPopulated && !auth.isLoggedIn) {
   //   redirect("/login");
   // } else {
-    return (
-      <div className="flex h-full flex-col overflow-y-hidden">
-        <Navbar />
-        <div className={`flex h-full overflow-hidden`}>
-          <Sidebar navHeight={height} />
-          <div className="overflow-y-auto h-full w-full no-scrollbar">
-            {children}
-          </div>
+  return (
+    <div className="flex h-full flex-col overflow-y-hidden">
+      <Navbar />
+      <div className={`flex h-full overflow-hidden`}>
+        <Sidebar navHeight={height} />
+        <div className="overflow-y-auto h-full w-full no-scrollbar">
+          {children}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 // }

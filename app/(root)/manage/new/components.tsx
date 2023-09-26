@@ -1,11 +1,10 @@
 "use client";
 
-import { useAlert } from "@/app/components/alert";
-import Button from "@/app/components/button";
-import Input from "@/app/components/input";
+import FormInput from "@/components/Client/Shared/FormInput";
+import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
+import useAlert from "@/hooks/useAlert";
 import { ManageCreateNewLink_POST } from "@/validators";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent } from "react";
 
 export const CreateNewLinkForm = () => {
   const { setAlert } = useAlert();
@@ -41,7 +40,7 @@ export const CreateNewLinkForm = () => {
   }
   return (
     <form action="" className="flex flex-col gap-4 mt-8" onSubmit={onSubmit}>
-      <Input
+      <FormInput
         label="URL"
         id="url"
         name="url"
@@ -49,7 +48,7 @@ export const CreateNewLinkForm = () => {
       />
       <div className="flex max-xl:space-y-4 max-xl:flex-col xl:justify-center xl:items-center">
         <div className="flex justify-center items-center xl:basis-2/4">
-          <Input
+          <FormInput
             label="Domain"
             placeholder="LinkSwift.com"
             disabled={true}
@@ -58,14 +57,14 @@ export const CreateNewLinkForm = () => {
           />
           <span className="text-3xl p-4 mt-8 font-extrabold">/</span>
         </div>
-        <Input
+        <FormInput
           label="Sub Path (Optional)"
           placeholder="eg: my-link"
           id="subpath"
           name="subpath"
         />
       </div>
-      <Button text="Create" type="submit" />
+      <FormSubmitSubmit>Create</FormSubmitSubmit>
     </form>
   );
 };

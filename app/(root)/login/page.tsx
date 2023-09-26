@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "../components/logo";
-import Input from "../components/input";
-import Button from "../components/button";
-import Footer from "../components/footer";
 import { FormEvent } from "react";
 import { Login_POST } from "@/validators";
+import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
+import Logo from "@/components/Server/Shared/Logo";
+import Footer from "@/components/Server/Shared/Footer";
+import FormInput from "@/components/Client/Shared/FormInput";
 
 const Navbar = () => {
   return (
@@ -50,14 +50,14 @@ export default function Login() {
           </h4>
           <hr className="h-0.5 bg-gray-300 mt-1.5" />
         </span>
-        <Input
+        <FormInput
           label="Email / Username"
           id="email_or_username"
           name="email_or_username"
         />
-        <Input label="Password" type="password" id="password" name="password" />
+        <FormInput label="Password" type="password" id="password" name="password" />
         <span className="flex flex-col gap-2 mt-3">
-          <Button text="Login" type="submit" />
+          <FormSubmitSubmit>Login</FormSubmitSubmit>
           <span className="text-center text-gray-600">
             don't have an account?{" "}
             <Link href="/signup" className="text-primary">

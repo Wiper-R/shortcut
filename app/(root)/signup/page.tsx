@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "../components/logo";
-import Input from "../components/input";
-import Button from "../components/button";
-import Footer from "../components/footer";
-import { FormEvent, useRef } from "react";
+import { FormEvent } from "react";
 import { SignUp_POST } from "@/validators";
+import FormSubmitSubmit from "@/components/Client/Shared/FormSubmit";
+import Logo from "@/components/Server/Shared/Logo";
+import Footer from "@/components/Server/Shared/Footer";
+import FormInput from "@/components/Client/Shared/FormInput";
 
 const Navbar = () => {
   return (
@@ -49,10 +49,10 @@ export default function SignUp() {
           </h4>
           <hr className="h-0.5 bg-gray-300 mt-1.5" />
         </span>
-        <Input label="Email" type="email" id="email" name="email" />
-        <Input label="Username" type="text" id="username" name="username" />
+        <FormInput label="Email" type="email" id="email" name="email" />
+        <FormInput label="Username" type="text" id="username" name="username" />
         <span>
-          <Input
+          <FormInput
             label="Password"
             type="password"
             id="password"
@@ -70,7 +70,7 @@ export default function SignUp() {
           </span>
         </span>
         <span className="flex flex-col gap-2">
-          <Button text="Create account" type="submit" />
+          <FormSubmitSubmit>Create account</FormSubmitSubmit>
           <span className="text-center text-gray-600">
             already have an account?{" "}
             <Link href="/login" className="text-primary">

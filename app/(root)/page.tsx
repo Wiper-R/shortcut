@@ -5,9 +5,9 @@ import QRImg from "./icons/QR.svg";
 import LinkImg from "./icons/Link.svg";
 import UserImg from "./icons/user.svg";
 import { useState, useEffect } from "react";
-import Input from "./components/input";
-import Logo from "./components/logo";
-import Footer from "./components/footer";
+import Logo from "@/components/Server/Shared/Logo";
+import Footer from "@/components/Server/Shared/Footer";
+import FormInput from "@/components/Client/Shared/FormInput";
 
 const Navbar = () => {
   // Checkbox
@@ -121,7 +121,7 @@ const DemoForm = () => {
         <TabBtn content="QR Code" image={QRImg.src} />
       </div>
       <form className="bg-white flex flex-col space-y-4 p-5 lg:p-12 border-y-2 relative bottom-0.5 z-0 shadow sm:rounded-xl">
-        <Input
+        <FormInput
           label="Long Url"
           placeholder="ex: https://www.your-long-url.com/short-it"
           id="long_url"
@@ -129,7 +129,7 @@ const DemoForm = () => {
         />
         <div className="flex max-xl:space-y-4 max-xl:flex-col xl:justify-center xl:items-center">
           <div className="flex justify-center items-center xl:basis-2/4">
-            <Input
+            <FormInput
               label="Domain"
               placeholder="LinkSwift.com"
               disabled={true}
@@ -139,7 +139,7 @@ const DemoForm = () => {
             <span className="text-3xl p-4 mt-8 font-extrabold">/</span>
           </div>
 
-          <Input
+          <FormInput
             label="Sub Path (Optional)"
             placeholder="eg: my-link"
             id="sub_path"

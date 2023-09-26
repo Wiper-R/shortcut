@@ -1,10 +1,4 @@
-"use client";
-
-export const trimProtocols = (url: string) => {
-  return url.replace(/(^\w+:|^)\/\//, "");
-};
-
-export function formatDateTimeToUTC(date: Date) {
+const formatDateTimeToUTC = (date: Date) => {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, "0");
   const day = String(date.getUTCDate()).padStart(2, "0");
@@ -13,4 +7,6 @@ export function formatDateTimeToUTC(date: Date) {
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} UTC`;
-}
+};
+
+export default formatDateTimeToUTC;

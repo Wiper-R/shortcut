@@ -1,15 +1,6 @@
-import { HTMLInputTypeAttribute } from "react";
+import { InputProps } from "./types";
 
-interface IInputProps {
-  label: string;
-  placeholder?: string;
-  disabled?: boolean;
-  type?: HTMLInputTypeAttribute;
-  id: string;
-  name: string;
-}
-
-const Input = (props: IInputProps) => {
+const FormInput = (props: InputProps) => {
   return (
     <div className="flex flex-col w-full">
       <label className="text-md font-semibold lg:text-lg" htmlFor={props.id}>
@@ -29,4 +20,4 @@ const Input = (props: IInputProps) => {
   );
 };
 
-export default Input;
+export default FormInput;
