@@ -1,6 +1,11 @@
 export type AlertType = "success" | "error";
 
-export type AlertProps = {
+type BaseAlert = {
   message: string;
   type: AlertType;
 };
+
+export type SetAlertProps = BaseAlert;
+export type AlertProps = {
+  disableAlert: () => void;
+} & BaseAlert;

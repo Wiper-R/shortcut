@@ -1,9 +1,9 @@
-import { AlertProps } from "@/components/Client/Shared/AlertHandler/types";
+import { SetAlertProps } from "@/components/Client/Shared/AlertHandler/types";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const useAlert = () => {
-  const [alert, setAlert] = useState<AlertProps>({
+  const [alert, setAlert] = useState<SetAlertProps>({
     message: "",
     type: "success",
   });

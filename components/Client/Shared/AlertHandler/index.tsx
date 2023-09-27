@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AlertProps, AlertType } from "./types";
+import { RxCross2 } from "react-icons/rx";
 
 export default function AlertHandler() {
   const params = useSearchParams();
@@ -10,50 +11,72 @@ export default function AlertHandler() {
   const [alertId, setAlertId] = useState(0);
   const [alertMsg, setAlertMsg] = useState<string>("");
   const [alertType, setAlertType] = useState<AlertType>("success");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [timeoutRef, setTimeoutRef] = useState<NodeJS.Timeout | undefined>();
   var _alertMsg = params.get("alertMsg");
-  var timeout: NodeJS.Timeout | null;
+
+  const disableAlert = () => {
+    setShowAlert(false);
+    clearTimeout(timeoutRef);
+  };
 
   useEffect(() => {
     setAlertId((v) => v + 1);
     if (!_alertMsg) return;
-    if (timeout) {
-      timeout.refresh();
-    }
+    clearTimeout(timeoutRef);
     const _alertType =
       params.get("alertType") == "success" ? "success" : "error";
     setAlertMsg(_alertMsg);
     setAlertType(_alertType);
+    setShowAlert(true);
     const newParams = new URLSearchParams(params.toString());
     newParams.delete("alertType");
     newParams.delete("alertMsg");
-    router.push("?" + newParams.toString(), {scroll: false});
+    router.push("?" + newParams.toString(), { scroll: false });
+    setTimeoutRef(
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000)
+    );
   }, [_alertMsg]);
 
-  if (!alertMsg) {
+  if (!showAlert) {
     return <></>;
   }
 
-  return <Alert message={alertMsg || ""} type={alertType} key={alertId} />;
+  return (
+    <Alert
+      message={alertMsg || ""}
+      type={alertType}
+      key={alertId}
+      disableAlert={disableAlert}
+    />
+  );
 }
 
-const Alert = ({ message, type }: AlertProps) => {
+const Alert = ({ message, type, disableAlert }: AlertProps) => {
   const _type = type == "success" ? "success" : "error";
   const classes = {
     success: {
-      element: "bg-green-300 text-green-900 border-green-500",
-      progress: "bg-green-500",
+      element: "bg-emerald-200 text-emerald-900",
+      progress: "bg-emerald-500",
     },
 
     error: {
-      element: "bg-red-300 text-red-900 border-red-500",
-      progress: "bg-red-500",
+      element: "bg-rose-200 text-rose-900",
+      progress: "bg-rose-500",
     },
   };
   return (
     <div
-      className={`fixed left-1/2 -translate-x-1/2  border rounded-md z-50 top-20 alert ${classes[_type].element}`}
+      className={`fixed left-1/2 -translate-x-1/2 rounded-md z-50 top-20 alert ${classes[_type].element}`}
     >
-      <span className="p-3 block">{message}</span>
+      <div className="flex p-2">
+        <span className="block p-2 text-base">{message}</span>
+        <button className="self-start text-sm" onClick={disableAlert}>
+          <RxCross2 />
+        </button>
+      </div>
       <span
         className={`block h-0.5 alert-progress ${classes[_type].progress}`}
       ></span>
