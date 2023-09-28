@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 
 type AuthValidatorProps = {
   children?: React.ReactNode;
-  redirectAuthenticated?: string;
-  redirectNotAuthenticated?: string;
-};
+} & (
+  | { redirectAuthenticated: string; redirectNotAuthenticated?: never }
+  | { redirectNotAuthenticated: string; redirectAuthenticated?: never }
+);
 
-const AuthValidator = ({
+const AuthGuard = ({
   children,
   redirectAuthenticated,
   redirectNotAuthenticated,
@@ -34,5 +35,4 @@ const AuthValidator = ({
   return children;
 };
 
-
-export default AuthValidator;
+export default AuthGuard;

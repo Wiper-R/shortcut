@@ -3,14 +3,14 @@
 import Footer from "@/components/Shared/Footer";
 import PlainNavbar from "@/components/Shared/PlainNavbar";
 import LoginForm from "@/components/LoginForm";
-import AuthValidator from "@/components/AuthValidator";
+import AuthGuard from "@/components/AuthValidator";
 
 export default function Login() {
   return (
-    <AuthValidator redirectAuthenticated="/dashboard/">
+    <AuthGuard redirectAuthenticated="/dashboard/">
       <PlainNavbar />
       <LoginForm />
       <Footer />
-    </AuthValidator>
+    </AuthGuard>
   );
 }

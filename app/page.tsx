@@ -3,16 +3,16 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/Shared/HeroSection";
 import DemoForm from "@/components/DemoForm";
 import ServiceBenefits from "@/components/Shared/ServiceBenefits";
-import AuthValidator from "@/components/AuthValidator";
+import AuthGuard from "@/components/AuthValidator";
 
 export default function Home() {
   return (
-    <AuthValidator redirectAuthenticated="/dashboard/">
+    <AuthGuard redirectAuthenticated="/dashboard/">
       <Navbar />
       <HeroSection />
       <DemoForm />
       <ServiceBenefits />
       <Footer />
-    </AuthValidator>
+    </AuthGuard>
   );
 }
