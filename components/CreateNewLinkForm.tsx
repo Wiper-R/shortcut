@@ -1,14 +1,15 @@
 "use client";
 
-import useAlert from "@/hooks/useAlert";
 import FormInput from "./Shared/FormInput";
 import FormSubmit from "./Shared/FormSubmit";
-import { FormEvent } from "react";
+import { Dispatch, FormEvent, SetStateAction } from "react";
 import { ManageCreateNewLink_POST } from "@/validators";
+import { AlertState } from "@/contexts/alert-context";
+import useAlertContext from "@/hooks/useAlertContext";
 
-type dispatchType = Pick<ReturnType<typeof useAlert>, "setAlert">;
+type dispatchType = Dispatch<SetStateAction<AlertState>>;
 
-const OnSubmit = ({ setAlert }: dispatchType) => {
+const OnSubmit = ({ setAlert }: { setAlert: dispatchType }) => {
   const Wrapper = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -43,7 +44,7 @@ const OnSubmit = ({ setAlert }: dispatchType) => {
 };
 
 const CreateNewLinkForm = () => {
-  const { setAlert } = useAlert();
+  const { setAlert } = useAlertContext();
   return (
     <form
       action=""

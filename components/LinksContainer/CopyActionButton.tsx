@@ -2,14 +2,14 @@
 
 import { BiCopy } from "react-icons/bi";
 import ActionButton from "./ActionButton";
-import useAlert from "@/hooks/useAlert";
+import useAlertContext from "@/hooks/useAlertContext";
 
 const CopyActionButton = ({
   shortenUrl,
 }: {
   shortenUrl: string;
 }) => {
-  const { setAlert } = useAlert();
+  const { setAlert } = useAlertContext();
   return (
     <ActionButton
       icon={<BiCopy />}
