@@ -3,7 +3,7 @@
 import Footer from "@/components/Shared/Footer";
 import PlainNavbar from "@/components/Shared/PlainNavbar";
 import LoginForm from "@/components/LoginForm";
-import AuthGuard from "@/components/AuthValidator";
+import AuthGuard from "@/components/AuthGuard";
 
 export default function Login() {
   return (

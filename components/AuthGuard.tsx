@@ -2,7 +2,7 @@
 import useAuthContext from "@/hooks/useAuthContext";
 import { useRouter } from "next/navigation";
 
-type AuthValidatorProps = {
+type AuthGuardProps = {
   children?: React.ReactNode;
 } & (
   | { redirectAuthenticated: string; redirectNotAuthenticated?: never }
@@ -13,8 +13,7 @@ const AuthGuard = ({
   children,
   redirectAuthenticated,
   redirectNotAuthenticated,
-  ...props
-}: AuthValidatorProps) => {
+}: AuthGuardProps) => {
   const { state } = useAuthContext();
   const router = useRouter();
 

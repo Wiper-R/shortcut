@@ -1,4 +1,4 @@
-import AuthGuard from "@/components/AuthValidator";
+import AuthGuard from "@/components/AuthGuard";
 import Navbar from "@/components/Dashboard/Navbar";
 import Sidebar from "@/components/Sidebar";
 

@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import AppContainer from "@/components/AppContainer";
-import AuthContextProvider, { AuthContext } from "@/contexts/auth-context";
 
 export const metadata: Metadata = {
   title: "Linkswift",
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="max-w-screen-2xl mx-auto min-h-screen">
-        <AuthContextProvider>
-          <AppContainer>{children}</AppContainer>
-        </AuthContextProvider>
+        <AppContainer>{children}</AppContainer>
       </body>
     </html>
   );

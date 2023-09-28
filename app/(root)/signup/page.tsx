@@ -1,4 +1,4 @@
-import AuthGuard from "@/components/AuthValidator";
+import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Shared/Footer";
 import PlainNavbar from "@/components/Shared/PlainNavbar";
 import SignupForm from "@/components/SignUpForm";
