@@ -1,5 +1,10 @@
-import { ModalProps } from "./types";
 import classNames from "classnames";
+
+type ModalProps = {
+  children?: React.ReactNode;
+  isOpen: boolean;
+};
+
 
 const Modal = (props: ModalProps) => {
   return (

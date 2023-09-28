@@ -1,4 +1,7 @@
-import { SubmitButtonProps } from "./types";
+type SubmitButtonProps = {
+  disabled?: boolean;
+  children: React.ReactNode;
+};
 
 const FormSubmit = (props: SubmitButtonProps) => {
   return (

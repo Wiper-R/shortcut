@@ -1,6 +1,13 @@
 import { usePathname } from "next/navigation";
-import { NavigationLinkProps } from "./types";
 import Link from "next/link";
+
+type NavigationLinkProps = {
+  icon: React.ReactNode;
+  text: string;
+  disabled?: boolean;
+  href: string;
+}
+
 
 const NavigationLink = (props: NavigationLinkProps) => {
   const pathname = usePathname();

@@ -1,4 +1,15 @@
-import { InputProps } from "./types";
+import { HTMLInputTypeAttribute } from "react";
+
+
+type InputProps = {
+  label: string;
+  placeholder?: string;
+  disabled?: boolean;
+  type?: HTMLInputTypeAttribute;
+  id: string;
+  name: string;
+};
+
 
 const FormInput = (props: InputProps) => {
   return (

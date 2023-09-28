@@ -4,7 +4,13 @@ import { formatDateTimeToUTC, trimProtocols } from "@/utils";
 import Link from "next/link";
 import EditActionButton from "@/components/LinksContainer/EditActionButton";
 import CopyActionButton from "@/components/LinksContainer/CopyActionButton";
-import { LinkCardProps } from "./types";
+import { Link as PrismaLink } from "@prisma/client";
+
+type LinkCardProps = {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setLinkData: React.Dispatch<React.SetStateAction<PrismaLink | undefined>>;
+} & PrismaLink;
+
 
 const LinkCard = ({
   id,

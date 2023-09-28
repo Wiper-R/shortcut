@@ -1,4 +1,7 @@
-import { SidebarToggleProps } from "./types";
+type SidebarToggleProps = {
+  toggled: boolean;
+  setToggled: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const SidebarToggle = ({ toggled, setToggled }: SidebarToggleProps) => {
   return (
