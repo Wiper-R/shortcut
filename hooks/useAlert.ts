@@ -1,4 +1,4 @@
-import { SetAlertProps } from "@/components/Client/Shared/AlertHandler/types";
+import { SetAlertProps } from "@/components/Shared/AlertHandler";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

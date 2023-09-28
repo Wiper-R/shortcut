@@ -1,43 +1,81 @@
 "use client";
 
-import { createContext, useState, useContext } from "react";
+import { createContext, useReducer, Dispatch, useEffect } from "react";
 
-const AuthContext = createContext<AuthContext | null>(null);
+export const AuthContext = createContext<AuthContext | null>(null);
 
-type AuthState = {
-  isLoggedIn: boolean;
+type AuthActionKind = "LOGOUT" | "LOGIN_FAILED" | "LOGIN_SUCCESS";
+
+export type AuthState = {
   isPopulated: boolean;
   user: string | null;
 };
 
 type AuthContext = {
   state: AuthState;
-  setState: React.Dispatch<React.SetStateAction<AuthState>>;
+  dispatch: Dispatch<AuthAction>;
 };
+
+export type AuthAction = {
+  type: AuthActionKind;
+  payload: any;
+};
+
+export type AuthStateAction = React.Dispatch<React.SetStateAction<AuthState>>;
 
 type AuthProviderProps = {
   children?: React.ReactNode;
 };
 
-const AuthProvider = (props: AuthProviderProps) => {
-  const [state, setState] = useState<AuthState>({
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case "LOGIN_SUCCESS":
+      return {
+        ...state,
+        user: action.payload,
+        isPopulated: true,
+      };
+
+    case "LOGIN_FAILED":
+    case "LOGOUT":
+      return {
+        ...state,
+        user: null,
+        isPopulated: true,
+      };
+
+    default:
+      return state;
+  }
+};
+
+const AuthContextProvider = (props: AuthProviderProps) => {
+  const initialState: AuthState = {
     user: null,
-    isLoggedIn: false,
     isPopulated: false,
-  });
+  };
+
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  console.log("Authorization State: ", state);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await fetch("/api/auth/user");
+      if (res.ok) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: await res.json() });
+      } else {
+        dispatch({ type: "LOGIN_FAILED", payload: null });
+      }
+    };
+
+    getUser();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ state, setState }}>
+    <AuthContext.Provider value={{ state, dispatch }}>
       {props.children}
     </AuthContext.Provider>
   );
 };
 
-const useAuthContext = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuthContext must be used inside AuthProvider.");
-  }
-  return context;
-};
-
-export { AuthProvider, useAuthContext };
+export default AuthContextProvider;

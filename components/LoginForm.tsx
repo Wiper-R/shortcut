@@ -6,21 +6,28 @@ import FormInput from "./Shared/FormInput";
 import FormSubmit from "./Shared/FormSubmit";
 import Link from "next/link";
 import { Login_POST } from "@/validators";
-
-async function OnSubmit(e: FormEvent<HTMLFormElement>) {
-  e.preventDefault();
-  const formData = new FormData(e.currentTarget);
-  const result = await Login_POST.validateAsync(
-    Object.fromEntries(formData.entries())
-  );
-
-  const _resp = await fetch("/api/auth/login", {
-    method: "POST",
-    body: JSON.stringify(result),
-  });
-}
+import useAuthContext from "@/hooks/useAuthContext";
 
 const LoginForm = () => {
+  const { dispatch } = useAuthContext();
+  const OnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const result = await Login_POST.validateAsync(
+      Object.fromEntries(formData.entries())
+    );
+
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(result),
+    });
+
+    if (res.ok) {
+      dispatch({ type: "LOGIN_SUCCESS", payload: await res.json() });
+    } else {
+      dispatch({ type: "LOGIN_FAILED", payload: null });
+    }
+  };
   return (
     <BaseAuthForm onSubmit={OnSubmit}>
       <span className="mb-5">

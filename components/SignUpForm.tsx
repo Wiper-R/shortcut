@@ -15,10 +15,14 @@ async function onSubmit(e: FormEvent<HTMLFormElement>) {
       Object.fromEntries(formData.entries())
     );
 
-    const _resp = await fetch("/api/auth/signup", {
+    const res = await fetch("/api/auth/signup", {
       method: "POST",
       body: JSON.stringify(result),
     });
+
+    if (res.ok){
+      e.currentTarget.reset();
+    }
   }
 
 
