@@ -1,11 +1,17 @@
 import { BiEditAlt } from "react-icons/bi";
 import ActionButton from "./ActionButton";
-import { ActionButtonProps } from "./ActionButton/types";
+import { Link as PrismaLink } from "@prisma/client";
+import useEditLinkContext from "@/hooks/useEditLinkContext";
 
-type EditActionButtonProps = Pick<ActionButtonProps, "onClick">;
-
-const EditActionButton = ({ onClick }: EditActionButtonProps) => {
-  return <ActionButton icon={<BiEditAlt />} text="Edit" onClick={onClick} />;
+const EditActionButton = ({ link }: { link: PrismaLink }) => {
+  const { setState } = useEditLinkContext();
+  return (
+    <ActionButton
+      icon={<BiEditAlt />}
+      text="Edit"
+      onClick={() => setState((state) => ({ ...state, link, isEditing: true }))}
+    />
+  );
 };
 
 export default EditActionButton;

@@ -8,6 +8,7 @@ type InputProps = {
   type?: HTMLInputTypeAttribute;
   id: string;
   name: string;
+  value?: string;
 };
 
 
@@ -26,6 +27,7 @@ const FormInput = (props: InputProps) => {
         disabled={props.disabled}
         id={props.id}
         name={props.name}
+        value={props.value}
       />
     </div>
   );

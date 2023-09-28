@@ -1,10 +1,12 @@
+"use client";
+
 import { Dispatch, SetStateAction, createContext, useState } from "react";
 import { Link as PrismaLink } from "@prisma/client";
 
-const EditLinkContext = createContext<EditLinkContext | null>(null);
+export const EditLinkContext = createContext<EditLinkContext | null>(null);
 
 export type EditLinkState = {
-  currentLink: PrismaLink | null;
+  link: PrismaLink | null;
   isEditing: boolean;
 };
 
@@ -19,9 +21,11 @@ type EditLinkContextProps = {
 
 const EditLinkContextProvider = ({ children }: EditLinkContextProps) => {
   const [state, setState] = useState<EditLinkState>({
-    currentLink: null,
+    link: null,
     isEditing: false,
   });
+
+  console.log("Edit Link State:", state);
 
   return (
     <EditLinkContext.Provider value={{ state, setState }}>

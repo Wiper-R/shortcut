@@ -1,30 +1,16 @@
-"use client";
-
 import { formatDateTimeToUTC, trimProtocols } from "@/utils";
 import Link from "next/link";
 import EditActionButton from "@/components/LinksContainer/EditActionButton";
 import CopyActionButton from "@/components/LinksContainer/CopyActionButton";
 import { Link as PrismaLink } from "@prisma/client";
 
-type LinkCardProps = {
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setLinkData: React.Dispatch<React.SetStateAction<PrismaLink | undefined>>;
-} & PrismaLink;
-
-
-const LinkCard = ({
-  id,
-  url,
-  title,
-  createdAt,
-  setIsModalOpen,
-  setLinkData,
-  ...props
-}: LinkCardProps) => {
+const LinkCard = (link: PrismaLink) => {
+  var { id, url, createdAt, title } = link;
   const shortenUrl = `https://linkswift.com/l/${id}`;
   const _url = new URL(url);
   createdAt = new Date(createdAt);
   title = title || "Untitled " + formatDateTimeToUTC(createdAt);
+
   return (
     <div className="bg-white py-3 px-5 rounded-lg shadow-sm flex justify-between gap-8">
       <div className="flex gap-6 justify-between">
@@ -56,12 +42,7 @@ const LinkCard = ({
 
       <div className="flex gap-3 self-start">
         <CopyActionButton shortenUrl={shortenUrl} />
-        <EditActionButton
-          onClick={() => {
-            setIsModalOpen(true);
-            setLinkData({ createdAt, id, title, url, userId: props.userId });
-          }}
-        />
+        <EditActionButton link={link} />
       </div>
     </div>
   );
