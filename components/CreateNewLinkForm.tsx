@@ -1,8 +1,8 @@
 "use client";
 
 import useAlert from "@/hooks/useAlert";
-import FormInput from "../Shared/FormInput";
-import FormSubmit from "../Shared/FormSubmit";
+import FormInput from "./Shared/FormInput";
+import FormSubmit from "./Shared/FormSubmit";
 import { FormEvent } from "react";
 import { ManageCreateNewLink_POST } from "@/validators";
 

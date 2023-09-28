@@ -1,8 +1,8 @@
-import Footer from "@/components/Server/Shared/Footer";
-import Navbar from "@/components/Client/Navbar";
-import HeroSection from "@/components/Server/HeroSection";
-import DemoForm from "@/components/Client/DemoForm";
-import ServiceBenefits from "@/components/Server/ServiceBenefits";
+import Footer from "@/components/Shared/Footer";
+import Navbar from "@/components/Navbar";
+import HeroSection from "@/components/Shared/HeroSection";
+import DemoForm from "@/components/DemoForm";
+import ServiceBenefits from "@/components/Shared/ServiceBenefits";
 
 export default function Home() {
   return (

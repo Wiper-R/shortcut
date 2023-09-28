@@ -1,4 +1,4 @@
-import CreateNewLinkForm from "@/components/Client/CreateNewLinkForm";
+import CreateNewLinkForm from "@/components/CreateNewLinkForm";
 
 export default function Dashboard_CreateNew() {
   return (

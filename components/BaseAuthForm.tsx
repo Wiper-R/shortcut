@@ -1,4 +1,8 @@
-import { FormProps } from "./types";
+type FormProps = {
+  children: React.ReactNode;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+};
+
 
 const BaseAuthForm = ({ children, onSubmit }: FormProps) => {
   return (

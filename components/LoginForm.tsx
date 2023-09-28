@@ -1,9 +1,9 @@
 "use client";
 
 import { FormEvent } from "react";
-import BaseAuthForm from "../BaseAuthForm";
-import FormInput from "../Shared/FormInput";
-import FormSubmit from "../Shared/FormSubmit";
+import BaseAuthForm from "./BaseAuthForm";
+import FormInput from "./Shared/FormInput";
+import FormSubmit from "./Shared/FormSubmit";
 import Link from "next/link";
 import { Login_POST } from "@/validators";
 

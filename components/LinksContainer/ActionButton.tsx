@@ -1,5 +1,11 @@
 import { ActionButtonProps } from "./types";
 
+type ActionButtonProps = {
+  icon: React.ReactNode,
+  text: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 const ActionButton = ({ icon, text, onClick }: ActionButtonProps) => {
   return (
     <button

@@ -1,4 +1,4 @@
-import LinksContainer from "@/components/Client/LinksContainer";
+import LinksContainer from "@/components/LinksContainer";
 
 export default function Dashboard_Links() {
   return (

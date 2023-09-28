@@ -1,10 +1,10 @@
 "use client";
 
 import { SignUp_POST } from "@/validators";
-import BaseAuthForm from "../BaseAuthForm"
+import BaseAuthForm from "./BaseAuthForm"
 import {FormEvent} from "react";
-import FormInput from "../Shared/FormInput";
-import FormSubmit from "../Shared/FormSubmit";
+import FormInput from "./Shared/FormInput";
+import FormSubmit from "./Shared/FormSubmit";
 import Link from "next/link";
 
 

@@ -10,7 +10,7 @@ const Modal = (props: ModalProps) => {
         props.isOpen ? "block" : "hidden"
       )}
     >
-      {props.children}
+      {props.isOpen ? props.children : ""}
     </div>
   );
 };

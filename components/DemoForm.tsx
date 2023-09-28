@@ -1,5 +1,5 @@
-import FormInput from "../Shared/FormInput";
-import Tab from "../Tab";
+import FormInput from "./Shared/FormInput";
+import Tab from "./Tab";
 import {} from "react-icons/bs";
 import {BiLink} from "react-icons/bi";
 import {PiQrCode} from "react-icons/pi";

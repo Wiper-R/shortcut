@@ -1,4 +1,7 @@
-import { TabProps } from "./types";
+type TabProps =  {
+  content: string;
+  icon: React.ReactNode;
+}
 
 const Tab = (props: TabProps) => {
   return (

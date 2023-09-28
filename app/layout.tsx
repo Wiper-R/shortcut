@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import AppContainer from "@/components/Client/Shared/AppContainer";
+import AppContainer from "@/components/Shared/AppContainer";
 
 export const metadata: Metadata = {
   title: "Linkswift",

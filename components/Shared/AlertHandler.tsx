@@ -2,8 +2,21 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AlertProps, AlertType } from "./types";
 import { RxCross2 } from "react-icons/rx";
+
+type AlertType = "success" | "error";
+
+type BaseAlert = {
+  message: string;
+  type: AlertType;
+};
+
+export type SetAlertProps = BaseAlert;
+
+type AlertProps = {
+  disableAlert: () => void;
+} & BaseAlert;
+
 
 export default function AlertHandler() {
   const params = useSearchParams();
