@@ -41,13 +41,13 @@ body {
   animation-iteration-count: 1;
 }
 
-.alert {
+/* .alert {
   animation: alert-hide;
   animation-duration: 3000ms;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
-}
+} */
 
 @keyframes alert-hide {
   0% {
