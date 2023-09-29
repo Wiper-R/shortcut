@@ -15,5 +15,8 @@
         "iconamoon",
         "octicon",
         "qrcode"
-    ]
+    ],
+    "files.exclude": {
+        "**/node_modules": true
+    }
 }
