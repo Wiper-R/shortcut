@@ -1,6 +1,6 @@
 "use client";
 import useAuthContext from "@/hooks/useAuthContext";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 type AuthGuardProps = {
   children?: React.ReactNode;
@@ -15,20 +15,15 @@ const AuthGuard = ({
   redirectNotAuthenticated,
 }: AuthGuardProps) => {
   const { state } = useAuthContext();
-  const router = useRouter();
 
-  if (
-    (!redirectAuthenticated && !redirectNotAuthenticated) ||
-    !state.isPopulated
-  )
-    return children;
+  if (!state.isPopulated) return children;
 
   if (!state.user && redirectNotAuthenticated) {
-    router.replace(redirectNotAuthenticated);
+    redirect(redirectNotAuthenticated);
   }
 
   if (state.user && redirectAuthenticated) {
-    router.replace(redirectAuthenticated);
+    redirect(redirectAuthenticated);
   }
 
   return children;

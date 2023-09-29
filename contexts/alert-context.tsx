@@ -1,6 +1,7 @@
 "use client";
 
 import Alert from "@/components/Shared/Alert";
+import AlertContainer from "@/components/Shared/AlertContainer";
 import useAlertContext from "@/hooks/useAlertContext";
 import {
   Dispatch,
@@ -12,7 +13,7 @@ import {
 
 export const AlertContext = createContext<AlertContext | null>(null);
 
-type AlertKind = "success" | "error";
+export type AlertKind = "success" | "error";
 
 export type AlertState = {
   message: string;
@@ -61,9 +62,11 @@ const AlertContextProvider = ({ children }: AlertContextProviderProps) => {
       value={{ alert: state, setAlert: setState, setShowAlert }}
     >
       {children}
-      {showAlert && (
-        <Alert message={alertMessage} type={state.type} key={alertKey} />
-      )}
+      <AlertContainer>
+        {showAlert && (
+          <Alert message={alertMessage} type={state.type} key={alertKey} />
+        )}
+      </AlertContainer>
     </AlertContext.Provider>
   );
 };
