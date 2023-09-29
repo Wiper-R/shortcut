@@ -2,12 +2,10 @@
 
 import Alert from "@/components/Shared/Alert";
 import AlertContainer from "@/components/Shared/AlertContainer";
+import { v4 } from "uuid";
 
 import {
-  Dispatch,
-  SetStateAction,
   createContext,
-  useEffect,
   useState,
 } from "react";
 
@@ -15,15 +13,22 @@ export const AlertContext = createContext<AlertContext | null>(null);
 
 export type AlertKind = "success" | "error";
 
-export type AlertState = {
+export type AlertProps = {
   message: string;
   type: AlertKind;
 };
 
+export type AlertState = {
+  id: string;
+} & AlertProps;
+
+
+export type AddAlert = (alert: AlertProps) => void;
+
+
 type AlertContext = {
-  alert: AlertState;
-  setAlert: Dispatch<SetStateAction<AlertState>>;
-  setShowAlert: Dispatch<SetStateAction<boolean>>;
+  addAlert: AddAlert;
+  removeAlert: (alertId: string) => void;
 };
 
 type AlertContextProviderProps = {
@@ -31,41 +36,25 @@ type AlertContextProviderProps = {
 };
 
 const AlertContextProvider = ({ children }: AlertContextProviderProps) => {
-  const [state, setState] = useState<AlertState>({
-    message: "",
-    type: "success",
-  });
-  const [timeoutRef, setTimeoutRef] = useState<NodeJS.Timeout>();
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertKey, setAlertKey] = useState<number>(0);
+  const [alerts, setAlerts] = useState<AlertState[]>([]);
 
-  console.log("Alert Context: ", state);
+  console.log("Alert Context: ", alerts);
 
-  useEffect(() => {
-    if (!state.message) return;
-    clearTimeout(timeoutRef);
-    setTimeoutRef(
-      setTimeout(() => {
-        setAlertMessage("");
-        setShowAlert(false);
-      }, 3000)
-    );
-    setShowAlert(true);
-    setAlertMessage(state.message);
-    setAlertKey((key) => key + 1);
-    setState((state) => ({ ...state, message: "" }));
-  }, [state.message]);
+  const addAlert = (alert: AlertProps) => {
+    setAlerts(state => [...state, { ...alert, id: v4() }])
+  }
+
+  const removeAlert = (alertId: string) => {
+    setAlerts(state => state.filter(v => v.id != alertId))
+  }
 
   return (
     <AlertContext.Provider
-      value={{ alert: state, setAlert: setState, setShowAlert }}
+      value={{ addAlert, removeAlert }}
     >
       {children}
       <AlertContainer>
-        {showAlert && (
-          <Alert message={alertMessage} type={state.type} key={alertKey} />
-        )}
+        {alerts.map(alert => <Alert {...alert} key={alert.id} />)}
       </AlertContainer>
     </AlertContext.Provider>
   );

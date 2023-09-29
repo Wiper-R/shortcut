@@ -1,4 +1,3 @@
-import { AlertState } from "@/contexts/alert-context";
 import AuthContextProvider from "@/contexts/auth-context";
 // import Alert from "./Shared/Alert";
 import AlertContextProvider from "@/contexts/alert-context";

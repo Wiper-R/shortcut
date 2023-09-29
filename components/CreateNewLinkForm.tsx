@@ -2,14 +2,13 @@
 
 import FormInput from "./Shared/FormInput";
 import FormSubmit from "./Shared/FormSubmit";
-import { Dispatch, FormEvent, SetStateAction } from "react";
+import { FormEvent } from "react";
 import { ManageCreateNewLink_POST } from "@/validators";
-import { AlertState } from "@/contexts/alert-context";
+import { AddAlert } from "@/contexts/alert-context";
 import useAlertContext from "@/hooks/useAlertContext";
 
-type dispatchType = Dispatch<SetStateAction<AlertState>>;
 
-const OnSubmit = ({ setAlert }: { setAlert: dispatchType }) => {
+const OnSubmit = (addAlert: AddAlert) => {
   const Wrapper = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -23,7 +22,7 @@ const OnSubmit = ({ setAlert }: { setAlert: dispatchType }) => {
     });
 
     if (resp.ok) {
-      setAlert({
+      addAlert({
         message: "Your url is shortened",
         type: "success",
       });
@@ -31,12 +30,12 @@ const OnSubmit = ({ setAlert }: { setAlert: dispatchType }) => {
       const message = `Subpath "${formData.get(
         "subpath"
       )}" already exist, try something else.`;
-      setAlert({
+      addAlert({
         message,
         type: "error",
       });
     } else {
-      setAlert({ message: "An unknown error occurred", type: "error" });
+      addAlert({ message: "An unknown error occurred", type: "error" });
     }
   };
 
@@ -44,12 +43,12 @@ const OnSubmit = ({ setAlert }: { setAlert: dispatchType }) => {
 };
 
 const CreateNewLinkForm = () => {
-  const { setAlert } = useAlertContext();
+  const { addAlert } = useAlertContext();
   return (
     <form
       action=""
       className="flex flex-col gap-4 mt-8"
-      onSubmit={OnSubmit({ setAlert })}
+      onSubmit={OnSubmit(addAlert)}
     >
       <FormInput
         label="URL"

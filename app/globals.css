@@ -35,29 +35,12 @@ body {
 
 .alert-progress {
   animation: alert-progress;
-  animation-duration: 3000ms;
+  animation-duration: 5s;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
   animation-iteration-count: 1;
 }
 
-/* .alert {
-  animation: alert-hide;
-  animation-duration: 3000ms;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
-} */
-
-@keyframes alert-hide {
-  0% {
-    display: fixed;
-  }
-
-  100% {
-    display: none;
-  }
-}
 
 @keyframes alert-progress {
   0% {

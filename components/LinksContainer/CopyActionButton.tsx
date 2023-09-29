@@ -9,14 +9,14 @@ const CopyActionButton = ({
 }: {
   shortenUrl: string;
 }) => {
-  const { setAlert } = useAlertContext();
+  const { addAlert } = useAlertContext();
   return (
     <ActionButton
       icon={<BiCopy />}
       text="Copy"
       onClick={() => {
         navigator.clipboard.writeText(shortenUrl);
-        setAlert({ message: "Copied url to clipboard.", type: "success" });
+        addAlert({ message: "Copied url to clipboard.", type: "success" });
       }}
     />
   );

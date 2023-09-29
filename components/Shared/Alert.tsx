@@ -25,9 +25,11 @@ const alertStyles: AlertStyle = {
   },
 };
 
-const Alert = ({ message, type }: AlertState) => {
-  const { setShowAlert } = useAlertContext();
-  const _type = type == "success" ? "success" : "error";
+const Alert = ({ message, type, id }: AlertState) => {
+  const { removeAlert } = useAlertContext();
+  setTimeout(() => {
+    removeAlert(id);
+  }, 5500)
   return (
     <div className="relative flex max-w-[400px] bg-white drop-shadow-sm py-2 pb-3 px-4 rounded-md gap-4 border border-neutral-100">
       <span
@@ -50,7 +52,7 @@ const Alert = ({ message, type }: AlertState) => {
       </div>
       <button
         className="text-xl text-neutral-500 self-start pointer-events-auto"
-        onClick={() => setShowAlert(false)}
+        onClick={() => removeAlert(id)}
       >
         <RxCross2 />
       </button>
