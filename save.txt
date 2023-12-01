@@ -1,0 +1,75 @@
+<div className="flex items-center gap-x-2 font-medium sm:gap-x-4">
+            <Switch control={control} name="hasQRCode" id="hasQRCode" />
+            <label
+              htmlFor="hasQRCode"
+              className="text-sm font-medium text-secondary sm:text-base"
+            >
+              QR Code
+            </label>
+          </div>
+          {watch("hasQRCode") && (
+            <div className="flex flex-wrap justify-between gap-10">
+              <div className="flex flex-grow flex-col gap-2">
+                <div>
+                  <label
+                    htmlFor="fgColor"
+                    className="mb-1 block text-sm font-medium text-secondary sm:text-base"
+                  >
+                    Foreground Color
+                  </label>
+                  <div className="flex gap-1">
+                    <ColorInput id="fgColor" {...register("QRCode.fgColor")} />
+                    <input
+                      type="text"
+                      className={inputVariants({ class: "w-fit" })}
+                      value={watch("QRCode.fgColor") || ""}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="bgColor"
+                    className="mb-1 block text-sm font-medium text-secondary sm:text-base"
+                  >
+                    Background Color
+                  </label>
+                  <div className="flex gap-1">
+                    <ColorInput id="bgColor" {...register("QRCode.bgColor")} />
+                    <input
+                      type="text"
+                      className={inputVariants({ class: "w-fit" })}
+                      value={watch("QRCode.bgColor") || ""}
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="logo"
+                    className="mb-1 block text-sm font-medium text-secondary sm:text-base"
+                  >
+                    Logo
+                  </label>
+                  <input
+                    className={inputVariants({})}
+                    id="logo"
+                    type="text"
+                    {...register("QRCode.logo")}
+                  />
+                </div>
+              </div>
+
+              <QRCodeCanvas
+                value="QRCode Prototype"
+                size={128}
+                fgColor={watch("QRCode.fgColor") || "#000"}
+                bgColor={watch("QRCode.bgColor") || "#fff"}
+                imageSettings={{
+                  src: watch("QRCode.logo") || "",
+                  height: 32,
+                  width: 32,
+                  excavate: true,
+                }}
+              />
+            </div>

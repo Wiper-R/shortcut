@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  username  String   @unique
+  Link      Link[]
+  password  String // Encrypted Password
+  createdAt DateTime @default(now()) @map("created_at")
+  // Token     Token[]
+}
+
+model Link {
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  backHalf         String       @unique
+  user             User         @relation(fields: [userId], references: [id])
+  userId           String       @db.ObjectId
+  dest             String
+  title            String?
+  password         String?
+  expiresAt        DateTime?
+  createdAt        DateTime     @default(now()) @map("created_at")
+  isCustomBackHalf Boolean      @default(false) @map("is_custom_backhalf")
+  Engagement       Engagement[]
+  QrCode           QrCode?
+}
+
+model QrCode {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  Link    Link    @relation(fields: [linkId], references: [id])
+  linkId  String  @unique @db.ObjectId
+  fgColor String @map("fg_color")
+  bgColor String @map("bg_color")
+  logo    String? 
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+enum EngagementType {
+  SCAN
+  CLICK
+}
+
+model Engagement {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime       @default(now()) @map("created_at")
+  link        Link?          @relation(fields: [linkId], references: [id])
+  linkId      String         @map("link_id") @db.ObjectId
+  type        EngagementType
+  countryCode String?        @map("country_code")
+}

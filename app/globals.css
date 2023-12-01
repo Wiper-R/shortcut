@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ReactModal__Overlay {
+  @apply !bg-black/20;
+}
+
+.ReactModal__Content {
+  @apply !inset-1 mx-auto my-auto h-min max-h-[calc(100%-40px)] max-w-2xl;
+}

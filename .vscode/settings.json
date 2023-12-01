@@ -1,0 +1,20 @@
+{
+  "cSpell.words": [
+    "clsx",
+    "datetime",
+    "hookform",
+    "linkzy",
+    "Lucide",
+    "qrcode",
+    "qrcodes",
+    "superjson",
+    "tailwindcss",
+    "toastify",
+    "TRPC"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+  ],
+  "editor.wordWrap": "on",
+}
