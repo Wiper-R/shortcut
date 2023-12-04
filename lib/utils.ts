@@ -24,10 +24,5 @@ export function cleanShortenLink(shortenLink: ShortenLink) {
 export const isUniqueValidationError = (e: unknown) =>
   e instanceof Prisma.PrismaClientKnownRequestError && e.code == "P2002";
 
-export function removeUndefinedKeys<T extends Record<string, any>>(
-  obj: T
-): Partial<T> {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([_, value]) => value !== undefined)
-  ) as Partial<T>;
-}
+export const requiredRecordsNotFound = (e: unknown) =>
+  e instanceof Prisma.PrismaClientKnownRequestError && e.code == "P2025";
