@@ -1,10 +1,5 @@
-import { decodeJwt } from "jose";
-import { cookies } from "next/headers";
-import prisma from "@/prisma";
-import { cleanUser } from "@/lib/utils";
-import { errorResponse, successResponse } from "@/app/api/_response";
+import { successResponse } from "@/app/api/_response";
 import { NextRequest } from "next/server";
-import config from "@/config";
 import { getSession } from "@/auth/session";
 import { unauthorized } from "../../_error-codes";
 
