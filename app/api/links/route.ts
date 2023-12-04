@@ -7,8 +7,6 @@ import { getSession } from "@/auth/session";
 
 // NOTE: Maybe use a shared unauthorized error?
 
-// FIXME: Use current user id instead of hardcoding
-
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const data = createLinkSchema.parse(body);
