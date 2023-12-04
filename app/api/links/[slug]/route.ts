@@ -9,20 +9,21 @@ import { unauthorized } from "../../_error-codes";
 type Params = { params: { slug: string } };
 
 // TODO: Add exception handling
-// TODO: Add ownership check
 
 export async function PATCH(request: NextRequest, { params }: Params) {
-  const session = await getSession();
-
-  if (!session) return unauthorized();
   const { slug } = params;
   const body = await request.json();
   const data = editLinkSchema.parse(body);
-  if (!(await prisma.shortenLink.findFirst({ where: { slug } })))
+  const check = await prisma.shortenLink.findFirst({ where: { slug } });
+
+  const session = await getSession();
+  if (!session) return unauthorized();
+
+  if (!check)
     return errorResponse({ message: "Link not found" }, { status: 404 });
 
   const shortenLink = await prisma.shortenLink.update({
-    where: { slug, userId: session?.user.id },
+    where: { slug, userId: session.user.id },
     data,
   });
   return successResponse({ shortenLink: cleanShortenLink(shortenLink) });
