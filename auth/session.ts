@@ -4,10 +4,9 @@ import prisma from "@/prisma";
 import { TSession } from "./context";
 import config from "@/config";
 
-
 // TODO: Use function keyword
 
-const getSession = async (): Promise<TSession> => {
+export async function getSession(): Promise<TSession> {
   const token = cookies().get(config.TOKEN_COOKIE_KEY);
   const session = await verifySession(token?.value || "");
   if (!session?.payload.sub) return null;
@@ -17,12 +16,10 @@ const getSession = async (): Promise<TSession> => {
   if (!user) return null;
   // NOTE: Verify token in database
   return { user };
-};
+}
 
-const verifySession = async (token: string) => {
+export async function verifySession(token: string) {
   if (!token) return null;
   const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
   return await jwtVerify(token, secret);
-};
-
-export { getSession, verifySession };
+}
