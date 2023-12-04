@@ -1,9 +1,10 @@
 "use client";
 
+import { cleanUser } from "@/lib/utils";
 import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
 type Session = {
-  user: any | null;
+  user: ReturnType<typeof cleanUser> | null;
 };
 
 type SessionStateKind = "loading" | "authenticated" | "unauthenticated";
