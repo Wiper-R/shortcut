@@ -3,6 +3,9 @@ import prisma from "@/prisma";
 import { createLinkSchema } from "@/validators/linksValidator";
 import { NextRequest } from "next/server";
 import { errorResponse, successResponse } from "../_response";
+import { getSession } from "@/auth/session";
+
+// NOTE: Maybe use a shared unauthorized error?
 
 // FIXME: Use current user id instead of hardcoding
 
@@ -10,9 +13,14 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const data = createLinkSchema.parse(body);
 
+  const session = await getSession();
+
+  if (!session)
+    return errorResponse({ message: "Unauthorized" }, { status: 401 });
+
   try {
     var shortenLink = await prisma.shortenLink.create({
-      data: { ...data, userId: "656c7b32af61b65258fe9fd0" },
+      data: { ...data, userId: session.user.id },
     });
   } catch (e) {
     if (isUniqueValidationError(e))
@@ -29,8 +37,13 @@ export async function POST(request: NextRequest) {
 
 // GET links related to a current user
 export async function GET() {
+  const session = await getSession();
+
+  if (!session)
+    return errorResponse({ message: "Unauthorized" }, { status: 401 });
+
   const shortenLinks = await prisma.shortenLink.findMany({
-    where: { userId: "656c7b32af61b65258fe9fd0" },
+    where: { userId: session.user.id },
   });
 
   return successResponse({
