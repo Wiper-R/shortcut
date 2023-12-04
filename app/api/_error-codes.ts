@@ -6,3 +6,10 @@ export function unauthorized(message?: string) {
     { status: 401 }
   );
 }
+
+export function somethingWentWrong(message?: string) {
+  return errorResponse(
+    { message: message || "Something went wrong" },
+    { status: 500 }
+  );
+}
