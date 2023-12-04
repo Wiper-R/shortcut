@@ -9,7 +9,6 @@ import config from "@/config";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log("I am here", body);
   const data = signInSchema.parse(body);
   const _cleanEmail = cleanEmail(data.email);
   const user = await prisma.user.findFirst({
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
   const token = await new SignJWT()
     .setSubject(user.id)
     .setProtectedHeader({ alg: "HS256" })
-    .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+    .sign(new TextEncoder().encode(config.JWT_SECRET));
 
   return successResponse(
     { user: cleanUser(user) },
