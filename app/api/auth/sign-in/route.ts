@@ -5,10 +5,11 @@ import { NextRequest } from "next/server";
 import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { errorResponse, successResponse } from "@/app/api/_response";
+import config from "@/config";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log("I am here", body)
+  console.log("I am here", body);
   const data = signInSchema.parse(body);
   const _cleanEmail = cleanEmail(data.email);
   const user = await prisma.user.findFirst({
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
     { user: cleanUser(user) },
     {
       headers: {
-        "Set-Cookie": `__shortcut-token=${token}; HttpOnly;`,
+        "Set-Cookie": `${config.TOKEN_COOKIE_KEY}=${token}; HttpOnly;`,
       },
     }
   );

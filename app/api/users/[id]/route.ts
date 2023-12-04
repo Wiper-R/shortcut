@@ -4,12 +4,14 @@ import prisma from "@/prisma";
 import { cleanUser } from "@/lib/utils";
 import { errorResponse, successResponse } from "@/app/api/_response";
 import { NextRequest } from "next/server";
+import config from "@/config";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const token = cookies().get("token")?.value;
+  // TODO: Use session
+  const token = cookies().get(config.TOKEN_COOKIE_KEY)?.value;
 
   const unauthorized = errorResponse(
     { message: "Unauthorized" },
