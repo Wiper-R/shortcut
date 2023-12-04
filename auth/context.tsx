@@ -4,7 +4,7 @@ import { cleanUser } from "@/lib/utils";
 import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
 type Session = {
-  user: ReturnType<typeof cleanUser> | null;
+  user: ReturnType<typeof cleanUser>;
 };
 
 type SessionStateKind = "loading" | "authenticated" | "unauthenticated";
@@ -43,7 +43,7 @@ const sessionReducer = (
     case "login_failed":
     case "logout":
       return {
-        data: { user: null },
+        data: null,
         state: "unauthenticated",
       };
   }
