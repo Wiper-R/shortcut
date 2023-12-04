@@ -9,7 +9,6 @@ export function cleanUser(user: User) {
   return {
     id: user.id,
     email: user.email,
-    cleanEmail: user.cleanEmail,
     fullName: user.fullName,
   };
 }
