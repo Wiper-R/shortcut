@@ -6,6 +6,7 @@ import { errorResponse, successResponse } from "@/app/api/_response";
 import { NextRequest } from "next/server";
 import config from "@/config";
 import { getSession } from "@/auth/session";
+import { unauthorized } from "../../_error-codes";
 
 export async function GET(
   request: NextRequest,
@@ -15,5 +16,5 @@ export async function GET(
   if (session) {
     return successResponse({ user: session.user });
   }
-  return errorResponse({ message: "Unauthorized" }, { status: 401 });
+  return unauthorized();
 }
