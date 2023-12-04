@@ -3,6 +3,7 @@ import { jwtVerify } from "jose";
 import prisma from "@/prisma";
 import { TSession } from "./context";
 import config from "@/config";
+import { cleanUser } from "@/lib/utils";
 
 export async function getSession(): Promise<TSession> {
   const token = cookies().get(config.TOKEN_COOKIE_KEY);
@@ -13,7 +14,7 @@ export async function getSession(): Promise<TSession> {
   });
   if (!user) return null;
   // FIXME: Verify token in database
-  return { user };
+  return { user: cleanUser(user) };
 }
 
 export async function verifySession(token: string) {
