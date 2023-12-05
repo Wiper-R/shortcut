@@ -14,6 +14,6 @@ export const editLinkSchema = z.object({
 });
 
 export const listLinkSchema = z.object({
-  limit: z.number().min(1).default(10),
+  limit: z.coerce.number().min(1).default(10),
   cursor: z.string().nullable().optional(),
 });
