@@ -39,8 +39,8 @@ export const hashPassword = async (password: string) =>
 
 export function getNextPageCursor<T>(
   records: Array<T>,
+  cursor: keyof T,
   limit: number,
-  cursor: keyof T
 ) {
   if (records.length > limit) {
     return records[records.length - 1][cursor];
