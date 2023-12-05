@@ -1,6 +1,8 @@
 import { Prisma, ShortenLink, User } from "@prisma/client";
+import { customAlphabet } from "nanoid";
+import bcrypt from "bcrypt";
 
-export function cleanEmail(email: string) {
+export function normalizeEmail(email: string) {
   // TODO: Implement cleanEmail
   return email;
 }
@@ -26,3 +28,11 @@ export const isUniqueValidationError = (e: unknown) =>
 
 export const requiredRecordsNotFound = (e: unknown) =>
   e instanceof Prisma.PrismaClientKnownRequestError && e.code == "P2025";
+
+export const getRandomSlug = (length: number = 8) =>
+  customAlphabet(
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+  )(length);
+
+export const hashPassword = async (password: string) =>
+  await bcrypt.hash(password, 10);
