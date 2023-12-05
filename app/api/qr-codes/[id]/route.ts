@@ -1,9 +1,9 @@
 import { updateQrCodeSchema } from "@/validators/qrCodeValidator";
 import { NextRequest } from "next/server";
-import _errorCodes from "../_error-codes";
+import _errorCodes from "../../_error-codes";
 import { getSession } from "@/auth/session";
 import prisma from "@/prisma";
-import { successResponse } from "../_response";
+import { successResponse } from "../../_response";
 
 type Params = {
   params: { id: string };
