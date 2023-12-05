@@ -32,8 +32,8 @@ model QrCode {
     id            String      @id @default(auto()) @map("_id") @db.ObjectId
     ShortenLink   ShortenLink @relation(fields: [shortenLinkId], references: [id])
     shortenLinkId String      @unique @db.ObjectId
-    fgColor       String
-    bgColor       String
+    fgColor       String?
+    bgColor       String?
     iconUrl       String?
     createdAt     DateTime    @default(now())
 }
