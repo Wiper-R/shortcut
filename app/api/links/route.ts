@@ -40,7 +40,6 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   const searchParams = Object.fromEntries(request.nextUrl.searchParams);
   const data = listLinkSchema.parse(searchParams);
-  console.log(data);
 
   const session = await getSession();
   if (!session) return unauthorized();
@@ -56,6 +55,6 @@ export async function GET(request: NextRequest) {
     shortenLinks: shortenLinks
       .slice(0, data.limit)
       .map((sl) => cleanShortenLink(sl)),
-    nextPage: getNextPageCursor(shortenLinks, data.limit, "id"),
+    nextPage: getNextPageCursor(shortenLinks, "id", data.limit),
   });
 }
