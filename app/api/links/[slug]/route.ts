@@ -34,15 +34,12 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
   try {
-    var shortenLink = await prisma.shortenLink.delete({
+    await prisma.shortenLink.delete({
       where: { slug, userId: session.user.id },
     });
   } catch (e) {
     if (requiredRecordsNotFound(e)) return errorCodes.Unauthorized();
     return errorCodes.Unknown();
   }
-  return successResponse(
-    { shortenLink: cleanShortenLink(shortenLink) },
-    { status: 202 }
-  );
+  return successResponse(undefined, { status: 204 });
 }
