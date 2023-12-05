@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { createQrCodeSchema } from "./qrCodeValidator";
 
 // TODO: Implement schemas
 export const createLinkSchema = z.object({
@@ -6,16 +7,7 @@ export const createLinkSchema = z.object({
   destination: z.string().url(),
   slug: z.string().min(1), // TODO: Add a slug validator
   generateQrCode: z.boolean().default(false),
-  qrCode: z
-    .object({
-      // TODO: add hex validator
-      fgColor: z.string().optional(),
-      bgColor: z.string().optional(),
-
-      // TODO: Test with base64 urls
-      icon: z.string().url().nullish(),
-    })
-    .optional(),
+  qrCode: createQrCodeSchema.optional(),
 });
 
 export const editLinkSchema = z.object({
