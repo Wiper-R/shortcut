@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { successResponse } from "../../_response";
-import { editLinkSchema } from "@/validators/linksValidator";
+import { updateLinkSchema } from "@/validators/linksValidator";
 import prisma from "@/prisma";
 import { cleanShortenLink, requiredRecordsNotFound } from "@/lib/utils";
 import { getSession } from "@/auth/session";
@@ -11,7 +11,7 @@ type Params = { params: { slug: string } };
 export async function PATCH(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const body = await request.json();
-  const data = editLinkSchema.parse(body);
+  const data = updateLinkSchema.parse(body);
 
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
