@@ -13,3 +13,10 @@ export function somethingWentWrong(message?: string) {
     { status: 500 }
   );
 }
+
+export function forbidden(message?: string){
+  return errorResponse(
+    { message: message || "Forbidden" },
+    { status: 403 }
+  );
+}
