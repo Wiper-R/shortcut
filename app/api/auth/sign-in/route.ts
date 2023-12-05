@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { errorResponse, successResponse } from "@/app/api/_response";
 import config from "@/config";
+import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -31,12 +32,6 @@ export async function POST(request: NextRequest) {
     .setProtectedHeader({ alg: "HS256" })
     .sign(new TextEncoder().encode(config.JWT_SECRET));
 
-  return successResponse(
-    { user: cleanUser(user) },
-    {
-      headers: {
-        "Set-Cookie": `${config.TOKEN_COOKIE_KEY}=${token}; HttpOnly;`,
-      },
-    }
-  );
+  cookies().set(config.TOKEN_COOKIE_KEY, token, { httpOnly: true });
+  return successResponse({ user: cleanUser(user) });
 }
