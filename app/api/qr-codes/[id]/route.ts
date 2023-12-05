@@ -3,7 +3,6 @@ import { NextRequest } from "next/server";
 import _errorCodes from "../_error-codes";
 import { getSession } from "@/auth/session";
 import prisma from "@/prisma";
-import { requiredRecordsNotFound } from "@/lib/utils";
 import { successResponse } from "../_response";
 
 type Params = {
