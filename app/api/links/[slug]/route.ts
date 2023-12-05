@@ -16,14 +16,19 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
 
+  const _existing = await prisma.shortenLink.findFirst({
+    where: { slug },
+  });
+
+  if (!_existing) return errorCodes.NotFound();
+  if (_existing.userId != session.user.id) return errorCodes.Forbidden();
+
   try {
     var shortenLink = await prisma.shortenLink.update({
-      where: { slug, userId: session.user.id },
+      where: { id: _existing.id },
       data,
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return errorCodes.Unauthorized();
-
     return errorCodes.Unknown();
   }
   return successResponse({ shortenLink: cleanShortenLink(shortenLink) });
@@ -33,7 +38,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
-  
+
   const _existingLink = await prisma.shortenLink.findFirst({
     where: { slug },
   });
