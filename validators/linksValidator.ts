@@ -10,7 +10,7 @@ export const createLinkSchema = z.object({
   qrCode: createQrCodeSchema.optional(),
 });
 
-export const editLinkSchema = z.object({
+export const updateLinkSchema = z.object({
   destination: z.string().optional(),
   slug: z.string().optional(),
   title: z.string().nullable().optional(),
