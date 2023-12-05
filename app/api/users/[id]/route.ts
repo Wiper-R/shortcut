@@ -11,5 +11,5 @@ export async function GET(
   if (session) {
     return successResponse({ user: session.user });
   }
-  return errorCodes.unauthorized();
+  return errorCodes.Unauthorized();
 }

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const data = createLinkSchema.parse(body);
 
   const session = await getSession();
-  if (!session) return errorCodes.unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   try {
     var shortenLink = await prisma.shortenLink.create({
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
   const data = listLinkSchema.parse(searchParams);
 
   const session = await getSession();
-  if (!session) return errorCodes.unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   const shortenLinks = await prisma.shortenLink.findMany({
     where: { userId: session.user.id },

@@ -14,7 +14,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   const data = editLinkSchema.parse(body);
 
   const session = await getSession();
-  if (!session) return errorCodes.unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   try {
     var shortenLink = await prisma.shortenLink.update({
@@ -22,9 +22,9 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       data,
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return errorCodes.unauthorized();
+    if (requiredRecordsNotFound(e)) return errorCodes.Unauthorized();
 
-    return errorCodes.unknown();
+    return errorCodes.Unknown();
   }
   return successResponse({ shortenLink: cleanShortenLink(shortenLink) });
 }
@@ -32,14 +32,14 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 export async function DELETE(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const session = await getSession();
-  if (!session) return errorCodes.unauthorized();
+  if (!session) return errorCodes.Unauthorized();
   try {
     var shortenLink = await prisma.shortenLink.delete({
       where: { slug, userId: session.user.id },
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return errorCodes.unauthorized();
-    return errorCodes.unknown();
+    if (requiredRecordsNotFound(e)) return errorCodes.Unauthorized();
+    return errorCodes.Unknown();
   }
   return successResponse(
     { shortenLink: cleanShortenLink(shortenLink) },
