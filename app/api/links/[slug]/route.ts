@@ -33,12 +33,18 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
+  
+  const _existingLink = await prisma.shortenLink.findFirst({
+    where: { slug },
+  });
+
+  if (!_existingLink) return errorCodes.NotFound();
+  if (_existingLink.userId != session.user.id) return errorCodes.Forbidden();
   try {
     await prisma.shortenLink.delete({
-      where: { slug, userId: session.user.id },
+      where: { id: _existingLink.id },
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return errorCodes.Unauthorized();
     return errorCodes.Unknown();
   }
   return successResponse(undefined, { status: 204 });
