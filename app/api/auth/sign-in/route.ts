@@ -1,4 +1,4 @@
-import { cleanEmail, cleanUser } from "@/lib/utils";
+import { normalizeEmail, cleanUser } from "@/lib/utils";
 import prisma from "@/prisma";
 import { signInSchema } from "@/validators/authValidator";
 import { NextRequest } from "next/server";
@@ -10,9 +10,9 @@ import config from "@/config";
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const data = signInSchema.parse(body);
-  const _cleanEmail = cleanEmail(data.email);
+  const normalizedEmail = normalizeEmail(data.email);
   const user = await prisma.user.findFirst({
-    where: { cleanEmail: _cleanEmail },
+    where: { normalizedEmail },
   });
 
   const invalidResponse = errorResponse(
