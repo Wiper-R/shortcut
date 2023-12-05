@@ -8,7 +8,7 @@ import { createLinkSchema, listLinkSchema } from "@/validators/linksValidator";
 import { NextRequest } from "next/server";
 import { errorResponse, successResponse } from "../_response";
 import { getSession } from "@/auth/session";
-import { unauthorized } from "../_error-codes";
+import errorCodes from "../_error-codes";
 
 // NOTE: Maybe use a shared unauthorized error?
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const data = createLinkSchema.parse(body);
 
   const session = await getSession();
-  if (!session) return unauthorized();
+  if (!session) return errorCodes.unauthorized();
 
   try {
     var shortenLink = await prisma.shortenLink.create({
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
   const data = listLinkSchema.parse(searchParams);
 
   const session = await getSession();
-  if (!session) return unauthorized();
+  if (!session) return errorCodes.unauthorized();
 
   const shortenLinks = await prisma.shortenLink.findMany({
     where: { userId: session.user.id },

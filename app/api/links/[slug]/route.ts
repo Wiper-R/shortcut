@@ -4,7 +4,7 @@ import { editLinkSchema } from "@/validators/linksValidator";
 import prisma from "@/prisma";
 import { cleanShortenLink, requiredRecordsNotFound } from "@/lib/utils";
 import { getSession } from "@/auth/session";
-import { somethingWentWrong, unauthorized } from "../../_error-codes";
+import errorCodes from "../../_error-codes";
 
 type Params = { params: { slug: string } };
 
@@ -12,9 +12,9 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const body = await request.json();
   const data = editLinkSchema.parse(body);
-  
+
   const session = await getSession();
-  if (!session) return unauthorized();
+  if (!session) return errorCodes.unauthorized();
 
   try {
     var shortenLink = await prisma.shortenLink.update({
@@ -22,9 +22,9 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       data,
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return unauthorized();
+    if (requiredRecordsNotFound(e)) return errorCodes.unauthorized();
 
-    return somethingWentWrong();
+    return errorCodes.unknown();
   }
   return successResponse({ shortenLink: cleanShortenLink(shortenLink) });
 }
@@ -32,14 +32,14 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 export async function DELETE(request: NextRequest, { params }: Params) {
   const { slug } = params;
   const session = await getSession();
-  if (!session) return unauthorized();
+  if (!session) return errorCodes.unauthorized();
   try {
     var shortenLink = await prisma.shortenLink.delete({
       where: { slug, userId: session.user.id },
     });
   } catch (e) {
-    if (requiredRecordsNotFound(e)) return unauthorized();
-    return somethingWentWrong();
+    if (requiredRecordsNotFound(e)) return errorCodes.unauthorized();
+    return errorCodes.unknown();
   }
   return successResponse(
     { shortenLink: cleanShortenLink(shortenLink) },

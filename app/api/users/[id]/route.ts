@@ -1,7 +1,7 @@
 import { successResponse } from "@/app/api/_response";
 import { NextRequest } from "next/server";
 import { getSession } from "@/auth/session";
-import { unauthorized } from "../../_error-codes";
+import errorCodes from "../../_error-codes";
 
 export async function GET(
   request: NextRequest,
@@ -11,5 +11,5 @@ export async function GET(
   if (session) {
     return successResponse({ user: session.user });
   }
-  return unauthorized();
+  return errorCodes.unauthorized();
 }
