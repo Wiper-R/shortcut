@@ -1,5 +1,5 @@
 import errorCodes from "@/app/api/_error-codes";
-import { errorResponse, successResponse } from "@/app/api/_response";
+import { successResponse } from "@/app/api/_response";
 import { getSession } from "@/auth/session";
 import { isUniqueValidationError } from "@/lib/utils";
 import prisma from "@/prisma";
@@ -35,10 +35,3 @@ export async function POST(request: NextRequest, { params: { slug } }: Params) {
 
   return successResponse({ qrCode }, { status: 201 });
 }
-
-// export async function PATCH(
-//   request: NextRequest,
-//   { params: { slug } }: Params
-// ) {
-
-// }
