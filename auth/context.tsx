@@ -31,7 +31,7 @@ export type SessionAction =
 
 const sessionReducer = (
   _state: SessionState,
-  action: SessionAction
+  action: SessionAction,
 ): SessionState => {
   switch (action.type) {
     case "login_success":

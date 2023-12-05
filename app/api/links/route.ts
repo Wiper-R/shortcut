@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
   return successResponse(
     { shortenLink: cleanShortenLink(shortenLink) },
-    { status: 201 }
+    { status: 201 },
   );
 }
 

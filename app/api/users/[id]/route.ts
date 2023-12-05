@@ -5,7 +5,7 @@ import errorCodes from "../../_error-codes";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const session = await getSession();
   if (session) {

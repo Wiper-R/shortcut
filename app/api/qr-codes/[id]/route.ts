@@ -55,5 +55,5 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
     return _errorCodes.Unknown();
   }
 
-  return successResponse(undefined, { status: 200 })
+  return successResponse(undefined, { status: 200 });
 }

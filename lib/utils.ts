@@ -31,7 +31,7 @@ export const requiredRecordsNotFound = (e: unknown) =>
 
 export const getRandomSlug = (length: number = 8) =>
   customAlphabet(
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   )(length);
 
 export const hashPassword = async (password: string) =>

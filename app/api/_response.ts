@@ -9,14 +9,14 @@ type ResponseType =
 
 export function successResponse(
   data: unknown,
-  init?: ResponseInit
+  init?: ResponseInit,
 ): NextResponse<ResponseType> {
   return NextResponse.json(
     {
       code: "success",
       data,
     },
-    init
+    init,
   );
 }
 
@@ -28,7 +28,7 @@ export function errorResponse(
     message: string;
     details?: object;
   },
-  init?: ResponseInit
+  init?: ResponseInit,
 ): NextResponse<ResponseType> {
   return NextResponse.json(
     {
@@ -36,6 +36,6 @@ export function errorResponse(
       message,
       details, // TODO: Support error details
     },
-    init
+    init,
   );
 }

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   if (await prisma.user.findFirst({ where: { email: normalizedEmail } })) {
     return errorResponse(
       { message: "User with same email already exists" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

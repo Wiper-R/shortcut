@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
   const invalidResponse = errorResponse(
     { message: "Invalid email or password" },
-    { status: 400 }
+    { status: 400 },
   );
 
   if (!user) return invalidResponse;

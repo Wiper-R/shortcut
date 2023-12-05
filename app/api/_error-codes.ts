@@ -3,35 +3,35 @@ import { errorResponse } from "./_response";
 function Unauthorized(message?: string) {
   return errorResponse(
     { message: message || "You are not authorized" },
-    { status: 401 }
+    { status: 401 },
   );
 }
 
 function Unknown(message?: string) {
   return errorResponse(
     { message: message || "Something went wrong" },
-    { status: 500 }
+    { status: 500 },
   );
 }
 
 function Forbidden(message?: string) {
   return errorResponse(
     { message: message || "You are not allowed to modify that resource" },
-    { status: 403 }
+    { status: 403 },
   );
 }
 
 function Conflict(message?: string) {
   return errorResponse(
     { message: message || "Resource already exists" },
-    { status: 409 }
+    { status: 409 },
   );
 }
 
 function NotFound(message?: string) {
   return errorResponse(
     { message: message || "Resource does not exist" },
-    { status: 404 }
+    { status: 404 },
   );
 }
 
