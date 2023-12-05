@@ -36,3 +36,15 @@ export const getRandomSlug = (length: number = 8) =>
 
 export const hashPassword = async (password: string) =>
   await bcrypt.hash(password, 10);
+
+export function getNextPageCursor<T>(
+  records: Array<T>,
+  limit: number,
+  cursor: keyof T
+) {
+  if (records.length > limit) {
+    return records[records.length - 1][cursor];
+  }
+
+  return null;
+}
