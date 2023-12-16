@@ -6,11 +6,9 @@ import {
 import prisma from "@/prisma";
 import { createLinkSchema, listLinkSchema } from "@/validators/linksValidator";
 import { NextRequest } from "next/server";
-import { errorResponse, successResponse } from "../_response";
+import { successResponse } from "../_response";
 import { getSession } from "@/auth/session";
 import errorCodes from "../_error-codes";
-
-// NOTE: Maybe use a shared unauthorized error?
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -25,9 +23,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (e) {
     if (isUniqueValidationError(e))
-      return errorResponse({ message: "Slug is not available" });
+      return errorCodes.Conflict("Slug is not available")
 
-    return errorResponse({ message: "Something went wrong" });
+    return errorCodes.Unknown();
   }
 
   return successResponse(
