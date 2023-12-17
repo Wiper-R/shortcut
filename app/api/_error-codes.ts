@@ -36,7 +36,10 @@ function NotFound(message?: string) {
 }
 
 function BadRequest(message?: string) {
-  return errorResponse({ message: message || "Invalid body" }, { status: 400 });
+  return errorResponse(
+    { message: message || "Invalid request body" },
+    { status: 400 }
+  );
 }
 
 export default {
