@@ -31,7 +31,7 @@ export function errorResponse(
   return NextResponse.json(
     {
       code: "error",
-      message, // TODO: Support error details
+      message,
     },
     init
   );
