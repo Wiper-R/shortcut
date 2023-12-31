@@ -1,6 +1,9 @@
 import { Prisma, ShortenLink, User } from "@prisma/client";
 import { customAlphabet } from "nanoid";
 import bcrypt from "bcrypt";
+import clsx from "clsx";
+import { ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function normalizeEmail(email: string) {
   // TODO: Implement cleanEmail
@@ -31,7 +34,7 @@ export const requiredRecordsNotFound = (e: unknown) =>
 
 export const getRandomSlug = (length: number = 8) =>
   customAlphabet(
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
   )(length);
 
 export const hashPassword = async (password: string) =>
@@ -40,11 +43,15 @@ export const hashPassword = async (password: string) =>
 export function getNextPageCursor<T>(
   records: Array<T>,
   cursor: keyof T,
-  limit: number,
+  limit: number
 ) {
   if (records.length > limit) {
     return records[records.length - 1][cursor];
   }
 
   return null;
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
