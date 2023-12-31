@@ -21,8 +21,8 @@ function NavLink({ label, href }: NavLinkProps) {
 
 function Navbar() {
   return (
-    <MaxWidthWrapper className="mt-10 sticky">
-      <header className="flex py-5 px-8 shadow-md rounded-xl items-center justify-center border">
+    <MaxWidthWrapper className="mt-10">
+      <header className="flex py-5 px-8 shadow-md rounded-xl items-center justify-center border bg-white/80 backdrop-blur-md">
         <Image src={Shortcut.src} width={24} height={24} alt="Shortcut Logo" />
         <nav className="flex gap-10 ml-auto items-center">
           <NavLink label="Home" href="/" />
