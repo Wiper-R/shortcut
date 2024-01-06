@@ -1,6 +1,6 @@
 import { Prisma, ShortenLink, User } from "@prisma/client";
 import { customAlphabet } from "nanoid";
-import bcrypt from "bcrypt";
+
 import clsx from "clsx";
 import { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -37,8 +37,6 @@ export const getRandomSlug = (length: number = 8) =>
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
   )(length);
 
-export const hashPassword = async (password: string) =>
-  await bcrypt.hash(password, 10);
 
 export function getNextPageCursor<T>(
   records: Array<T>,

@@ -1,4 +1,5 @@
-import { getRandomSlug, hashPassword, normalizeEmail } from "@/lib/utils";
+import { getRandomSlug, normalizeEmail } from "@/lib/utils";
+import { hashPassword } from "@/lib/hash-password";
 import { PrismaClient, User } from "@prisma/client";
 import axios, { AxiosResponse } from "axios";
 import { customAlphabet } from "nanoid";
