@@ -1,8 +1,8 @@
-import { normalizeEmail, cleanUser, hashPassword } from "@/lib/utils";
+import { normalizeEmail, cleanUser } from "@/lib/utils";
+import { hashPassword } from "@/lib/hash-password";
 import prisma from "@/prisma";
 import { signUpSchema } from "@/validators/authValidator";
 import { NextRequest } from "next/server";
-import bcrypt from "bcrypt";
 import { errorResponse, successResponse } from "@/app/api/_response";
 
 export async function POST(request: NextRequest) {
