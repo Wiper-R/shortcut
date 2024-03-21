@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 import Navbar from "@/components/Navbar";
 import { cn } from "@/lib/utils";
+import { SessionProvider } from "@/auth/context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={cn(inter.className, "overflow-x-hidden")}>
-        <Navbar />
-        {children}
+    <html lang="en" className="h-full">
+      <body className={cn(inter.className)}>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

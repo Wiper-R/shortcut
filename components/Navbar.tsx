@@ -1,26 +1,27 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
-import React, { useId, useState } from "react";
+import React, { useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import Image from "next/image";
 import { MenuIcon, XIcon } from "lucide-react";
 
-import Shortcut from "@/public/shortcut.png";
-import Button from "./ui/Button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Logo } from "./Logo";
+import { Card } from "./ui/card";
 
-type NavLinkProps = {
-  label: string;
-  href: string;
-};
 
-function NavLink({ label, href }: NavLinkProps) {
+function NavItems({ setNavToggle }: { setNavToggle: (v: boolean) => void }) {
   return (
-    <Link href={href} className="text-sm font-semibold">
-      {label}
-    </Link>
+    <>
+      <Link href="/docs" className={buttonVariants({ variant: "link" })}>
+        Docs
+      </Link>
+      <Link href="/github" className={buttonVariants({ variant: "link" })}>
+        Github
+      </Link>
+      <Link href="/sign-in" className={buttonVariants({})} onClick={() => setNavToggle(false)}>Login</Link>
+    </>
   );
 }
 
@@ -33,31 +34,24 @@ function Navbar() {
   };
 
   return (
-    <MaxWidthWrapper className="mt-4">
+    <MaxWidthWrapper className={cn("mt-4 w-full", )}>
       <header className="relative">
         <div
           className={cn(
-            "flex items-center justify-between rounded-lg bg-white p-4 shadow-md",
+            "flex items-center justify-between rounded-lg bg-white p-4 shadow-sm",
             navToggle && "rounded-b-none",
           )}
         >
-          <Image
-            src={Shortcut.src}
-            width={32}
-            height={32}
-            alt="Shortcut Logo"
-            className="w-6"
-          />
+          <Link href="/">
+            <Logo />
+          </Link>
           {/* Medium Above screen navbar */}
           <nav
             className={cn(
-              "flex items-center gap-10 rounded-b-lg max-md:hidden",
+              "flex items-center gap-6 rounded-b-lg max-md:hidden",
             )}
           >
-            <NavLink label="Home" href="/" />
-            <NavLink label="Docs" href="/docs" />
-            <NavLink label="Github" href="/github" />
-            <Button>Login</Button>
+            <NavItems setNavToggle={setNavToggle}/>
           </nav>
           <Button
             onClick={() => setNavToggle((p) => !p)}
@@ -73,15 +67,12 @@ function Navbar() {
         {/* FIXME: Nav links should take full width*/}
         <nav
           className={cn(
-            "absolute flex w-full flex-col items-center gap-10 rounded-b-lg bg-white p-4 shadow-md md:hidden",
+            "absolute z-10 flex w-full flex-col items-center gap-10 rounded-b-lg bg-white p-4 shadow-sm md:hidden",
             !navToggle && "hidden",
             navToggle && "animate-in-from-top",
           )}
         >
-          <NavLink label="Home" href="/" />
-          <NavLink label="Docs" href="/docs" />
-          <NavLink label="Github" href="/github" />
-          <Button>Login</Button>
+          <NavItems setNavToggle={setNavToggle}/>
         </nav>
       </header>
     </MaxWidthWrapper>

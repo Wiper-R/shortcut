@@ -56,11 +56,12 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     async function populateUser() {
-      const res = await fetch("/api/user/@me");
+      const res = await fetch("/api/users/@me");
 
       // FIXME: Fix this any type
       // TODO: Use axios
       const data = await res.json();
+      console.log(data)
       if (data.code == "success") {
         dispatch({ type: "login_success", payload: data });
       } else {

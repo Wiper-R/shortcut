@@ -1,45 +1,29 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import * as React from "react"
+import * as SwitchPrimitives from "@radix-ui/react-switch"
 
-type SwitchProps = {
-  id?: string;
-  checked?: boolean;
-  defaultChecked?: boolean;
-  value?: string;
-  onChange?: (v: boolean) => void;
-  onBlur?: (...e: any) => void;
-};
+import { cn } from "@/lib/utils"
 
-const Switch = ({
-  value = "on",
-  checked: _p_checked,
-  defaultChecked,
-  onChange = (v: boolean) => {},
-  ...props
-}: SwitchProps) => {
-  const [checked = _p_checked || false, setChecked] = useState(defaultChecked);
-  const prevState = useRef(defaultChecked);
-
-  useEffect(() => {
-    if (checked != prevState.current) {
-      onChange(checked);
-    }
-  }, [_p_checked, defaultChecked, onChange, checked]);
-  return (
-    <button
-      value={value}
-      onClick={() => setChecked((v) => !v)}
-      aria-checked={checked}
-      {...props}
-      type="button"
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root
+    className={cn(
+      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      className
+    )}
+    {...props}
+    ref={ref}
+  >
+    <SwitchPrimitives.Thumb
       className={cn(
-        "flex items-center justify-center after:rounded-full w-10 h-6 rounded-full bg-gray-500  after:content-[''] after:absolute after:w-4 after:h-4 after:bg-white relative after:-translate-x-2 after:transition-transform",
-        { "after:translate-x-2 bg-black": checked }
+        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
       )}
     />
-  );
-};
+  </SwitchPrimitives.Root>
+))
+Switch.displayName = SwitchPrimitives.Root.displayName
 
-export { Switch };
+export { Switch }

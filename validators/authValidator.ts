@@ -1,5 +1,4 @@
 import { z } from "zod";
-import bcrypt from "bcrypt";
 
 // TODO: Add a password check
 
@@ -13,5 +12,8 @@ const signInSchema = z.object({
   email: z.string().email(),
   password: z.string(),
 });
+
+export type signInSchema = z.infer<typeof signInSchema>;
+export type signUpSchema = z.infer<typeof signUpSchema>;
 
 export { signUpSchema, signInSchema };
