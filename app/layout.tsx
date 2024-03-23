@@ -4,6 +4,7 @@ import "./globals.scss";
 import Navbar from "@/components/Navbar";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "@/auth/context";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <SessionProvider>
           {children}
         </SessionProvider>
+        <Toaster />
       </body>
     </html>
   );

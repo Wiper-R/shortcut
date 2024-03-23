@@ -6,14 +6,13 @@ import bcrypt from "bcrypt";
 import { SignJWT } from "jose";
 import { errorResponse, successResponse } from "@/app/api/_response";
 import config from "@/config";
-import { cookies } from "next/headers";
+import { setTokenCookie } from "@/lib/server-utils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const data = signInSchema.parse(body);
-  const normalizedEmail = normalizeEmail(data.email);
   const user = await prisma.user.findFirst({
-    where: { normalizedEmail },
+    where: { email: data.email },
   });
 
   const invalidResponse = errorResponse(
@@ -27,11 +26,6 @@ export async function POST(request: NextRequest) {
 
   if (!passwordMatch) return invalidResponse;
 
-  const token = await new SignJWT()
-    .setSubject(user.id)
-    .setProtectedHeader({ alg: "HS256" })
-    .sign(new TextEncoder().encode(config.JWT_SECRET));
-
-  cookies().set(config.TOKEN_COOKIE_KEY, token, { httpOnly: true });
+  await setTokenCookie(user.id);
   return successResponse({ user: cleanUser(user) });
 }

@@ -1,22 +1,22 @@
 import { NextResponse } from "next/server";
 
-type ResponseType =
+export type ResponseType<T = unknown> =
   | {
       code: "success";
-      data: unknown;
+      data: T;
     }
   | { code: "error"; message: string };
 
-export function successResponse(
-  data: unknown,
-  init?: ResponseInit
-): NextResponse<ResponseType> {
+export function successResponse<T>(
+  data: T,
+  init?: ResponseInit,
+): NextResponse<ResponseType<T>> {
   return NextResponse.json(
     {
       code: "success",
       data,
     },
-    init
+    init,
   );
 }
 
@@ -26,13 +26,13 @@ export function errorResponse(
   }: {
     message: string;
   },
-  init?: ResponseInit
+  init?: ResponseInit,
 ): NextResponse<ResponseType> {
   return NextResponse.json(
     {
       code: "error",
       message,
     },
-    init
+    init,
   );
 }

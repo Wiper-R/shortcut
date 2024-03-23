@@ -1,14 +1,13 @@
 import {
-  cleanShortenLink,
-  getNextPageCursor,
   isUniqueValidationError,
-} from "@/lib/utils";
+} from "@/lib/db-errors";
 import prisma from "@/prisma";
 import { createLinkSchema, listLinkSchema } from "@/validators/linksValidator";
 import { NextRequest } from "next/server";
 import { successResponse } from "../_response";
 import { getSession } from "@/auth/session";
 import errorCodes from "../_error-codes";
+import { getNextPageCursor } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -29,7 +28,7 @@ export async function POST(request: NextRequest) {
   }
 
   return successResponse(
-    { shortenLink: cleanShortenLink(shortenLink) },
+    { shortenLink},
     { status: 201 },
   );
 }
@@ -51,8 +50,9 @@ export async function GET(request: NextRequest) {
 
   return successResponse({
     shortenLinks: shortenLinks
-      .slice(0, data.limit)
-      .map((sl) => cleanShortenLink(sl)),
+      .slice(0, data.limit),
     nextPage: getNextPageCursor(shortenLinks, "id", data.limit),
   });
 }
+
+

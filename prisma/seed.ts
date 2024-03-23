@@ -1,4 +1,4 @@
-import { getRandomSlug, normalizeEmail } from "@/lib/utils";
+import { getRandomSlug } from "@/lib/utils";
 import { hashPassword } from "@/lib/hash-password";
 import { PrismaClient, User } from "@prisma/client";
 import axios, { AxiosResponse } from "axios";
@@ -128,15 +128,13 @@ const prisma = new PrismaClient();
 
 async function populateUser() {
   const email = "rshivang12345@gmail.com";
-  const normalizedEmail = normalizeEmail(email);
   const password = await hashPassword("password");
   return await prisma.user.upsert({
-    where: { normalizedEmail },
+    where: { email },
     create: {
       email,
-      normalizedEmail,
       password,
-      fullName: "Shivang Rathore",
+      name: "Shivang Rathore",
     },
     update: {},
   });

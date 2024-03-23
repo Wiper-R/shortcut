@@ -1,7 +1,7 @@
 import errorCodes from "@/app/api/_error-codes";
 import { successResponse } from "@/app/api/_response";
 import { getSession } from "@/auth/session";
-import { isUniqueValidationError } from "@/lib/utils";
+import { isUniqueValidationError } from "@/lib/db-errors";
 import prisma from "@/prisma";
 import { createQrCodeSchema } from "@/validators/qrCodeValidator";
 import { NextRequest } from "next/server";

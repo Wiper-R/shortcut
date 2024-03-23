@@ -3,7 +3,7 @@ import { z } from "zod";
 // TODO: Add a password check
 
 const signUpSchema = z.object({
-  fullName: z.string().min(1),
+  name: z.string().min(1),
   email: z.string().email(),
   password: z.string(),
 });

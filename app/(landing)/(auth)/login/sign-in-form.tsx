@@ -8,20 +8,32 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema } from "@/validators/authValidator";
+import { cleanUser } from "@/lib/utils";
+import { fetchApi } from "@/lib/api-helpers";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
+type SignInApiResponse = {
+    user: ReturnType<typeof cleanUser>;
+}
 
 
 export function SignInForm() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
     const useFormReturn = useForm<signInSchema>({ resolver: zodResolver(signInSchema) });
+    const { toast } = useToast();
 
     async function OnValid(data: signInSchema) {
-        let req = await fetch("/api/auth/sign-in", {
-            method: "POST",
-            body: JSON.stringify(data)
-        })
-
-        let d = await req.json()
-        console.log(d)
+        let d = await fetchApi<SignInApiResponse>("/api/auth/sign-in", { method: "POST", body: JSON.stringify(data) })
+        if (d.code == "success") {
+            toast({
+                title: "Login Successful",
+                description: "You will be redirected to dashboard",
+            })
+            let cbp = searchParams.get("cbp") || "/dashboard"
+            router.push(cbp)
+        }
     }
 
     function OnInvalid() {
@@ -31,7 +43,7 @@ export function SignInForm() {
     return <form onSubmit={useFormReturn.handleSubmit(OnValid, OnInvalid)}>
         <Card className="p-6">
             <Form {...useFormReturn}>
-                <h3 className="text-xl font-medium">Sign-In</h3>
+                <h3 className="text-xl font-medium">Login</h3>
                 <div className="space-y-4 mt-6">
                     <FormField defaultValue="" name="email" render={({ field }) => <FormItem>
                         <FormLabel>Email</FormLabel>

@@ -20,7 +20,7 @@ function NavItems({ setNavToggle }: { setNavToggle: (v: boolean) => void }) {
       <Link href="/github" className={buttonVariants({ variant: "link" })}>
         Github
       </Link>
-      <Link href="/sign-in" className={buttonVariants({})} onClick={() => setNavToggle(false)}>Login</Link>
+      <Link href="/login" className={buttonVariants({})} onClick={() => setNavToggle(false)}>Login</Link>
     </>
   );
 }
