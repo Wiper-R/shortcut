@@ -23,7 +23,7 @@ export async function POST(request: NextRequest, { params: { slug } }: Params) {
       },
     });
   } catch (e) {
-    return _errorCodes.Unknown();
+    throw e;
   }
 
   return successResponse({ engagement }, { status: 201 });

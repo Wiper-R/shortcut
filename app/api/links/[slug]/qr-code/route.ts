@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, { params: { slug } }: Params) {
   } catch (e) {
     if (isUniqueValidationError(e)) return errorCodes.Conflict();
 
-    return errorCodes.Unknown();
+    throw e;
   }
 
   return successResponse({ qrCode }, { status: 201 });

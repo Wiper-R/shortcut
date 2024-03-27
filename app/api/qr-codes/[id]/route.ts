@@ -34,7 +34,7 @@ export async function PATCH(request: NextRequest, { params: { id } }: Params) {
       data,
     });
   } catch (e) {
-    return _errorCodes.Unknown();
+    throw e;
   }
 
   return successResponse({ qrCode }, { status: 200 });
@@ -52,7 +52,7 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   try {
     await prisma.qrCode.delete({ where: { id } });
   } catch (e) {
-    return _errorCodes.Unknown();
+    throw e;
   }
 
   return successResponse(undefined, { status: 200 });

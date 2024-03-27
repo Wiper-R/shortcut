@@ -3,9 +3,9 @@ import { createQrCodeSchema } from "./qrCodeValidator";
 
 // TODO: Implement schemas
 const createLinkSchema = z.object({
-  title: z.string(),
+  title: z.string().optional(),
   destination: z.string().url(),
-  slug: z.string().min(1), // TODO: Add a slug validator
+  slug: z.string().optional(), // TODO: Add a slug validator
   generateQrCode: z.boolean().default(false),
   qrCode: createQrCodeSchema.optional(),
 });
@@ -20,5 +20,7 @@ const listLinkSchema = z.object({
   limit: z.coerce.number().min(1).default(10),
   cursor: z.string().nullable().optional(),
 });
+
+export type createLinkSchema = z.infer<typeof createLinkSchema>;
 
 export { createLinkSchema, updateLinkSchema, listLinkSchema };

@@ -10,10 +10,10 @@ export default function LandingLayout({ children }: PropsWithChildren) {
     const { session } = useSession();
     const router = useRouter();
 
-    return <>
+    return <div className="h-screen overflow-auto">
         <Navbar />
         <MaxWidthWrapper className="min-h-[calc(100svh-92px)] flex items-center justify-center">
             {children}
         </MaxWidthWrapper>
-    </>
+    </div>
 }

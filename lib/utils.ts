@@ -23,7 +23,7 @@ export function cleanUser(user: User) {
   };
 }
 
-export const getRandomSlug = (length: number = 8) =>
+export const generateRandomSlug = (length: number = 8) =>
   customAlphabet(
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   )(length);

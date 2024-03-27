@@ -29,7 +29,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       data,
     });
   } catch (e) {
-    return errorCodes.Unknown();
+    throw e;
   }
   return successResponse({ shortenLink });
 }
@@ -50,7 +50,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       where: { id: _existingLink.id },
     });
   } catch (e) {
-    return errorCodes.Unknown();
+    throw e;
   }
   return successResponse(undefined, { status: 200 });
 }

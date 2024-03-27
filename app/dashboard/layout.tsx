@@ -1,22 +1,28 @@
-import { UserIcon } from "lucide-react";
+import { Logo } from "@/components/Logo";
+import Link from "next/link";
 import { PropsWithChildren } from "react";
+import { Sidebar } from "@/components/sidebar";
+import { UserIcon } from "lucide-react";
 
 export default function DashboardLayout({ children }: PropsWithChildren) {
-    return <div className="flex h-screen flex-col">
-        <div className="w-full flex bg-blue-400 p-3">
-            <div className="p-2 ml-auto rounded-full bg-gray-300">
-                <UserIcon />
+    return (
+        <div className="flex flex-col h-screen">
+            <div className="flex items-center justify-between bg-slate-50 p-4 shadow-sm z-10">
+                <Link href="/"><Logo /></Link>
+                <div className="p-2 ml-auto rounded-full bg-gray-300">
+                    <UserIcon />
+                </div>
+            </div>
+            <div className="flex flex-grow overflow-hidden">
+                {/* Sidebar */}
+                <Sidebar />
+                {/* Main Content */}
+                <div className="flex-grow overflow-auto">
+                    <div className="w-full p-8 max-w-4xl mx-auto">
+                        {children}
+                    </div>
+                </div>
             </div>
         </div>
-        <div className="flex w-full h-full">
-            {/* Sidebar */}
-            <div className="w-[240px] h-full bg-red-200">
-                
-            </div>
-            {/* Main Content */}
-            <div className="flex-grow bg-orange-400">
-
-            </div>
-        </div>
-    </div>
+    );
 }

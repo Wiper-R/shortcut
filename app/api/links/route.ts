@@ -1,36 +1,43 @@
-import {
-  isUniqueValidationError,
-} from "@/lib/db-errors";
+import { isUniqueValidationError } from "@/lib/db-errors";
 import prisma from "@/prisma";
 import { createLinkSchema, listLinkSchema } from "@/validators/linksValidator";
 import { NextRequest } from "next/server";
 import { successResponse } from "../_response";
 import { getSession } from "@/auth/session";
 import errorCodes from "../_error-codes";
-import { getNextPageCursor } from "@/lib/utils";
+import { generateRandomSlug, getNextPageCursor } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const data = createLinkSchema.parse(body);
+
+  const slug = data.slug || generateRandomSlug();
+
+  if (await prisma.shortenLink.findFirst({ where: { slug } })) {
+    return errorCodes.BadRequest("This back half is not available.");
+  }
 
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
 
   try {
     var shortenLink = await prisma.shortenLink.create({
-      data: { ...data, userId: session.user.id },
+      data: {
+        slug,
+        destination: data.destination,
+        userId: session.user.id,
+        title: data.title,
+        QrCode: data.generateQrCode ? { create: data.qrCode } : undefined,
+      },
     });
   } catch (e) {
     if (isUniqueValidationError(e))
-      return errorCodes.Conflict("Slug is not available")
+      return errorCodes.Conflict("Slug is not available");
 
-    return errorCodes.Unknown();
+    throw e;
   }
 
-  return successResponse(
-    { shortenLink},
-    { status: 201 },
-  );
+  return successResponse({ shortenLink }, { status: 201 });
 }
 
 // GET links related to a current user
@@ -49,10 +56,7 @@ export async function GET(request: NextRequest) {
   });
 
   return successResponse({
-    shortenLinks: shortenLinks
-      .slice(0, data.limit),
+    shortenLinks: shortenLinks.slice(0, data.limit),
     nextPage: getNextPageCursor(shortenLinks, "id", data.limit),
   });
 }
-
-

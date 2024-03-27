@@ -1,4 +1,4 @@
-import { getRandomSlug } from "@/lib/utils";
+import { generateRandomSlug } from "@/lib/utils";
 import { hashPassword } from "@/lib/hash-password";
 import { PrismaClient, User } from "@prisma/client";
 import axios, { AxiosResponse } from "axios";
@@ -144,7 +144,7 @@ async function populateLinks(user: User) {
   const data = [];
   for (const dest of links) {
     const title = await getTitleFromURL(dest);
-    const slug = getRandomSlug();
+    const slug = generateRandomSlug();
     data.push({
       destination: dest,
       slug,
