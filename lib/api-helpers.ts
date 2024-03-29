@@ -4,10 +4,11 @@ import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
 async function fetchApi<T = unknown>(
-  uri: string,
+  uri: NodeJS.fetch.RequestInfo,
   options: RequestInit,
 ): Promise<ResponseType<T>> {
   let res = await fetch(uri, options);
+
   if (res.ok) {
     return await res.json();
   }

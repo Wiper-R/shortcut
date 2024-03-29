@@ -18,7 +18,8 @@ const updateLinkSchema = z.object({
 
 const listLinkSchema = z.object({
   limit: z.coerce.number().min(1).default(10),
-  cursor: z.string().nullable().optional(),
+  cursor: z.string().optional(),
+  search: z.string().optional()
 });
 
 export type createLinkSchema = z.infer<typeof createLinkSchema>;

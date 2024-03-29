@@ -1,5 +1,5 @@
+import { QRCodeContainer } from "./qrcode-container";
+
 export default function Page(){
-    return <div className="text-center">
-    Coming Soon...
-</div>
+    return <QRCodeContainer/>
 }

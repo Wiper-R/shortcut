@@ -6,6 +6,7 @@ import { successResponse } from "../_response";
 import { getSession } from "@/auth/session";
 import errorCodes from "../_error-codes";
 import { generateRandomSlug, getNextPageCursor } from "@/lib/utils";
+import { Prisma } from "@prisma/client";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -48,8 +49,38 @@ export async function GET(request: NextRequest) {
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
 
+  let search = data.search;
+  const getSearchFilter = (): Prisma.ShortenLinkWhereInput => {
+    if (search) {
+      return {
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            slug: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+
+          {
+            destination: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      };
+    }
+    return {};
+  };
+
   const shortenLinks = await prisma.shortenLink.findMany({
-    where: { userId: session.user.id },
+    where: { userId: session.user.id, ...getSearchFilter() },
     cursor: data.cursor ? { id: data.cursor } : undefined,
     orderBy: { createdAt: "desc" },
     take: data.limit + 1,

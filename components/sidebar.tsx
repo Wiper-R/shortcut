@@ -21,7 +21,7 @@ const SidebarItem = (props: SidebarItemProp) => {
 
 export function Sidebar() {
     return <div className="w-[240px] h-full bg-slate-50 shadow-sm z-10 flex flex-col gap-1 overflow-auto flex-shrink-0 sticky top-0">
-        <SidebarItem label="Create New" href="/create-new" Icon={PlusIcon} />
+        <SidebarItem label="Create New" href="/create-new" Icon={PlusIcon}  />
         <SidebarItem label="Overview" href="/overview" Icon={GanttChartIcon} />
         <SidebarItem label="Links" href="/links" Icon={LinkIcon} />
         <SidebarItem label="QR Codes" href="/qr-codes" Icon={QrCodeIcon} />
