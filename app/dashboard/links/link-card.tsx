@@ -1,15 +1,24 @@
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
-import ShortcutLogo from "@/assets/shortcut-logo.svg"
-import {BarChart3Icon, CalendarIcon, MenuIcon} from "lucide-react"
+import { BarChart3Icon, CalendarIcon, CopyIcon, EditIcon, MenuIcon } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { ShortenLink } from "@prisma/client";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+    DropdownMenuItem
+} from "@/components/ui/dropdown-menu"
+import { LinkEditDialog } from "./link-edit-dialog";
+import { useState } from "react";
 
-export function LinkCard({shortenLink}: {shortenLink: ShortenLink}) {
+export function LinkCard({ shortenLink }: { shortenLink: ShortenLink }) {
+    const [isEditing, setIsEditing] = useState(false);
     return <Card className="flex py-4 px-6">
+        <LinkEditDialog open={isEditing} setIsOpen={setIsEditing} />
         {/* Icon Div */}
         <div className="flex items-center justify-center p-1 rounded-full bg-white border self-start flex-shrink-0">
-            <img src={'https://api.faviconkit.com/stackoverflow.in/256'} className="w-8"/>
+            <img src={'https://api.faviconkit.com/stackoverflow.in/256'} className="w-8" />
         </div>
         {/* Link Info Div */}
         <div className="flex-grow flex flex-col ml-4">
@@ -17,30 +26,42 @@ export function LinkCard({shortenLink}: {shortenLink: ShortenLink}) {
                 {shortenLink.title || `Untitled ${new Date(shortenLink.createdAt).toLocaleString()}`}
             </Link>
             <Link href="">
-            {shortenLink.destination}
+                {shortenLink.destination}
             </Link>
             <Link href="" className="text-sky-600 font-medium hover:underline min-w-fit">
                 http://shortcut.com/l/{shortenLink.slug}
             </Link>
             <div className="flex space-x-4 mt-4 text-sm">
                 <div className="flex space-x-1 items-end">
-                    <BarChart3Icon className="w-4"/>
+                    <BarChart3Icon className="w-4" />
                     <span className="">
-                    4 clicks
+                        4 clicks
                     </span>
                 </div>
                 <div className="flex space-x-1 items-end">
-                    <CalendarIcon className="w-4"/>
+                    <CalendarIcon className="w-4" />
                     <span className="">
-                    {/* 26 Mar, 2024 */}
-                {new Date(shortenLink.createdAt).toDateString()}
+                        {/* 26 Mar, 2024 */}
+                        {new Date(shortenLink.createdAt).toDateString()}
                     </span>
                 </div>
             </div>
         </div>
         {/* Button Div */}
-        <div>
-            <Button variant="outline" size="icon"><MenuIcon className="w-5"/></Button>
-        </div>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon"><MenuIcon className="w-5" /></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setIsEditing(true)}>
+                    <EditIcon className="mr-2 h-4 w-4" />
+                    <span>Edit</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <CopyIcon className="mr-2 h-4 w-4" />
+                    <span>Copy</span>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     </Card>
 }
