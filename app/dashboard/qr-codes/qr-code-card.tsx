@@ -29,9 +29,8 @@ export function QRCodeCard() {
   const { data } = useDataProvider<QRCodeWithShortenLink>();
 
   useEffect(() => {
-    if (divRef.current)
-      ref.current = divRef.current.children[0] as HTMLCanvasElement;
-  }, [divRef.current]);
+    ref.current = divRef.current?.children[0] as HTMLCanvasElement;
+  }, []);
 
   const copyToClipboard = useCallback(function () {
     if (!ref.current)
@@ -45,7 +44,7 @@ export function QRCodeCard() {
         .then(() => toast({ description: "Copied QR-Code to clipboard" }))
         .catch((e) => console.error("Failed to copy QR-code to clipboard", e));
     });
-  }, []);
+  }, [toast]);
 
   return (
     <Card className="flex px-6 py-4">

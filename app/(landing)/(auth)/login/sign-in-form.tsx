@@ -59,7 +59,7 @@ export function SignInForm() {
                 <Button className="w-full mt-8">
                     Login
                 </Button>
-                <p className="text-sm">Don't have an account? <Link href="/signup" className={buttonVariants({ variant: "link", className: "px-1" })}>create one</Link></p>
+                <p className="text-sm">{"Don't have an account?"} <Link href="/signup" className={buttonVariants({ variant: "link", className: "px-1" })}>create one</Link></p>
             </Form>
         </Card>
     </form>

@@ -42,7 +42,7 @@ function BadRequest(message?: string) {
   );
 }
 
-export default {
+const errorCodes = {
   Unauthorized,
   Unknown,
   Forbidden,
@@ -51,5 +51,7 @@ export default {
   BadRequest,
   // TODO: Add more error
 };
+
+export default errorCodes;
 
 // TODO: Add error format for zod validation errors i.e. bad request

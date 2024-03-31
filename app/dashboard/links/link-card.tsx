@@ -18,6 +18,7 @@ import {
 import { LinkEditDialog } from "./link-edit-dialog";
 import { useState } from "react";
 import { useDataProvider } from "@/contexts/data-provider";
+import Image from "next/image";
 
 export function LinkCard() {
   const { data } = useDataProvider<ShortenLink>();
@@ -27,9 +28,12 @@ export function LinkCard() {
       <LinkEditDialog open={isEditing} setIsOpen={setIsEditing} />
       {/* Icon Div */}
       <div className="flex flex-shrink-0 items-center justify-center self-start rounded-full border bg-white p-1">
-        <img
+        <Image
           src={"https://api.faviconkit.com/stackoverflow.com/256"}
           className="w-8"
+          width={32}
+          height={32}
+          alt="Favicon"
         />
       </div>
       {/* Link Info Div */}
