@@ -43,7 +43,7 @@ export function LinkCard() {
         </Link>
         <Link href="">{data.destination}</Link>
         <Link
-          href=""
+          href={window.location.origin + `/l/${data.slug}`}
           className="min-w-fit font-medium text-sky-600 hover:underline"
         >
           {window.location.origin + `/l/${data.slug}`}

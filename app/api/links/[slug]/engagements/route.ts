@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params: { slug } }: Params) {
     var engagement = await prisma.engagement.create({
       data: {
         shortenLinkId: shortenLink.id,
-        type: EngagementType.visit,
+        type: EngagementType.link,
         ...data,
       },
     });

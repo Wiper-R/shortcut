@@ -39,8 +39,8 @@ model QrCode {
 }
 
 enum EngagementType {
-    visit
-    scan
+    link
+    qr
 }
 
 model Engagement {
