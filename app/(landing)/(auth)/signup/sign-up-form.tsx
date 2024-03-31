@@ -17,7 +17,7 @@ type SignUpApiResponse = {
 }
 
 
-export function SignUpFoxrm() {
+export function SignUpForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const useFormReturn = useForm<signUpSchema>({ resolver: zodResolver(signUpSchema) });

@@ -1,5 +1,5 @@
 import config from "@/config";
-import { User } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
 import { SignJWT } from "jose";
 import { customAlphabet } from "nanoid";
@@ -40,4 +40,35 @@ export function getNextPageCursor<T>(
   return null;
 }
 
+
+export function getShortenLinksSearchFilter(
+  search: string | undefined,
+): Prisma.ShortenLinkWhereInput {
+  if (search) {
+    return {
+      OR: [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          slug: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+
+        {
+          destination: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ],
+    };
+  }
+  return {};
+}
 

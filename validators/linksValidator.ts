@@ -23,5 +23,6 @@ const listLinkSchema = z.object({
 });
 
 export type createLinkSchema = z.infer<typeof createLinkSchema>;
+export type updateLinkSchema = z.infer<typeof updateLinkSchema>;
 
 export { createLinkSchema, updateLinkSchema, listLinkSchema };

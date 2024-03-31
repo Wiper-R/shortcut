@@ -16,13 +16,15 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { QRCodeCanvas } from "qrcode.react";
-import { Switch } from "@/components/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createLinkSchema } from "@/validators/linksValidator";
+import { updateLinkSchema } from "@/validators/linksValidator";
 import { PencilIcon } from "lucide-react";
+import { fetchApi } from "@/lib/api-helpers";
+// import { useShortenLinkData } from "./link-data-context";
+import { toast } from "@/components/ui/use-toast";
+import { useDataProvider } from "@/contexts/data-provider";
+import { ShortenLink } from "@prisma/client";
 
 export function LinkEditDialog({
   open,
@@ -31,9 +33,25 @@ export function LinkEditDialog({
   open: boolean;
   setIsOpen: (v: boolean) => void;
 }) {
-  const form = useForm<createLinkSchema>({
-    resolver: zodResolver(createLinkSchema),
+  const form = useForm<updateLinkSchema>({
+    resolver: zodResolver(updateLinkSchema),
   });
+
+  const { data, setData } = useDataProvider<ShortenLink>();
+
+  async function onValid(updateData: updateLinkSchema) {
+    // TODO: Add link-context and qr-code context
+    const res = await fetchApi(`/api/links/${data.slug}`, {
+      method: "PATCH",
+      body: JSON.stringify(updateData),
+    });
+
+    if (res.code == "success") {
+      toast({ description: "Link has been edited" });
+      setData({ ...data, ...(res.data as any).shortenLink });
+      setIsOpen(false);
+    }
+  }
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogContent>
@@ -50,7 +68,7 @@ export function LinkEditDialog({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(() => {})}>
+          <form className="space-y-4" onSubmit={form.handleSubmit(onValid)}>
             <Form {...form}>
               <FormField
                 control={form.control}
@@ -59,7 +77,13 @@ export function LinkEditDialog({
                   return (
                     <FormItem>
                       <FormLabel>Title</FormLabel>
-                      <Input {...field} type="text" />
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="text"
+                          value={field.value || ""}
+                        />
+                      </FormControl>
                     </FormItem>
                   );
                 }}
@@ -71,7 +95,9 @@ export function LinkEditDialog({
                   return (
                     <FormItem>
                       <FormLabel>Destination</FormLabel>
-                      <Input type="text" {...field} />
+                      <FormControl>
+                        <Input type="text" {...field} />
+                      </FormControl>
                     </FormItem>
                   );
                 }}

@@ -5,8 +5,7 @@ import { NextRequest } from "next/server";
 import { successResponse } from "../_response";
 import { getSession } from "@/auth/session";
 import errorCodes from "../_error-codes";
-import { generateRandomSlug, getNextPageCursor } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
+import { generateRandomSlug, getNextPageCursor, getShortenLinksSearchFilter } from "@/lib/utils";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -43,44 +42,14 @@ export async function POST(request: NextRequest) {
 
 // GET links related to a current user
 export async function GET(request: NextRequest) {
-  const searchParams = Object.fromEntries(request.nextUrl.searchParams);
-  const data = listLinkSchema.parse(searchParams);
+  const data = listLinkSchema.parse(Object.fromEntries(request.nextUrl.searchParams));
 
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
 
-  let search = data.search;
-  const getSearchFilter = (): Prisma.ShortenLinkWhereInput => {
-    if (search) {
-      return {
-        OR: [
-          {
-            title: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-          {
-            slug: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-
-          {
-            destination: {
-              contains: search,
-              mode: "insensitive",
-            },
-          },
-        ],
-      };
-    }
-    return {};
-  };
 
   const shortenLinks = await prisma.shortenLink.findMany({
-    where: { userId: session.user.id, ...getSearchFilter() },
+    where: { userId: session.user.id, ...getShortenLinksSearchFilter(data.search) },
     cursor: data.cursor ? { id: data.cursor } : undefined,
     orderBy: { createdAt: "desc" },
     take: data.limit + 1,
