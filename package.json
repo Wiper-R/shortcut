@@ -10,6 +10,7 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@hookform/resolvers": "^3.3.3",
     "@prisma/client": "5.6.0",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -24,6 +25,8 @@
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "button": "^1.1.1",
+    "chart.js": "^4.4.2",
+    "cheerio": "1.0.0-rc.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dlx": "^0.2.1",
@@ -39,6 +42,7 @@
     "prisma": "^5.6.0",
     "qrcode.react": "^3.1.0",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
     "sass": "^1.69.7",

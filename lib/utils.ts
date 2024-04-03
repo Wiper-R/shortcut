@@ -1,10 +1,8 @@
-import config from "@/config";
 import { Prisma, User } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx";
-import { SignJWT } from "jose";
 import { customAlphabet } from "nanoid";
-import { cookies } from "next/headers";
 import { twMerge } from "tailwind-merge";
+import * as cheerio from "cheerio";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,7 +38,6 @@ export function getNextPageCursor<T>(
   return null;
 }
 
-
 export function getShortenLinksSearchFilter(
   search: string | undefined,
 ): Prisma.ShortenLinkWhereInput {
@@ -72,3 +69,43 @@ export function getShortenLinksSearchFilter(
   return {};
 }
 
+export async function getTitleFromURL(url: string) {
+  const controller = new AbortController();
+
+  setTimeout(() => {
+    controller.abort();
+  }, 3000);
+
+  var res: Response, content: string;
+
+  try {
+    res = await fetch(url);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      throw e;
+      // TODO: Handle Invalid URL
+    }
+
+    return { title: null, url };
+  }
+
+  try {
+    content = await res.text();
+    // console.log(content);
+  } catch (e) {
+    return { title: null, url };
+  }
+
+  const $cheerio = cheerio.load(content);
+  const element = $cheerio("title");
+
+  var title: string | null;
+
+  if (element.length != 0) {
+    title = element.first().text();
+  } else {
+    title = null;
+  }
+
+  return { title, url: res.url };
+}

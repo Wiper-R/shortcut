@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 import Image, { ImageProps } from "next/image";
 import { ComponentProps } from "react";
 
-export function Logo({ className, ...props }: Omit<ImageProps, "src" | "alt" | "height" | "width">) {
+export function Logo({
+  className,
+  ...props
+}: Omit<ImageProps, "src" | "alt" | "height" | "width">) {
   return (
     <Image
       src={ShortCutLogo.src}
