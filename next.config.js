@@ -3,7 +3,7 @@ const nextConfig = {
     images: {
         remotePatterns: [{
             protocol: "https",
-            hostname: "api.faviconkit.com"
+            hostname: "t1.gstatic.com"
         }]
     }
 };

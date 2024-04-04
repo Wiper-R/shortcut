@@ -148,6 +148,7 @@ async function populateLinks(user: User) {
     data.push({
       destination: dest,
       slug,
+      url: dest,
       title,
       userId: user.id,
     });
