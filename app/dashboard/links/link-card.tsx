@@ -1,14 +1,6 @@
-import { Card } from "@/components/ui/card";
-import Link from "next/link";
-import {
-  BarChart3Icon,
-  CalendarIcon,
-  CopyIcon,
-  EditIcon,
-  MenuIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import { ShortenLink } from "@prisma/client";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,20 +8,31 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import { LinkEditDialog } from "./link-edit-dialog";
-import { useState } from "react";
-import { useDataProvider } from "@/contexts/data-provider";
 import Image from "next/image";
+import { useDataProvider } from "@/contexts/data-provider";
+import { Card } from "@/components/ui/card";
+import {
+  BarChart3Icon,
+  CalendarIcon,
+  CopyIcon,
+  EditIcon,
+  MenuIcon,
+} from "lucide-react";
+import Link from "next/link";
 
-export function LinkCard() {
+export function LinkCard(): JSX.Element {
   const { data } = useDataProvider<ShortenLink>();
   const [isEditing, setIsEditing] = useState(false);
+
   return (
-    <Card className="flex px-6 py-4">
+    <Card className="flex gap-2 px-6 py-4">
       <LinkEditDialog open={isEditing} setIsOpen={setIsEditing} />
       {/* Icon Div */}
       <div className="flex flex-shrink-0 items-center justify-center self-start rounded-full border bg-white p-1">
         <Image
-          src={"https://api.faviconkit.com/stackoverflow.com/256"}
+          src={`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${
+            new URL(data.url).origin
+          }&size=256`}
           className="w-8"
           width={32}
           height={32}
@@ -37,18 +40,20 @@ export function LinkCard() {
         />
       </div>
       {/* Link Info Div */}
-      <div className="ml-4 flex flex-grow flex-col">
+      <div className="flex flex-grow flex-col">
         <Link
           href="/"
-          className="min-w-fit text-lg font-medium hover:underline"
+          className="line-clamp-1 break-all text-lg font-medium hover:underline"
         >
           {data.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="">{data.destination}</Link>
+        <Link href="" className=" line-clamp-1 break-all">
+          {data.destination}
+        </Link>
         <Link
           href={window.location.origin + `/l/${data.slug}`}
-          className="min-w-fit font-medium text-sky-600 hover:underline"
+          className="line-clamp-1 break-all font-medium text-sky-600 hover:underline"
         >
           {window.location.origin + `/l/${data.slug}`}
         </Link>
@@ -59,16 +64,13 @@ export function LinkCard() {
           </div>
           <div className="flex items-end space-x-1">
             <CalendarIcon className="w-4" />
-            <span className="">
-              {/* 26 Mar, 2024 */}
-              {new Date(data.createdAt).toDateString()}
-            </span>
+            <span className="">{new Date(data.createdAt).toDateString()}</span>
           </div>
         </div>
       </div>
       {/* Button Div */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild className="flex-shrink-0">
           <Button variant="outline" size="icon">
             <MenuIcon className="w-5" />
           </Button>

@@ -32,22 +32,29 @@ export function QRCodeCard() {
     ref.current = divRef.current?.children[0] as HTMLCanvasElement;
   }, []);
 
-  const copyToClipboard = useCallback(function () {
-    if (!ref.current)
-      return console.error("Failed to copy QR-code, missing QR-Code reference");
-    ref.current.toBlob(function (blob) {
-      console.log(blob);
-      if (!blob) return;
-      const item = new ClipboardItem({ "image/png": blob });
-      navigator.clipboard
-        .write([item])
-        .then(() => toast({ description: "Copied QR-Code to clipboard" }))
-        .catch((e) => console.error("Failed to copy QR-code to clipboard", e));
-    });
-  }, [toast]);
+  const copyToClipboard = useCallback(
+    function () {
+      if (!ref.current)
+        return console.error(
+          "Failed to copy QR-code, missing QR-Code reference",
+        );
+      ref.current.toBlob(function (blob) {
+        console.log(blob);
+        if (!blob) return;
+        const item = new ClipboardItem({ "image/png": blob });
+        navigator.clipboard
+          .write([item])
+          .then(() => toast({ description: "Copied QR-Code to clipboard" }))
+          .catch((e) =>
+            console.error("Failed to copy QR-code to clipboard", e),
+          );
+      });
+    },
+    [toast],
+  );
 
   return (
-    <Card className="flex px-6 py-4">
+    <Card className="flex gap-5 px-6 py-4">
       <QREditDialog open={isEditing} setIsOpen={setIsEditing} />
       {/* QR code div */}
       <div ref={divRef}>
@@ -61,12 +68,14 @@ export function QRCodeCard() {
       <div className="ml-4 grid">
         <Link
           href="/"
-          className="min-w-fit text-lg font-medium hover:underline"
+          className="line-clamp-1 w-fit break-all text-lg font-medium hover:underline"
         >
           {data.ShortenLink.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="">{data.ShortenLink.destination}</Link>
+        <Link href="" className="line-clamp-1 w-fit  break-all">
+          {data.ShortenLink.destination}
+        </Link>
         <div className="mt-4 flex space-x-4 text-sm">
           <div className="flex items-end space-x-1">
             <BarChart3Icon className="w-4" />
@@ -82,7 +91,7 @@ export function QRCodeCard() {
         </div>
       </div>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger asChild className="flex-shrink-0">
           <Button variant="outline" size="icon" className="ml-auto">
             <MenuIcon className="w-5" />
           </Button>

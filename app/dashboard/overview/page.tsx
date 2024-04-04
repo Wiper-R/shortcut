@@ -43,7 +43,7 @@ const options = {
 
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
-export const data = {
+const data = {
   labels,
   datasets: [
     {
@@ -89,7 +89,7 @@ export default function Page() {
               labels: ["Click", "Scan"],
               datasets: [
                 {
-                  data: [1, 2],
+                  data: [[1], [2]],
                   backgroundColor: [
                     "rgba(255, 99, 132, 0.5)",
                     "rgba(53, 162, 235, 0.5)",
@@ -98,7 +98,7 @@ export default function Page() {
               ],
             }}
           />
-        </Card>
+        </Card> 
        
       </div>
     </div>
