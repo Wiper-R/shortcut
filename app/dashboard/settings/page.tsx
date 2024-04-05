@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/use-toast";
 import { cleanUser } from "@/lib/utils";
 import { successResponse } from "@/app/api/_response";
 import { useEffect } from "react";
+import { ChangePasswordDialog } from "./update-password-dialog";
 
 export default function Page() {
   const router = useRouter();
@@ -82,17 +83,6 @@ export default function Page() {
               </FormItem>
             )}
           />
-          <div className="mt-5">
-            {/* TODO: Add functionality to change password */}
-            <Button variant="outline" type="button">
-              <KeyRound className="w-5" />{" "}
-              <span className="ml-2">Change Password</span>
-            </Button>
-            <FormDescription className="mt-1">
-              {/* TODO: Changing password should logout from all devices */}
-              Changing password will logout you from all devices.
-            </FormDescription>
-          </div>
           <div className="mt-5 flex space-x-2">
             <Button type="submit" disabled={!form.formState.isDirty}>
               <PenIcon className="w-5" />{" "}
@@ -102,16 +92,20 @@ export default function Page() {
         </form>
       </Form>
       <Separator orientation="horizontal" className="my-8" />
+      <div className="space-x-2">
+      <ChangePasswordDialog />
       <Button
         variant="outline"
         className="border-destructive text-destructive hover:border-destructive hover:text-destructive"
         onClick={async () => {
-          await fetch("/api/auth/logout");
+          await fetchApi("/api/auth/logout", {});
           router.push("/");
         }}
       >
         <LogOutIcon className="w-5" /> <span className="ml-2">Logout</span>
       </Button>
+
+      </div>
     </div>
   );
 }

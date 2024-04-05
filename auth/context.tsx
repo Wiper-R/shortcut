@@ -69,7 +69,7 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
     }
 
     populateUser();
-  }, []);
+  }, [session.state]);
 
   return (
     <SessionContext.Provider value={{ session, dispatch }}>
