@@ -17,6 +17,7 @@ import {
   CopyIcon,
   EditIcon,
   MenuIcon,
+  PenIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -83,7 +84,7 @@ export function LinkCard(): JSX.Element {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => setIsEditing(true)}>
-            <EditIcon className="mr-2 h-4 w-4" />
+            <PenIcon className="mr-2 h-4 w-4" />
             <span>Edit</span>
           </DropdownMenuItem>
           <DropdownMenuItem>

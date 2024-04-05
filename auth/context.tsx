@@ -61,9 +61,8 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
       // FIXME: Fix this any type
       // TODO: Use axios
       const data = await res.json();
-      console.log(data)
       if (data.code == "success") {
-        dispatch({ type: "login_success", payload: data });
+        dispatch({ type: "login_success", payload: data.data.user });
       } else {
         dispatch({ type: "login_failed" });
       }

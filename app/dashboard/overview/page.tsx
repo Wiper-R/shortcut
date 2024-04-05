@@ -14,7 +14,6 @@ import { faker } from "@faker-js/faker";
 import {
   Card,
   CardDescription,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
