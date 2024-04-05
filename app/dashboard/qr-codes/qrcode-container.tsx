@@ -6,7 +6,9 @@ import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { DataProvider } from "@/contexts/data-provider";
 import { Loader } from "@/components/Loader";
 
-export type QRCodeWithShortenLink = QrCode & { ShortenLink: ShortenLink & {_count: {Engagement: number}} }
+export type QRCodeWithShortenLink = QrCode & {
+  ShortenLink: ShortenLink & { _count: { Engagement: number } };
+};
 
 type ShortenLinkApiData = {
   qrCodes: QRCodeWithShortenLink[];
@@ -20,11 +22,11 @@ export function QRCodeContainer() {
       {data?.pages.map((page) =>
         page.qrCodes.map((data) => (
           <DataProvider data={data} key={data.id}>
-            <QRCodeCard  />
+            <QRCodeCard />
           </DataProvider>
         )),
       )}
-      {isLoading && <Loader className="my-10"/>}
+      {isLoading && <Loader className="my-10" />}
       <div ref={element} />
     </div>
   );

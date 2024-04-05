@@ -19,7 +19,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateQrCodeSchema } from "@/validators/qrCodeValidator";
-import { PencilIcon } from "lucide-react";
+import { PenIcon } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
 import { DEFAULT_QR_BGCOLOR, DEFAULT_QR_FGCOLOR } from "@/constants";
 import { useDataProvider } from "@/contexts/data-provider";
@@ -136,7 +136,7 @@ export function QREditDialog({
                 {/* <QRCodeSvgCard /> */}
               </div>
               <Button type="submit" disabled={!form.formState.isDirty}>
-                <PencilIcon className="w-5" />
+                <PenIcon className="w-5" />
                 <span className="ml-2">Edit</span>
               </Button>
             </Form>

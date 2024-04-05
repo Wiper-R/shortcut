@@ -17,6 +17,7 @@ import {
   CopyIcon,
   EditIcon,
   MenuIcon,
+  PenIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -49,17 +50,17 @@ export function LinkCard(): JSX.Element {
       <div className="flex flex-grow flex-col">
         <Link
           href="/"
-          className="line-clamp-1 break-all text-lg font-medium hover:underline"
+          className="line-clamp-1 break-all text-lg font-medium hover:underline w-fit"
         >
           {data.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="" className=" line-clamp-1 break-all">
+        <Link href="" className=" line-clamp-1 break-all w-fit">
           {data.destination}
         </Link>
         <Link
           href={window.location.origin + `/l/${data.slug}`}
-          className="line-clamp-1 break-all font-medium text-sky-600 hover:underline"
+          className="line-clamp-1 break-all font-medium text-sky-600 hover:underline w-fit"
         >
           {window.location.origin + `/l/${data.slug}`}
         </Link>
@@ -83,7 +84,7 @@ export function LinkCard(): JSX.Element {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={() => setIsEditing(true)}>
-            <EditIcon className="mr-2 h-4 w-4" />
+            <PenIcon className="mr-2 h-4 w-4" />
             <span>Edit</span>
           </DropdownMenuItem>
           <DropdownMenuItem>

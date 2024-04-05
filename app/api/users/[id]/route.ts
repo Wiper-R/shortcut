@@ -2,6 +2,9 @@ import { successResponse } from "@/app/api/_response";
 import { NextRequest } from "next/server";
 import { getSession } from "@/auth/session";
 import errorCodes from "../../_error-codes";
+import { updateUserSchema } from "@/validators/userValidator";
+import prisma from "@/prisma";
+import { cleanUser } from "@/lib/utils";
 
 export async function GET(
   request: NextRequest,
@@ -13,3 +16,5 @@ export async function GET(
   }
   return errorCodes.Unauthorized();
 }
+
+

@@ -19,7 +19,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateLinkSchema } from "@/validators/linksValidator";
-import { PencilIcon } from "lucide-react";
+import { PenIcon } from "lucide-react";
 import { fetchApi } from "@/lib/api-helpers";
 // import { useShortenLinkData } from "./link-data-context";
 import { toast } from "@/components/ui/use-toast";
@@ -130,7 +130,7 @@ export function LinkEditDialog({
                 to generate a QR Code
               </FormDescription>
               <Button type="submit" disabled={!form.formState.isDirty}>
-                <PencilIcon className="w-5" />
+                <PenIcon className="w-5" />
                 <span className="ml-2">Edit</span>
               </Button>
             </Form>
