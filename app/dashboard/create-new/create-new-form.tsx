@@ -106,6 +106,7 @@ export function CreateNewLink() {
           title: "Error",
           description:
             "An error occurred while shortening the link. Please try again later.",
+          variant: "destructive",
         });
       }
     } catch (error) {
@@ -115,6 +116,7 @@ export function CreateNewLink() {
         title: "Error",
         description:
           "A network error occurred. Please check your internet connection and try again.",
+        variant: "destructive",
       });
     }
   }
@@ -266,7 +268,9 @@ export function CreateNewLink() {
             </div>
           )}
         </Card>
-        <Button type="submit">Shorten Link</Button>
+        <Button type="submit" disabled={!form.formState.isDirty}>
+          Shorten Link
+        </Button>
       </Form>
     </form>
   );

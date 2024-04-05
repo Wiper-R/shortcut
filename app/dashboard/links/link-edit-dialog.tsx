@@ -33,11 +33,11 @@ export function LinkEditDialog({
   open: boolean;
   setIsOpen: (v: boolean) => void;
 }) {
+  const { data, setData } = useDataProvider<ShortenLink>();
   const form = useForm<updateLinkSchema>({
     resolver: zodResolver(updateLinkSchema),
+    defaultValues: data,
   });
-
-  const { data, setData } = useDataProvider<ShortenLink>();
 
   async function onValid(updateData: updateLinkSchema) {
     // TODO: Add link-context and qr-code context
@@ -129,7 +129,7 @@ export function LinkEditDialog({
                 </Button>{" "}
                 to generate a QR Code
               </FormDescription>
-              <Button type="submit">
+              <Button type="submit" disabled={!form.formState.isDirty}>
                 <PencilIcon className="w-5" />
                 <span className="ml-2">Edit</span>
               </Button>

@@ -20,8 +20,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+type ShortenLinkWithEngagements = ShortenLink & {
+  _count: {
+    Engagement: number;
+  };
+};
+
 export function LinkCard(): JSX.Element {
-  const { data } = useDataProvider<ShortenLink>();
+  const { data } = useDataProvider<ShortenLinkWithEngagements>();
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -60,7 +66,7 @@ export function LinkCard(): JSX.Element {
         <div className="mt-4 flex space-x-4 text-sm">
           <div className="flex items-end space-x-1">
             <BarChart3Icon className="w-4" />
-            <span className="">4 clicks</span>
+            <span className="">{data._count.Engagement} clicks</span>
           </div>
           <div className="flex items-end space-x-1">
             <CalendarIcon className="w-4" />

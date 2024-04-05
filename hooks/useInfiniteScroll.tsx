@@ -12,7 +12,7 @@ type ApiData<T> = {
 
 export function useInfiniteScroll<T = any>(apiEndPoint: string) {   
     const search = useSearchParams().get("search")
-    const { data, fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+    const { data, fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
         queryKey: [apiEndPoint],
         queryFn: ({ pageParam }) => fetchData(pageParam),
         initialPageParam: '',
@@ -43,5 +43,5 @@ export function useInfiniteScroll<T = any>(apiEndPoint: string) {
 
     useDebounced(search, refetch);
     const observed = useIntersectionObserver<HTMLDivElement>(handleFetchNextPage);
-    return { data, element: observed };
+    return { data, element: observed, isLoading };
 }
