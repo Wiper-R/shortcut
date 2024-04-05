@@ -61,13 +61,21 @@ const data = {
   ],
 };
 
-function InfoCard({ title, value }: { title: string; value: number }) {
+function InfoCard({
+  title,
+  value,
+  timeSpan,
+}: {
+  title: string;
+  value: number;
+  timeSpan: string;
+}) {
   return (
     <Card className="p-4">
       <CardTitle className="text-lg">{title}</CardTitle>
       <CardDescription className="mt-6 flex items-end justify-between">
         <span className="text-3xl">{value}</span>
-        <span>7 days</span>
+        <span>{timeSpan}</span>
       </CardDescription>
     </Card>
   );
@@ -77,9 +85,12 @@ export default function Page() {
   return (
     <div className="grid">
       <div className="grid grid-cols-3 gap-2">
-        <InfoCard title="Clicks" value={220} />
-        <InfoCard title="Scans" value={67} />
-        <InfoCard title="URL's Created" value={11} />
+        <InfoCard title="Clicks" value={220} timeSpan="7 days" />
+        <InfoCard title="Scans" value={67} timeSpan="7 days" />
+        <InfoCard title="URL's Created" value={11} timeSpan="7 days" />
+        <InfoCard title="Clicks" value={220} timeSpan="All time" />
+        <InfoCard title="Scans" value={67} timeSpan="All time" />
+        <InfoCard title="URL's Created" value={11} timeSpan="All time" />
         <Card className="col-span-2 p-4">
           <Line data={data} options={options} />
         </Card>
@@ -98,8 +109,7 @@ export default function Page() {
               ],
             }}
           />
-        </Card> 
-       
+        </Card>
       </div>
     </div>
   );

@@ -135,7 +135,7 @@ export function QREditDialog({
                 </Card>
                 {/* <QRCodeSvgCard /> */}
               </div>
-              <Button type="submit">
+              <Button type="submit" disabled={!form.formState.isDirty}>
                 <PencilIcon className="w-5" />
                 <span className="ml-2">Edit</span>
               </Button>

@@ -59,7 +59,7 @@ export function QRCodeCard() {
       {/* QR code div */}
       <div ref={divRef}>
         <QRCodeCanvas
-          value={window.location.origin + `/l/${data.ShortenLink.slug}`}
+          value={window.location.origin + `/l/${data.ShortenLink.slug}?qr`}
           size={104}
           fgColor={data.fgColor}
           bgColor={data.bgColor}
@@ -79,7 +79,7 @@ export function QRCodeCard() {
         <div className="mt-4 flex space-x-4 text-sm">
           <div className="flex items-end space-x-1">
             <BarChart3Icon className="w-4" />
-            <span className="">4 clicks</span>
+            <span className="">{data.ShortenLink._count.Engagement} scans</span>
           </div>
           <div className="flex items-end space-x-1">
             <CalendarIcon className="w-4" />

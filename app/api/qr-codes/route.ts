@@ -20,7 +20,13 @@ export async function GET(request: NextRequest) {
         ...getShortenLinksSearchFilter(data.search),
       },
     },
-    include: {ShortenLink: true},
+    include: {
+      ShortenLink: {
+        include: {
+          _count: { select: { Engagement: { where: { type: "qr" } } } },
+        },
+      },
+    },
     cursor: data.cursor ? { id: data.cursor } : undefined,
     orderBy: { createdAt: "desc" },
     take: data.limit + 1,

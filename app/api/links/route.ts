@@ -62,6 +62,9 @@ export async function GET(request: NextRequest) {
     cursor: data.cursor ? { id: data.cursor } : undefined,
     orderBy: { createdAt: "desc" },
     take: data.limit + 1,
+    include: {
+      _count: { select: { Engagement: { where: { type: "link" } } } },
+    },
   });
 
   return successResponse({
