@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Shortcut (URL Shortener)
 
-First, run the development server:
+I made this project for my college and yet I decided to keep working and improving it.
+
+
+
+
+## Tech Stack
+
+**Client:** Nextjs, Typescript
+
+**Server:** Nextjs, Typescript, Prisma, Zod, MongoDB
+
+
+
+
+## Features
+
+- Link shortening with custom backhalf
+- QR Codes
+- Can Edit Links and QR codes
+- User friendly design
+- Minimalistic design
+- Overview (Track your links/QRs)
+
+## Demo
+
+https://shortcut-theta.vercel.app/
+
+
+## Known Bugs
+- UI doesn't populate after instant login
+- Some errors are not properly handled
+
+## Future Plans
+- Rework API strucutre
+- Public API (With Documentation)
+- URL Shortenining without Login (Kind of Demo)
+## Screenshots
+
+**Home Page** (I went for minimalistic design)
+![App Screenshot](https://i.imgur.com/MGBSj0T.png)
+
+**Login Page**
+![App Screenshot](https://i.imgur.com/jlt5ifm.png)
+
+**Dashboard**
+![App Screenshot](https://i.imgur.com/WNvND46.png)
+
+**Links Card**
+![App Screenshot](https://i.imgur.com/qVpz1C6.png)
+
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/Wiper-R/shortcut
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Go to the project directory
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+  cd shortcut
+```
 
-## Learn More
+Install pnpm if not already
+```bash
+  npm i pnpm -g
+```
 
-To learn more about Next.js, take a look at the following resources:
+Install dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+  pnpm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Start the server
 
-## Deploy on Vercel
+```bash
+  pnpm start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+
+## Contributing
+
+Contributions are always welcome!
+
+
+## Authors
+
+- [@Wiper-R](https://www.github.com/Wiper-R)
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+

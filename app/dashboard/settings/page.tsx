@@ -8,19 +8,16 @@ import {
   FormLabel,
   Form,
   FormControl,
-  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { KeyRound, LogOutIcon, PenIcon } from "lucide-react";
+import { LogOutIcon, PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { fetchApi } from "@/lib/api-helpers";
 import { updateUserSchema } from "@/validators/userValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/components/ui/use-toast";
-import { cleanUser } from "@/lib/utils";
-import { successResponse } from "@/app/api/_response";
 import { useEffect } from "react";
 import { ChangePasswordDialog } from "./update-password-dialog";
 
@@ -36,6 +33,7 @@ export default function Page() {
   });
 
   useEffect(() => {
+    if (!session?.data?.user) return;
     form.setValue("name", session.data?.user.name, { shouldDirty: false });
     form.setValue("email", session.data?.user.email, { shouldDirty: false });
   }, [session.data]);
@@ -93,18 +91,17 @@ export default function Page() {
       </Form>
       <Separator orientation="horizontal" className="my-8" />
       <div className="space-x-2">
-      <ChangePasswordDialog />
-      <Button
-        variant="outline"
-        className="border-destructive text-destructive hover:border-destructive hover:text-destructive"
-        onClick={async () => {
-          await fetchApi("/api/auth/logout", {});
-          router.push("/");
-        }}
-      >
-        <LogOutIcon className="w-5" /> <span className="ml-2">Logout</span>
-      </Button>
-
+        <ChangePasswordDialog />
+        <Button
+          variant="outline"
+          className="border-destructive text-destructive hover:border-destructive hover:text-destructive"
+          onClick={async () => {
+            await fetchApi("/api/auth/logout", {});
+            router.push("/");
+          }}
+        >
+          <LogOutIcon className="w-5" /> <span className="ml-2">Logout</span>
+        </Button>
       </div>
     </div>
   );
