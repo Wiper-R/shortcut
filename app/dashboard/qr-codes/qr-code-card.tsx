@@ -90,7 +90,7 @@ export function QRCodeCard() {
         <div>
           <QRCodeCanvas
             value={window.location.origin + `/l/${data.ShortenLink.slug}?qr`}
-            size={104}
+            size={80}
             fgColor={data.fgColor}
             bgColor={data.bgColor}
             className="self-center"
