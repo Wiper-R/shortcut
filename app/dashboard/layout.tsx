@@ -26,7 +26,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
           <Sidebar />
           {/* Main Content */}
           <div className="flex-grow overflow-auto">
-            <div className="mx-auto w-full max-w-4xl p-8">{children}</div>
+            <div className="mx-auto w-full max-w-4xl p-4 md:p-8">{children}</div>
           </div>
         </div>
       </div>

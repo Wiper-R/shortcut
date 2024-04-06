@@ -11,7 +11,6 @@ import {
   BarChart3Icon,
   CalendarIcon,
   CopyIcon,
-  EditIcon,
   MenuIcon,
   PenIcon,
 } from "lucide-react";
@@ -21,6 +20,34 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { QREditDialog } from "./qr-edit-dialog";
 import { useDataProvider } from "@/contexts/data-provider";
 import { QRCodeWithShortenLink } from "./qrcode-container";
+
+const QRCodeDropDownMenu = ({
+  copyToClipboard,
+  setIsEditing,
+}: {
+  copyToClipboard: () => void;
+  setIsEditing: (v: boolean) => void;
+}) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="flex-shrink-0">
+        <Button variant="outline" size="icon" className="ml-auto">
+          <MenuIcon className="w-5" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={() => setIsEditing(true)}>
+          <PenIcon className="mr-2 h-4 w-4" />
+          <span>Edit</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={copyToClipboard}>
+          <CopyIcon className="mr-2 h-4 w-4" />
+          <span>Copy</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export function QRCodeCard() {
   const divRef = useRef<HTMLDivElement>(null);
@@ -55,10 +82,25 @@ export function QRCodeCard() {
   );
 
   return (
-    <Card className="flex gap-5 px-6 py-4">
+    <Card className="flex flex-col gap-5 p-2 py-4 md:flex-row md:px-6">
       <QREditDialog open={isEditing} setIsOpen={setIsEditing} />
       {/* QR code div */}
-      <div ref={divRef}>
+      <div className="grid grid-cols-[1fr_auto_1fr] md:hidden">
+        <span/>
+        <div>
+          <QRCodeCanvas
+            value={window.location.origin + `/l/${data.ShortenLink.slug}?qr`}
+            size={104}
+            fgColor={data.fgColor}
+            bgColor={data.bgColor}
+            className="self-center"
+          />
+        </div>
+        <div className="ml-auto">
+          <QRCodeDropDownMenu {...{ copyToClipboard, setIsEditing }} />
+        </div>
+      </div>
+      <div ref={divRef} className="hidden md:block">
         <QRCodeCanvas
           value={window.location.origin + `/l/${data.ShortenLink.slug}?qr`}
           size={104}
@@ -69,12 +111,15 @@ export function QRCodeCard() {
       <div className="ml-4 grid">
         <Link
           href="/"
-          className="line-clamp-1 w-fit break-all text-lg font-medium hover:underline"
+          className="line-clamp-1 w-fit break-all text-base font-medium hover:underline md:text-lg"
         >
           {data.ShortenLink.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="" className="line-clamp-1 w-fit  break-all">
+        <Link
+          href=""
+          className="line-clamp-1 w-fit break-all text-sm md:text-base"
+        >
           {data.ShortenLink.destination}
         </Link>
         <div className="mt-4 flex space-x-4 text-sm">
@@ -91,23 +136,9 @@ export function QRCodeCard() {
           </div>
         </div>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild className="flex-shrink-0">
-          <Button variant="outline" size="icon" className="ml-auto">
-            <MenuIcon className="w-5" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setIsEditing(true)}>
-            <PenIcon className="mr-2 h-4 w-4" />
-            <span>Edit</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={copyToClipboard}>
-            <CopyIcon className="mr-2 h-4 w-4" />
-            <span>Copy</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="hidden md:block">
+        <QRCodeDropDownMenu {...{ copyToClipboard, setIsEditing }} />
+      </div>
     </Card>
   );
 }
