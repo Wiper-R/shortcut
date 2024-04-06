@@ -18,25 +18,24 @@ import { fetchApi } from "@/lib/api-helpers";
 import { updateUserSchema } from "@/validators/userValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/components/ui/use-toast";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ChangePasswordDialog } from "./update-password-dialog";
 
 export default function Page() {
   const router = useRouter();
   const { session, dispatch } = useSession();
+  const user = session.data?.user;
   const form = useForm<updateUserSchema>({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-    },
+    defaultValues: useMemo(() => {
+      return { name: user?.name || "", email: user?.email || "" };
+    }, [user]),
   });
 
   useEffect(() => {
-    if (!session?.data?.user) return;
-    form.setValue("name", session.data?.user.name, { shouldDirty: false });
-    form.setValue("email", session.data?.user.email, { shouldDirty: false });
-  }, [session.data]);
+    form.reset({ email: user?.email || "", name: user?.name || "" });
+  }, [user]);
+
 
   const onValid = async (data: updateUserSchema) => {
     const resp = await fetchApi("/api/users", {

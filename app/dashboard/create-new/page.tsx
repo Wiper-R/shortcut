@@ -1,5 +1,5 @@
-import { CreateNewLink } from "./create-new-form";
+import { CreateNewLinkForm } from "./create-new-link-form";
 
 export default function Page() {
-    return <CreateNewLink />
+    return <CreateNewLinkForm />
 }
