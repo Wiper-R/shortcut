@@ -9,7 +9,8 @@ generator client {
 
 model User {
     id          String        @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
+    fname        String
+    lname        String
     email       String        @unique
     password    String
     ShortenLink ShortenLink[]

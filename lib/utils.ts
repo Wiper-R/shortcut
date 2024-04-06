@@ -15,7 +15,8 @@ export function normalizeEmail(email: string) {
 export function cleanUser(user: User) {
   return {
     id: user.id,
-    name: user.name,
+    fname: user.fname,
+    lname: user.lname,
     email: user.email,
     createdAt: user.createdAt,
   };

@@ -74,6 +74,12 @@ dependencies:
   framer-motion:
     specifier: ^10.17.9
     version: 10.17.9(react-dom@18.2.0)(react@18.2.0)
+  http-response-codes:
+    specifier: ^1.0.4
+    version: 1.0.4
+  http-status:
+    specifier: ^1.7.4
+    version: 1.7.4
   jose:
     specifier: ^5.1.3
     version: 5.1.3
@@ -3332,6 +3338,15 @@ packages:
       domhandler: 5.0.3
       domutils: 3.1.0
       entities: 4.5.0
+    dev: false
+
+  /http-response-codes@1.0.4:
+    resolution: {integrity: sha512-ndlhr3cEUxiLhpJE2HXhlRq/J3j35gXzXzO097TRyh47OpR3GVFi62wSEYJ8R1BktOKjU+N0fQ+tMY+D0bMmJA==}
+    dev: false
+
+  /http-status@1.7.4:
+    resolution: {integrity: sha512-c2qSwNtTlHVYAhMj9JpGdyo0No/+DiKXCJ9pHtZ2Yf3QmPnBIytKSRT7BuyIiQ7icXLynavGmxUqkOjSrAuMuA==}
+    engines: {node: '>= 0.4.0'}
     dev: false
 
   /https-proxy-agent@5.0.1:
