@@ -1,5 +1,6 @@
 "use client";
 
+import { fetchApi } from "@/lib/api-helpers";
 import { cleanUser } from "@/lib/utils";
 import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
@@ -56,20 +57,22 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     async function populateUser() {
-      const res = await fetch("/api/users/@me");
+      const res = await fetchApi<{ user: ReturnType<typeof cleanUser> }>(
+        "/api/users/@me",
+        {},
+      );
 
       // FIXME: Fix this any type
       // TODO: Use axios
-      const data = await res.json();
-      if (data.code == "success") {
-        dispatch({ type: "login_success", payload: data.data.user });
+      if (res.code == "success") {
+        dispatch({ type: "login_success", payload: res.data.user });
       } else {
         dispatch({ type: "login_failed" });
       }
     }
 
     populateUser();
-  }, [session.state]);
+  }, []);
 
   return (
     <SessionContext.Provider value={{ session, dispatch }}>

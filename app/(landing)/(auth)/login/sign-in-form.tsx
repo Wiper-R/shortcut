@@ -12,6 +12,7 @@ import { cleanUser } from "@/lib/utils";
 import { fetchApi } from "@/lib/api-helpers";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import useSession from "@/auth/useSession";
 
 type SignInApiResponse = {
     user: ReturnType<typeof cleanUser>;
@@ -23,14 +24,16 @@ export function SignInForm() {
     const router = useRouter();
     const useFormReturn = useForm<signInSchema>({ resolver: zodResolver(signInSchema) });
     const { toast } = useToast();
+    const {dispatch} = useSession();
 
     async function OnValid(data: signInSchema) {
-        let d = await fetchApi<SignInApiResponse>("/api/auth/sign-in", { method: "POST", body: JSON.stringify(data) })
-        if (d.code == "success") {
+        let response = await fetchApi<SignInApiResponse>("/api/auth/sign-in", { method: "POST", body: JSON.stringify(data) })
+        if (response.code == "success") {
             toast({
                 title: "Login Successful",
                 description: "You will be redirected to dashboard",
             })
+            dispatch({type: "login_success", payload: response.data.user})
             let cbp = searchParams.get("cbp") || "/dashboard"
             router.push(cbp)
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { fetchApi } from "@/lib/api-helpers";
@@ -28,12 +28,19 @@ type TitleApiData = {
   url: string;
 };
 
-export function CreateNewLink() {
+export function CreateNewLinkForm() {
   const form = useForm<createLinkSchema>({
     resolver: zodResolver(createLinkSchema),
-    defaultValues: {
-      qrCode: { fgColor: DEFAULT_QR_FGCOLOR, bgColor: DEFAULT_QR_BGCOLOR },
-    },
+
+    defaultValues: useMemo(() => {
+      return {
+        title: "",
+        destination: "",
+        slug: "",
+        generateQrCode: false,
+        qrCode: { fgColor: DEFAULT_QR_FGCOLOR, bgColor: DEFAULT_QR_BGCOLOR },
+      };
+    }, []),
   });
 
   const [canFetchTitle, setCanFetchTitle] = useState(false);
@@ -125,7 +132,7 @@ export function CreateNewLink() {
     const titleState = form.getFieldState("title");
     if (!titleState.isDirty) {
       const title = titleData?.title || "";
-      form.setValue("title", title, { shouldDirty: false });
+      form.setValue("title", title, { shouldDirty: false, shouldTouch: false });
     }
   }, [titleData, form.watch("title"), form]);
 
