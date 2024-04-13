@@ -1,7 +1,11 @@
 
 # Shortcut (URL Shortener)
 
-I made this project for my college and yet I decided to keep working and improving it.
+Shortcut is make to overcome some flaws of other url shorteners out there
+
+### All there features are WIP
+- Able to short url without siging in (WIP)
+- Track links and engagements effectively
 
 
 
@@ -79,7 +83,13 @@ Install dependencies
   pnpm install
 ```
 
-Start the server
+Generate Prisma client
+
+```bash
+  prisma generate
+```
+
+Start the dev server
 
 ```bash
   pnpm start
