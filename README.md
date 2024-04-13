@@ -29,6 +29,7 @@ https://shortcut-theta.vercel.app/
 ## Known Bugs
 - UI doesn't populate after instant login
 - Some errors are not properly handled
+- Authentication session doesn't persist on browser restart
 
 ## Future Plans
 - Rework API strucutre
