@@ -66,6 +66,11 @@ Go to the project directory
   cd shortcut
 ```
 
+
+
+Rename .env.example to .env and set environment variables
+
+
 Install pnpm if not already
 ```bash
   npm i pnpm -g
