@@ -1,7 +1,6 @@
 
 # Shortcut (URL Shortener)
-
-Shortcut is make to overcome some flaws of other url shorteners out there
+Originally conceived as my college project, Shortcut has evolved over time with occasional refinements. This project aims to overcome the shortcomings found in existing URL shorteners.
 
 
 ## Tech Stack
@@ -87,7 +86,7 @@ Generate Prisma client
 Start the dev server
 
 ```bash
-  pnpm start
+  pnpm dev
 ```
 
 
