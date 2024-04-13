@@ -3,12 +3,6 @@
 
 Shortcut is make to overcome some flaws of other url shorteners out there
 
-### All there features are WIP
-- Able to short url without siging in (WIP)
-- Track links and engagements effectively
-
-
-
 
 ## Tech Stack
 
@@ -41,6 +35,7 @@ https://shortcut-theta.vercel.app/
 - Rework API strucutre
 - Public API (With Documentation)
 - URL Shortenining without Login (Kind of Demo)
+- Track links and engagements effectively
 ## Screenshots
 
 **Home Page** (I went for minimalistic design)
