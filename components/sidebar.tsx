@@ -30,8 +30,11 @@ const SidebarItem = (props: SidebarItemProp) => {
     <Link
       href={_href}
       className={cn(
-        "flex items-center gap-2 rounded px-3 py-2 text-sm transition-colors hover:bg-violet-100",
-        { "bg-violet-500 text-white hover:bg-violet-500": pathname == _href },
+        "flex items-center gap-2 rounded px-3 py-2 text-sm text-secondary-foreground transition-colors hover:bg-violet-100 hover:text-primary-foreground hover:text-black",
+        {
+          "bg-violet-500 hover:bg-violet-500 text-white hover:text-white":
+            pathname == _href,
+        },
       )}
       onClick={() => {
         if (sidebarToggle) {
@@ -49,7 +52,7 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        "sticky top-0 z-10 flex h-full w-[240px] flex-shrink-0 flex-col gap-1 overflow-auto bg-slate-50 px-2 shadow-sm",
+        "sticky top-0 z-10 flex h-full w-[240px] flex-shrink-0 flex-col gap-1 overflow-auto border-r bg-background px-2",
         "transition-transform max-md:fixed max-md:left-0 max-md:top-[72px] max-md:-translate-x-full",
         sidebarToggle && "max-md:translate-x-0",
       )}

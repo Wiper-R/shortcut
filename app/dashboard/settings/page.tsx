@@ -92,8 +92,7 @@ export default function Page() {
       <div className="space-x-2">
         <ChangePasswordDialog />
         <Button
-          variant="outline"
-          className="border-destructive text-destructive hover:border-destructive hover:text-destructive"
+          variant="destructive"
           onClick={async () => {
             await fetchApi("/api/auth/logout", {});
             router.push("/");

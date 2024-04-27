@@ -23,7 +23,7 @@ export function UserDropdown({ className, ...props }: LucideProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="bg-gray-200 p-2">
+        <Avatar className="bg-accent p-2">
           {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
           <AvatarFallback className="bg-transparent">
             {user?.name

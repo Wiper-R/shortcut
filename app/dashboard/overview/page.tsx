@@ -78,13 +78,13 @@ export default function Page() {
           label: "Clicks",
           data: data.months.clicks,
           borderColor: "rgb(53, 162, 235)",
-          backgroundColor: "rgba(53, 162, 235, 0.5)",
+          backgroundColor: "rgba(53, 162, 235",
         },
         {
           label: "Scans",
           data: data.months.scans,
           borderColor: "rgb(255, 99, 132)",
-          backgroundColor: "rgba(255, 99, 132, 0.5)",
+          backgroundColor: "rgba(255, 99, 132)",
         },
       ],
     };
@@ -135,8 +135,8 @@ export default function Page() {
                 {
                   data: [[data?.total.clicks], [data?.total.scans]],
                   backgroundColor: [
-                    "rgba(53, 162, 235, 0.5)",
-                    "rgba(255, 99, 132, 0.5)",
+                    "rgba(53, 162, 235)",
+                    "rgba(255, 99, 132)",
                   ],
                 },
               ],

@@ -3,24 +3,37 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, Moon, Sun, XIcon } from "lucide-react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
-import { Card } from "./ui/card";
-
+import { useTheme } from "next-themes";
 
 function NavItems({ setNavToggle }: { setNavToggle: (v: boolean) => void }) {
+  const { theme, setTheme } = useTheme();
   return (
     <>
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
+      >
+        {theme == "dark" ? <Sun /> : <Moon />}
+      </Button>
       <Link href="/docs" className={buttonVariants({ variant: "link" })}>
         Docs
       </Link>
       <Link href="/github" className={buttonVariants({ variant: "link" })}>
         Github
       </Link>
-      <Link href="/login" className={buttonVariants({})} onClick={() => setNavToggle(false)}>Login</Link>
+      <Link
+        href="/login"
+        className={buttonVariants({})}
+        onClick={() => setNavToggle(false)}
+      >
+        Login
+      </Link>
     </>
   );
 }
@@ -34,11 +47,11 @@ function Navbar() {
   };
 
   return (
-    <MaxWidthWrapper className={cn("mt-4 w-full", )}>
+    <MaxWidthWrapper className={cn("mt-4 w-full")}>
       <header className="relative">
         <div
           className={cn(
-            "flex items-center justify-between rounded-lg bg-white p-4 shadow-sm",
+            "flex items-center justify-between rounded-lg border bg-background p-4",
             navToggle && "rounded-b-none",
           )}
         >
@@ -47,11 +60,9 @@ function Navbar() {
           </Link>
           {/* Medium Above screen navbar */}
           <nav
-            className={cn(
-              "flex items-center gap-6 rounded-b-lg max-md:hidden",
-            )}
+            className={cn("flex items-center gap-6 rounded-b-lg max-md:hidden")}
           >
-            <NavItems setNavToggle={setNavToggle}/>
+            <NavItems setNavToggle={setNavToggle} />
           </nav>
           <Button
             onClick={() => setNavToggle((p) => !p)}
@@ -72,7 +83,7 @@ function Navbar() {
             navToggle && "animate-in-from-top",
           )}
         >
-          <NavItems setNavToggle={setNavToggle}/>
+          <NavItems setNavToggle={setNavToggle} />
         </nav>
       </header>
     </MaxWidthWrapper>

@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
     <AppStateProvider>
       <div className="flex h-screen flex-col">
-        <div className="z-10 flex items-center justify-between bg-slate-50 p-4 shadow-sm">
+        <div className="z-10 flex items-center justify-between bg-background border-b p-4 shadow-sm">
           <Link href="/">
             <Logo />
           </Link>
