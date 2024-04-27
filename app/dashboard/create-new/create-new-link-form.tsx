@@ -174,7 +174,7 @@ export function CreateNewLinkForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Back Half</FormLabel>
-              <div className="flex gap-6">
+              <div className="flex gap-6 flex-wrap md:flex-nowrap">
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>
