@@ -3,24 +3,17 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import { MenuIcon, Moon, Sun, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
-import { useTheme } from "next-themes";
+import { ThemeSwitch } from "./theme-switch";
 
 function NavItems({ setNavToggle }: { setNavToggle: (v: boolean) => void }) {
-  const { theme, setTheme } = useTheme();
   return (
     <>
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => setTheme(theme == "dark" ? "light" : "dark")}
-      >
-        {theme == "dark" ? <Sun /> : <Moon />}
-      </Button>
+      <ThemeSwitch />
       <Link href="/docs" className={buttonVariants({ variant: "link" })}>
         Docs
       </Link>

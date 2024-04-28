@@ -42,12 +42,11 @@ export function SignUpForm() {
       });
       let cbp = searchParams.get("cbp") || "/dashboard";
       router.push(cbp);
-    }
-    else{
-        toast({
-            title: "Sign-up failed!",
-            description: res.message
-        })
+    } else {
+      toast({
+        title: "Sign-up failed!",
+        description: res.message,
+      });
     }
   }
 
