@@ -63,13 +63,19 @@ export async function GET() {
     )
     .sort((a, b) => moment(a.createdAt).diff(moment(b.createdAt)));
 
+  const currentMonth = moment().month();
+  const monthLabels = [
+    ...moment.months().slice(currentMonth),
+    ...moment.months().slice(0, currentMonth),
+  ].map((m) => m.slice(0, 3));
+
   const monthsData: OverviewData["months"] = {
-    labels: moment.months().map((m) => m.slice(0, 3)),
+    labels: monthLabels,
     clicks: new Array(12).fill(0),
     scans: new Array(12).fill(0),
   };
   lastYearData.forEach((e) => {
-    const key = moment(e.createdAt).month();
+    const key = (moment(e.createdAt).month() + 12 - currentMonth) % 12;
 
     if (e.type == EngagementType.qr) {
       monthsData.scans[key] += 1;

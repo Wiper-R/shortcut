@@ -75,17 +75,17 @@ export default function Page() {
   const lineChartData = useMemo(() => {
     if (isLoading || !data) return null;
     return {
-      labels: data.months.labels,
+      labels: data.months.labels.toReversed(),
       datasets: [
         {
           label: "Clicks",
-          data: data.months.clicks,
+          data: data.months.clicks.toReversed(),
           borderColor: "rgb(53, 162, 235)",
           backgroundColor: "rgba(53, 162, 235",
         },
         {
           label: "Scans",
-          data: data.months.scans,
+          data: data.months.scans.toReversed(),
           borderColor: "rgb(255, 99, 132)",
           backgroundColor: "rgba(255, 99, 132)",
         },
