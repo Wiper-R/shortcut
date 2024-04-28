@@ -8,6 +8,7 @@ const createLinkSchema = z.object({
   url: z.string().url().optional(),
   slug: z.string().optional(), // TODO: Add a slug validator
   generateQrCode: z.boolean().default(false),
+  password: z.string().nullable(),
   qrCode: createQrCodeSchema.optional(),
 });
 
@@ -15,6 +16,7 @@ const updateLinkSchema = z.object({
   destination: z.string().optional(),
   slug: z.string().optional(),
   title: z.string().nullable().optional(),
+  password: z.string().nullable().optional(),
 });
 
 const listLinkSchema = z.object({

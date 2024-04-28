@@ -1,11 +1,9 @@
-import { normalizeEmail, cleanUser } from "@/lib/utils";
+import { cleanUser } from "@/lib/utils";
 import prisma from "@/prisma";
 import { signInSchema } from "@/validators/authValidator";
 import { NextRequest } from "next/server";
 import bcrypt from "bcrypt";
-import { SignJWT } from "jose";
 import { errorResponse, successResponse } from "@/app/api/_response";
-import config from "@/config";
 import { setTokenCookie } from "@/lib/server-utils";
 
 export async function POST(request: NextRequest) {

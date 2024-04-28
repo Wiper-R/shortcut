@@ -94,7 +94,7 @@ export function LinkEditDialog({
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Destination</FormLabel>
+                      <FormLabel>Destination*</FormLabel>
                       <FormControl>
                         <Input type="text" {...field} />
                       </FormControl>
@@ -109,7 +109,7 @@ export function LinkEditDialog({
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Back Half</FormLabel>
+                      <FormLabel>Back Half*</FormLabel>
                       <div className="flex gap-6">
                         <FormControl>
                           <Input type="text" {...field} />
@@ -123,6 +123,25 @@ export function LinkEditDialog({
                   );
                 }}
               />
+              <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <Input
+                {...field}
+                id="title"
+                type="password"
+                value={field.value || undefined}
+              />
+              <FormDescription>
+                Optional: Enter a password to protect your links
+              </FormDescription>
+            </FormItem>
+          )}
+        />
+              {/* TODO: Implement qr code generation */}
               <FormDescription>
                 <Button variant="link" className="px-0">
                   Click here

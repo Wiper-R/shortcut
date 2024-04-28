@@ -26,6 +26,7 @@ model ShortenLink {
     userId      String       @db.ObjectId
     createdAt   DateTime     @default(now())
     QrCode      QrCode?
+    password    String? // Keep it null if no password is required
     Engagement  Engagement[]
 }
 
