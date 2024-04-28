@@ -67,7 +67,7 @@ async function ShortenLinkPage({
     );
 
   if (!link.password) return handleRedirect();
-  else return <ProtectedWithPassword link={link}/>;
+  else return <ProtectedWithPassword link={link} isQR={isQR} />;
 }
 
 export default ShortenLinkPage;

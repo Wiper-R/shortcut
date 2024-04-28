@@ -8,12 +8,13 @@ import { fetchApi } from "@/lib/api-helpers";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 
-const PasswordValidator = z.object({ password: z.string() });
+const PasswordValidator = z.object({ password: z.string(), isQR: z.boolean() });
 type PasswordValidator = z.infer<typeof PasswordValidator>;
 
-export function ProtectedWithPassword({ link }: { link: ShortenLink }) {
+export function ProtectedWithPassword({ link, isQR }: { link: ShortenLink, isQR: boolean }) {
   const form = useForm<PasswordValidator>({
     resolver: zodResolver(PasswordValidator),
+    defaultValues: {isQR}
   });
   const router = useRouter();
   const { toast } = useToast();
@@ -27,7 +28,7 @@ export function ProtectedWithPassword({ link }: { link: ShortenLink }) {
         description: "Password verification successful, redirecting...",
       });
       // TODO: Create engagement
-      router.push(link.destination)
+      router.push(link.destination);
     } else {
       toast({ description: res.message });
     }
