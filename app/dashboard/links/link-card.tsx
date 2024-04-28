@@ -35,11 +35,8 @@ export function LinkCard(): JSX.Element {
   const copyRef = useRef<HTMLAnchorElement>(null);
   const copyToClipboard = useCallback(() => {
     if (!copyRef.current) return;
-    const textItem = new ClipboardItem({
-      "text/plain": "Your text goes here",
-    });
     navigator.clipboard
-      .write([textItem])
+      .writeText(copyRef.current.innerText)
       .then(() => toast({ description: "Coped Link to clipboard" }))
       .catch((e) => toast({ description: "Can't copy to clipboard" }));
   }, [copyRef.current]);
