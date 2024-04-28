@@ -36,7 +36,6 @@ export default function Page() {
     form.reset({ email: user?.email || "", name: user?.name || "" });
   }, [user]);
 
-
   const onValid = async (data: updateUserSchema) => {
     const resp = await fetchApi("/api/users", {
       method: "PUT",
@@ -95,6 +94,7 @@ export default function Page() {
           variant="destructive"
           onClick={async () => {
             await fetchApi("/api/auth/logout", {});
+            dispatch({ type: "logout" });
             router.push("/");
           }}
         >
