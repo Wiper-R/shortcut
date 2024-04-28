@@ -9,6 +9,9 @@ import {
   ArcElement,
   Tooltip,
   Legend,
+  ChartOptions,
+  LineOptions,
+  ScaleOptions,
 } from "chart.js";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
@@ -127,7 +130,12 @@ export default function Page() {
           {lineChartData && (
             <Line
               data={lineChartData}
-              options={options}
+              options={{
+                ...options,
+                scales: {
+                  y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                },
+              }}
               className="min-h-[240px]"
             />
           )}
