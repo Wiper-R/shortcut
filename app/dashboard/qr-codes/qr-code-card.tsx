@@ -51,22 +51,22 @@ const QRCodeDropDownMenu = ({
 
 export function QRCodeCard() {
   const divRef = useRef<HTMLDivElement>(null);
-  const ref = useRef<HTMLCanvasElement>();
+  const copyRef = useRef<HTMLCanvasElement>();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const { data } = useDataProvider<QRCodeWithShortenLink>();
 
   useEffect(() => {
-    ref.current = divRef.current?.children[0] as HTMLCanvasElement;
+    copyRef.current = divRef.current?.children[0] as HTMLCanvasElement;
   }, []);
 
   const copyToClipboard = useCallback(
     function () {
-      if (!ref.current)
+      if (!copyRef.current)
         return console.error(
           "Failed to copy QR-code, missing QR-Code reference",
         );
-      ref.current.toBlob(function (blob) {
+      copyRef.current.toBlob(function (blob) {
         console.log(blob);
         if (!blob) return;
         const item = new ClipboardItem({ "image/png": blob });
@@ -74,7 +74,7 @@ export function QRCodeCard() {
           .write([item])
           .then(() => toast({ description: "Copied QR-Code to clipboard" }))
           .catch((e) =>
-            console.error("Failed to copy QR-code to clipboard", e),
+            toast({description: "Can't copy to clipboard"})
           );
       });
     },
