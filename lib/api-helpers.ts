@@ -20,6 +20,4 @@ async function fetchApi<T = unknown>(
   }
 }
 
-
-
-export {fetchApi};
+export { fetchApi };

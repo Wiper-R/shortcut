@@ -8,7 +8,7 @@ export function SidebarToggle() {
     <Button
       variant="outline"
       size="icon"
-      onClick={() => setSidebarToggle(p => !p)}
+      onClick={() => setSidebarToggle((p) => !p)}
       className="md:hidden"
     >
       <MenuIcon className="w-5" />

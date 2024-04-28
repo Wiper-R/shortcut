@@ -50,17 +50,20 @@ export function LinkCard(): JSX.Element {
       <div className="flex flex-grow flex-col">
         <Link
           href="/"
-          className="line-clamp-1 break-all text-base md:text-lg font-medium hover:underline w-fit"
+          className="line-clamp-1 w-fit break-all text-base font-medium hover:underline md:text-lg"
         >
           {data.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="" className=" line-clamp-1 break-all w-fit text-sm md:text-base">
+        <Link
+          href=""
+          className=" line-clamp-1 w-fit break-all text-sm md:text-base"
+        >
           {data.destination}
         </Link>
         <Link
           href={window.location.origin + `/l/${data.slug}`}
-          className="line-clamp-1 text-sm md:text-base break-all font-medium text-sky-600 hover:underline w-fit"
+          className="line-clamp-1 w-fit break-all text-sm font-medium text-sky-600 hover:underline md:text-base"
         >
           {window.location.origin + `/l/${data.slug}`}
         </Link>

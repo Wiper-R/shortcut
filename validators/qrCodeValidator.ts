@@ -8,7 +8,7 @@ export const createQrCodeSchema = z.object({
   // TODO: Test with base64 urls
   iconUrl: z.string().url().nullish(),
 });
-  
+
 export const updateQrCodeSchema = z.object({
   fgColor: z.string().optional(),
   bgColor: z.string().optional(),
@@ -17,10 +17,8 @@ export const updateQrCodeSchema = z.object({
 
 export type updateQrCodeSchema = z.infer<typeof updateQrCodeSchema>;
 
-
-
 export const listQrCodeSchema = z.object({
   limit: z.coerce.number().min(1).default(10),
   cursor: z.string().optional(),
-  search: z.string().optional()
-})
+  search: z.string().optional(),
+});

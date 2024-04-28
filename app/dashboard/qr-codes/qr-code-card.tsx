@@ -86,7 +86,7 @@ export function QRCodeCard() {
       <QREditDialog open={isEditing} setIsOpen={setIsEditing} />
       {/* QR code div */}
       <div className="grid grid-cols-[1fr_auto_1fr] md:hidden">
-        <span/>
+        <span />
         <div>
           <QRCodeCanvas
             value={window.location.origin + `/l/${data.ShortenLink.slug}?qr`}

@@ -64,7 +64,7 @@ export async function GET() {
     .sort((a, b) => moment(a.createdAt).diff(moment(b.createdAt)));
 
   const monthsData: OverviewData["months"] = {
-    labels: moment.months().map(m => m.slice(0, 3)),
+    labels: moment.months().map((m) => m.slice(0, 3)),
     clicks: new Array(12).fill(0),
     scans: new Array(12).fill(0),
   };

@@ -123,21 +123,24 @@ export default function Page() {
           value={data?.total.urlCreated || 0}
           timeSpan="All time"
         />
-        <Card className="col-span-6 p-1 sm:col-span-4 sm:p-4 flex">
-          {lineChartData && <Line data={lineChartData} options={options} className="min-h-[240px]"/>}
+        <Card className="col-span-6 flex p-1 sm:col-span-4 sm:p-4">
+          {lineChartData && (
+            <Line
+              data={lineChartData}
+              options={options}
+              className="min-h-[240px]"
+            />
+          )}
         </Card>
-        <Card className="col-span-6 p-1 sm:col-span-2 sm:p-4 flex">
+        <Card className="col-span-6 flex p-1 sm:col-span-2 sm:p-4">
           <Pie
-          className="mx-auto"
+            className="mx-auto"
             data={{
               labels: ["Click", "Scan"],
               datasets: [
                 {
                   data: [[data?.total.clicks], [data?.total.scans]],
-                  backgroundColor: [
-                    "rgba(53, 162, 235)",
-                    "rgba(255, 99, 132)",
-                  ],
+                  backgroundColor: ["rgba(53, 162, 235)", "rgba(255, 99, 132)"],
                 },
               ],
             }}

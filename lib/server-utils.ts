@@ -11,4 +11,3 @@ export async function setTokenCookie(userId: string) {
 
   cookies().set(config.TOKEN_COOKIE_KEY, token, { httpOnly: true });
 }
-

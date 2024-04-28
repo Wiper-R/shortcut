@@ -31,7 +31,10 @@ export function LinkContainer() {
       ) : (
         <div className="text-center text-sm">
           You {"don't"} have any link{" "}
-          <Link className={buttonVariants({ variant: "link", className: "py-0" })} href="create-new">
+          <Link
+            className={buttonVariants({ variant: "link", className: "py-0" })}
+            href="create-new"
+          >
             create one
           </Link>
         </div>

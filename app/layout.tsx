@@ -24,9 +24,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "overflow-hidden")}>
         <QueryClientProvider>
           <SessionProvider>
-            <ThemeProvider attribute="class">
-              {children}
-            </ThemeProvider>
+            <ThemeProvider attribute="class">{children}</ThemeProvider>
           </SessionProvider>
         </QueryClientProvider>
         <Toaster />
