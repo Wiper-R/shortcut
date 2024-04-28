@@ -40,6 +40,7 @@ export function CreateNewLinkForm() {
         destination: "",
         slug: "",
         generateQrCode: false,
+        password: null,
         qrCode: { fgColor: DEFAULT_QR_FGCOLOR, bgColor: DEFAULT_QR_BGCOLOR },
       };
     }, []),
@@ -155,7 +156,7 @@ export function CreateNewLinkForm() {
           name="destination"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="destination">Destination</Label>
+              <Label htmlFor="destination">Destination*</Label>
               <Input
                 id="destination"
                 type="text"
@@ -184,6 +185,24 @@ export function CreateNewLinkForm() {
                   Check Availability
                 </Button>
               </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                {...field}
+                id="title"
+                type="password"
+                value={field.value || undefined}
+              />
+              <FormDescription>
+                Optional: Enter a password to protect your links
+              </FormDescription>
             </FormItem>
           )}
         />

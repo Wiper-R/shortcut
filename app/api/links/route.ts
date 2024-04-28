@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
         url: data.url || data.destination,
         userId: session.user.id,
         title: data.title,
+        password: data.password,
         QrCode: data.generateQrCode ? { create: data.qrCode } : undefined,
       },
     });

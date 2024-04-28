@@ -1,4 +1,5 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { ProtectedWithPassword } from "@/components/ProtectedWithPassword";
 import { buttonVariants } from "@/components/ui/button";
 import prisma from "@/prisma";
 import Link from "next/link";
@@ -55,15 +56,18 @@ async function ShortenLinkPage({
     redirect(link.destination, RedirectType.replace);
   };
 
-  if (link) return handleRedirect();
-  return (
-    <MaxWidthWrapper className="flex min-h-screen items-center overflow-auto py-4">
-      <Message
-        title="Link not found"
-        description="The link doesn't seem to exists, maybe you made a typo?"
-      />
-    </MaxWidthWrapper>
-  );
+  if (!link)
+    return (
+      <MaxWidthWrapper className="flex items-center overflow-auto py-4">
+        <Message
+          title="Link not found"
+          description="The link doesn't seem to exists, maybe you made a typo?"
+        />
+      </MaxWidthWrapper>
+    );
+
+  if (!link.password) return handleRedirect();
+  else return <ProtectedWithPassword link={link}/>;
 }
 
 export default ShortenLinkPage;
