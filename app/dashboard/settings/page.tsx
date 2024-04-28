@@ -36,7 +36,6 @@ export default function Page() {
     form.reset({ email: user?.email || "", name: user?.name || "" });
   }, [user]);
 
-
   const onValid = async (data: updateUserSchema) => {
     const resp = await fetchApi("/api/users", {
       method: "PUT",
@@ -92,10 +91,10 @@ export default function Page() {
       <div className="space-x-2">
         <ChangePasswordDialog />
         <Button
-          variant="outline"
-          className="border-destructive text-destructive hover:border-destructive hover:text-destructive"
+          variant="destructive"
           onClick={async () => {
             await fetchApi("/api/auth/logout", {});
+            dispatch({ type: "logout" });
             router.push("/");
           }}
         >

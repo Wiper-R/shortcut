@@ -7,5 +7,5 @@ import { successResponse } from "../../_response";
 export async function POST(request: NextRequest) {
   const json = await request.json();
   const d = await getTitleFromURL(json.url);
-  return successResponse(d)
+  return successResponse(d);
 }

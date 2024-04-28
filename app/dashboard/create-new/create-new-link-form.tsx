@@ -22,6 +22,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useRouter } from "next/navigation";
 
 type TitleApiData = {
   title: string | null;
@@ -29,6 +30,7 @@ type TitleApiData = {
 };
 
 export function CreateNewLinkForm() {
+  const router = useRouter();
   const form = useForm<createLinkSchema>({
     resolver: zodResolver(createLinkSchema),
 
@@ -103,6 +105,7 @@ export function CreateNewLinkForm() {
           title: "Link has been shortened",
           description: "You will be redirected to link manage page.",
         });
+        router.push("links");
       } else {
         // Handle error response
         console.error(
@@ -111,9 +114,7 @@ export function CreateNewLinkForm() {
         );
         toast({
           title: "Error",
-          description:
-            "An error occurred while shortening the link. Please try again later.",
-          variant: "destructive",
+          description: response.message,
         });
       }
     } catch (error) {
@@ -174,7 +175,7 @@ export function CreateNewLinkForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Back Half</FormLabel>
-              <div className="flex gap-6">
+              <div className="flex flex-wrap gap-6 md:flex-nowrap">
                 <FormControl>
                   <Input type="text" {...field} />
                 </FormControl>

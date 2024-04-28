@@ -56,6 +56,7 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
   const [session, dispatch] = useReducer(sessionReducer, initialState);
 
   useEffect(() => {
+    if (session.state != "loading") return;
     async function populateUser() {
       const res = await fetchApi<{ user: ReturnType<typeof cleanUser> }>(
         "/api/users/@me",
@@ -72,7 +73,7 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
     }
 
     populateUser();
-  }, []);
+  }, [session.state]);
 
   return (
     <SessionContext.Provider value={{ session, dispatch }}>

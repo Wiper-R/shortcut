@@ -16,9 +16,8 @@ export const signInSchema = z.object({
 export const updatePasswordSchema = z.object({
   old: z.string().min(6),
   new: z.string().min(6),
-})
+});
 
 export type signInSchema = z.infer<typeof signInSchema>;
 export type signUpSchema = z.infer<typeof signUpSchema>;
 export type updatePasswordSchema = z.infer<typeof updatePasswordSchema>;
-

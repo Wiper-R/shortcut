@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { ShortenLink } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +20,7 @@ import {
   PenIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
 
 type ShortenLinkWithEngagements = ShortenLink & {
   _count: {
@@ -30,6 +31,15 @@ type ShortenLinkWithEngagements = ShortenLink & {
 export function LinkCard(): JSX.Element {
   const { data } = useDataProvider<ShortenLinkWithEngagements>();
   const [isEditing, setIsEditing] = useState(false);
+  const { toast } = useToast();
+  const copyRef = useRef<HTMLAnchorElement>(null);
+  const copyToClipboard = useCallback(() => {
+    if (!copyRef.current) return;
+    navigator.clipboard
+      .writeText(copyRef.current.innerText)
+      .then(() => toast({ description: "Coped Link to clipboard" }))
+      .catch((e) => toast({ description: "Can't copy to clipboard" }));
+  }, [copyRef.current]);
 
   return (
     <Card className="flex gap-2 p-2 md:px-6 md:py-4">
@@ -50,17 +60,21 @@ export function LinkCard(): JSX.Element {
       <div className="flex flex-grow flex-col">
         <Link
           href="/"
-          className="line-clamp-1 break-all text-base md:text-lg font-medium hover:underline w-fit"
+          className="line-clamp-1 w-fit break-all text-base font-medium hover:underline md:text-lg"
         >
           {data.title ||
             `Untitled ${new Date(data.createdAt).toLocaleString()}`}
         </Link>
-        <Link href="" className=" line-clamp-1 break-all w-fit text-sm md:text-base">
+        <Link
+          href=""
+          className=" line-clamp-1 w-fit break-all text-sm md:text-base"
+        >
           {data.destination}
         </Link>
         <Link
           href={window.location.origin + `/l/${data.slug}`}
-          className="line-clamp-1 text-sm md:text-base break-all font-medium text-sky-600 hover:underline w-fit"
+          className="line-clamp-1 w-fit break-all text-sm font-medium text-sky-600 hover:underline md:text-base"
+          ref={copyRef}
         >
           {window.location.origin + `/l/${data.slug}`}
         </Link>
@@ -87,7 +101,7 @@ export function LinkCard(): JSX.Element {
             <PenIcon className="mr-2 h-4 w-4" />
             <span>Edit</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={copyToClipboard}>
             <CopyIcon className="mr-2 h-4 w-4" />
             <span>Copy</span>
           </DropdownMenuItem>
