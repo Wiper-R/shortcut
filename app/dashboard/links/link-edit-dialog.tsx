@@ -44,7 +44,7 @@ export function LinkEditDialog({
     // TODO: Add link-context and qr-code context
     try {
       const res = await client.patch(`/links/${data.slug}`, updateData);
-      toast({ title: "Success", description: "Link has been shortened" });
+      toast({ title: "Success", description: "Link has been edited" });
       setData({ ...data, ...res.data });
       setIsOpen(false);
     } catch (e) {
