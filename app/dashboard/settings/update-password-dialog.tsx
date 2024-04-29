@@ -14,25 +14,25 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { KeyRoundIcon } from "lucide-react";
 import useSession from "@/auth/useSession";
-import { fetchApi } from "@/lib/api-helpers";
 import { useRouter } from "next/navigation";
-import { updatePasswordSchema } from "@/validators/authValidator";
+import { changePasswordSchema } from "@/validators/authValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import client from "@/lib/api-client";
+import { useToast } from "@/components/ui/use-toast";
+import { getErrorMessage } from "@/lib/utils";
 
 export function ChangePasswordDialog() {
-  const form = useForm<updatePasswordSchema>({
-    resolver: zodResolver(updatePasswordSchema),
+  const form = useForm<changePasswordSchema>({
+    resolver: zodResolver(changePasswordSchema),
   });
-  const router = useRouter();
-  const { dispatch } = useSession();
+  const {toast} = useToast();
   const onValid = async (data: any) => {
-    const response = await fetchApi("/api/auth/update-password", {
-      method: "PUT",
-      body: JSON.stringify(data),
-    });
-    if (response.code == "success") {
-      await fetchApi("/api/auth/logout", {});
-      router.push("/");
+    try{
+      await client.patch("/auth/change-password", data);
+      toast({title: "Success", description: "Password has been updated"})
+    }
+    catch (e){
+      toast({title: "Error", description: getErrorMessage(e)})
     }
   };
   return (

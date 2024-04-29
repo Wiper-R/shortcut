@@ -20,11 +20,11 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { updateLinkSchema } from "@/validators/linksValidator";
 import { PenIcon } from "lucide-react";
-import { fetchApi } from "@/lib/api-helpers";
-// import { useShortenLinkData } from "./link-data-context";
-import { toast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { useDataProvider } from "@/contexts/data-provider";
 import { ShortenLink } from "@prisma/client";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
 export function LinkEditDialog({
   open,
@@ -33,6 +33,7 @@ export function LinkEditDialog({
   open: boolean;
   setIsOpen: (v: boolean) => void;
 }) {
+  const { toast } = useToast();
   const { data, setData } = useDataProvider<ShortenLink>();
   const form = useForm<updateLinkSchema>({
     resolver: zodResolver(updateLinkSchema),
@@ -41,15 +42,13 @@ export function LinkEditDialog({
 
   async function onValid(updateData: updateLinkSchema) {
     // TODO: Add link-context and qr-code context
-    const res = await fetchApi(`/api/links/${data.slug}`, {
-      method: "PATCH",
-      body: JSON.stringify(updateData),
-    });
-
-    if (res.code == "success") {
-      toast({ description: "Link has been edited" });
-      setData({ ...data, ...(res.data as any).shortenLink });
+    try {
+      const res = await client.patch(`/links/${data.slug}`, updateData);
+      toast({ title: "Success", description: "Link has been shortened" });
+      setData({ ...data, ...res.data });
       setIsOpen(false);
+    } catch (e) {
+      toast({ title: "Error", description: getErrorMessage(e) });
     }
   }
   return (
@@ -124,23 +123,23 @@ export function LinkEditDialog({
                 }}
               />
               <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <Input
-                {...field}
-                id="title"
-                type="password"
-                value={field.value || undefined}
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      {...field}
+                      id="title"
+                      type="password"
+                      value={field.value || undefined}
+                    />
+                    <FormDescription>
+                      Optional: Enter a password to protect your links
+                    </FormDescription>
+                  </FormItem>
+                )}
               />
-              <FormDescription>
-                Optional: Enter a password to protect your links
-              </FormDescription>
-            </FormItem>
-          )}
-        />
               {/* TODO: Implement qr code generation */}
               <FormDescription>
                 <Button variant="link" className="px-0">

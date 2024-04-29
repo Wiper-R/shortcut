@@ -31,7 +31,7 @@ const QRCodeDropDownMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="flex-shrink-0">
-        <Button variant="outline" size="icon" className="ml-auto">
+        <Button variant="outline" size="icon" className="">
           <MenuIcon className="w-5" />
         </Button>
       </DropdownMenuTrigger>
@@ -73,9 +73,7 @@ export function QRCodeCard() {
         navigator.clipboard
           .write([item])
           .then(() => toast({ description: "Copied QR-Code to clipboard" }))
-          .catch((e) =>
-            toast({description: "Can't copy to clipboard"})
-          );
+          .catch((e) => toast({ description: "Can't copy to clipboard" }));
       });
     },
     [toast],
@@ -136,7 +134,7 @@ export function QRCodeCard() {
           </div>
         </div>
       </div>
-      <div className="hidden md:block">
+      <div className="hidden md:block ml-auto">
         <QRCodeDropDownMenu {...{ copyToClipboard, setIsEditing }} />
       </div>
     </Card>

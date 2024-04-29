@@ -1,9 +1,9 @@
 import { getSession } from "@/auth/session";
-import { NextRequest, NextResponse } from "next/server";
-import errorCodes from "../_error-codes";
+import { NextResponse } from "next/server";
 import prisma from "@/prisma";
 import moment from "moment";
 import { EngagementType } from "@prisma/client";
+import { HttpStatusCode } from "axios";
 
 // TODO: Add error codes and all things
 
@@ -27,7 +27,8 @@ export type OverviewData = {
 
 export async function GET() {
   const session = await getSession();
-  if (!session) return errorCodes.Unauthorized();
+  if (!session)
+    return NextResponse.json(null, { status: HttpStatusCode.Unauthorized });
   // FIXME: these could be optimized
   const engagements = await prisma.engagement.findMany({
     where: { ShortenLink: { userId: session.user.id } },
@@ -84,9 +85,11 @@ export async function GET() {
     }
   });
 
-  return NextResponse.json({
-    week,
-    total,
-    months: monthsData,
-  } as OverviewData);
+  return NextResponse.json(
+    {
+      week,
+      total,
+      months: monthsData,
+    } as OverviewData,
+  );
 }

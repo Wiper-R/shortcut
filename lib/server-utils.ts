@@ -9,5 +9,5 @@ export async function setTokenCookie(userId: string) {
     .setProtectedHeader({ alg: "HS256" })
     .sign(new TextEncoder().encode(config.JWT_SECRET));
 
-  cookies().set(config.TOKEN_COOKIE_KEY, token, { httpOnly: true });
+  cookies().set(config.TOKEN_COOKIE_KEY, token, { httpOnly: true, sameSite: true });
 }

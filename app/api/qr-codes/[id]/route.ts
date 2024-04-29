@@ -1,9 +1,8 @@
 import { updateQrCodeSchema } from "@/validators/qrCodeValidator";
-import { NextRequest } from "next/server";
-import _errorCodes from "../../_error-codes";
+import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/auth/session";
 import prisma from "@/prisma";
-import { successResponse } from "../../_response";
+import errorCodes from "../../error-codes";
 
 type Params = {
   params: { id: string };
@@ -16,17 +15,19 @@ const findQrCode = async (id: string) =>
   });
 
 export async function PATCH(request: NextRequest, { params: { id } }: Params) {
-  const body = await request.json();
-  const data = updateQrCodeSchema.parse(body);
+  const json = await request.json();
+  const parsed = updateQrCodeSchema.safeParse(json);
+  if (!parsed.success) return errorCodes.Unauthorized(parsed.error.message)
+  const {data} = parsed;
 
   const session = await getSession();
-  if (!session) return _errorCodes.Unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   const _existingQrCode = await findQrCode(id);
 
-  if (!_existingQrCode) return _errorCodes.NotFound();
+  if (!_existingQrCode) return errorCodes.NotFound();
   if (_existingQrCode.ShortenLink.userId != session.user.id)
-    return _errorCodes.Forbidden();
+    return errorCodes.Forbidden();
 
   try {
     var qrCode = await prisma.qrCode.update({
@@ -37,17 +38,17 @@ export async function PATCH(request: NextRequest, { params: { id } }: Params) {
     throw e;
   }
 
-  return successResponse({ qrCode }, { status: 200 });
+  return NextResponse.json(qrCode);
 }
 
 export async function DELETE(request: NextRequest, { params: { id } }: Params) {
   const session = await getSession();
-  if (!session) return _errorCodes.Unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   const _existingQrCode = await findQrCode(id);
-  if (!_existingQrCode) return _errorCodes.NotFound();
+  if (!_existingQrCode) return errorCodes.NotFound();
   if (_existingQrCode.ShortenLink.userId != session.user.id)
-    return _errorCodes.Forbidden();
+    return errorCodes.Forbidden();
 
   try {
     await prisma.qrCode.delete({ where: { id } });
@@ -55,5 +56,5 @@ export async function DELETE(request: NextRequest, { params: { id } }: Params) {
     throw e;
   }
 
-  return successResponse(undefined, { status: 200 });
+  return NextResponse.json(null);
 }

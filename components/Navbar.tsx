@@ -17,7 +17,7 @@ function NavItems({ setNavToggle }: { setNavToggle: (v: boolean) => void }) {
       <Link href="/docs" className={buttonVariants({ variant: "link" })}>
         Docs
       </Link>
-      <Link href="/github" className={buttonVariants({ variant: "link" })}>
+      <Link href={process.env.NEXT_PUBLIC_GITHUB_URL!} className={buttonVariants({ variant: "link" })}>
         Github
       </Link>
       <Link

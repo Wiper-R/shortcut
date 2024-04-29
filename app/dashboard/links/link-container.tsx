@@ -8,21 +8,16 @@ import { Loader } from "@/components/Loader";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
-type ShortenLinkApiData = {
-  shortenLinks: ShortenLink[];
-};
-
 export function LinkContainer() {
   const { data, element, isLoading } =
-    useInfiniteScroll<ShortenLinkApiData>("/api/links");
-  console.log(data);
+    useInfiniteScroll<ShortenLink>("/links");
   return (
     <div className="mt-4 flex flex-col space-y-4">
       {isLoading ? (
         <Loader className="my-10" />
-      ) : data && data.pages[0].shortenLinks.length ? (
+      ) : data && data.pages[0].entries.length ? (
         data.pages.map((page) =>
-          page.shortenLinks.map((data) => (
+          page.entries.map((data) => (
             <DataProvider data={data} key={data.id}>
               <LinkCard />
             </DataProvider>

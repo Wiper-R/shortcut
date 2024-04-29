@@ -5,19 +5,19 @@ import { z } from "zod";
 export const signUpSchema = z.object({
   name: z.string().min(1),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(1),
 });
 
 export const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(1),
 });
 
-export const updatePasswordSchema = z.object({
-  old: z.string().min(6),
-  new: z.string().min(6),
+export const changePasswordSchema = z.object({
+  old: z.string(),
+  new: z.string().min(1),
 });
 
 export type signInSchema = z.infer<typeof signInSchema>;
 export type signUpSchema = z.infer<typeof signUpSchema>;
-export type updatePasswordSchema = z.infer<typeof updatePasswordSchema>;
+export type changePasswordSchema = z.infer<typeof changePasswordSchema>;

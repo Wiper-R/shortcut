@@ -1,10 +1,10 @@
-import errorCodes from "@/app/api/_error-codes";
-import { successResponse } from "@/app/api/_response";
+import errorCodes from "@/app/api/error-codes";
 import { getSession } from "@/auth/session";
 import { isUniqueValidationError } from "@/lib/db-errors";
 import prisma from "@/prisma";
 import { createQrCodeSchema } from "@/validators/qrCodeValidator";
-import { NextRequest } from "next/server";
+import { HttpStatusCode } from "axios";
+import { NextRequest, NextResponse } from "next/server";
 
 type Params = { params: { slug: string } };
 
@@ -28,10 +28,11 @@ export async function POST(request: NextRequest, { params: { slug } }: Params) {
       data: { shortenLinkId: shortenLink.id, ...data },
     });
   } catch (e) {
-    if (isUniqueValidationError(e)) return errorCodes.Conflict();
+    if (isUniqueValidationError(e))
+      return errorCodes.Conflict("QR code already exists");
 
     throw e;
   }
 
-  return successResponse({ qrCode }, { status: 201 });
+  return NextResponse.json(qrCode, { status: HttpStatusCode.Created });
 }

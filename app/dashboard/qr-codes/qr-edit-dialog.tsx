@@ -24,8 +24,9 @@ import { QRCodeCanvas } from "qrcode.react";
 import { DEFAULT_QR_BGCOLOR, DEFAULT_QR_FGCOLOR } from "@/constants";
 import { useDataProvider } from "@/contexts/data-provider";
 import { QRCodeWithShortenLink } from "./qrcode-container";
-import { fetchApi } from "@/lib/api-helpers";
 import { toast } from "@/components/ui/use-toast";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
 export function QREditDialog({
   open,
@@ -41,15 +42,13 @@ export function QREditDialog({
   });
 
   async function onValid(updateData: updateQrCodeSchema) {
-    const res = await fetchApi(`/api/qr-codes/${data.id}`, {
-      method: "PATCH",
-      body: JSON.stringify(updateData),
-    });
-
-    if (res.code == "success") {
-      toast({ description: "QR Code has been edited" });
-      setData({ ...data, ...(res.data as any).qrCode });
+    try {
+      const res = await client.patch(`/qr-codes/${data.id}`, updateData);
+      toast({ title: "Success", description: "QR Code has been edited" });
+      setData({ ...data, ...res.data });
       setIsOpen(false);
+    } catch (e) {
+      toast({ title: "Error", description: getErrorMessage(e) });
     }
   }
 

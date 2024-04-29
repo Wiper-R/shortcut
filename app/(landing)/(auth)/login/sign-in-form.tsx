@@ -11,14 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInSchema } from "@/validators/authValidator";
-import { cleanUser } from "@/lib/utils";
-import { fetchApi } from "@/lib/api-helpers";
+import { cleanUser, getErrorMessage } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import useSession from "@/auth/useSession";
+import client from "@/lib/api-client";
 
 type SignInApiResponse = {
   user: ReturnType<typeof cleanUser>;
@@ -34,22 +33,22 @@ export function SignInForm() {
   const { dispatch } = useSession();
 
   async function OnValid(data: signInSchema) {
-    let response = await fetchApi<SignInApiResponse>("/api/auth/sign-in", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (response.code == "success") {
+    try {
+      const res = await client.post<ReturnType<typeof cleanUser>>(
+        "/auth/login",
+        data,
+      );
+      dispatch({ type: "login_success", payload: res.data });
       toast({
         title: "Login Successful",
         description: "You will be redirected to dashboard",
       });
-      dispatch({ type: "login_success", payload: response.data.user });
-      let cbp = searchParams.get("cbp") || "/dashboard";
+      let cbp = searchParams.get("cbp") || "/dashboard/overview";
       router.push(cbp);
-    } else {
+    } catch (e) {
       toast({
-        title: "Login Failed!",
-        description: response.message,
+        title: "Login failed",
+        description: getErrorMessage(e),
       });
     }
   }

@@ -50,9 +50,6 @@ async function ShortenLinkPage({
       throw new Error(
         "handleRedirect should only be called when link is not null and not expired.",
       );
-    await prisma.engagement.create({
-      data: { type: isQR ? "qr" : "link", shortenLinkId: link.id },
-    });
     redirect(link.destination, RedirectType.replace);
   };
 
@@ -65,9 +62,11 @@ async function ShortenLinkPage({
         />
       </MaxWidthWrapper>
     );
-
+  await prisma.engagement.create({
+    data: { type: isQR ? "qr" : "link", shortenLinkId: link.id },
+  });
   if (!link.password) return handleRedirect();
-  else return <ProtectedWithPassword link={link} isQR={isQR} />;
+  else return <ProtectedWithPassword link={link} />;
 }
 
 export default ShortenLinkPage;

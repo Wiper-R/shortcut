@@ -1,19 +1,23 @@
 import { isUniqueValidationError } from "@/lib/db-errors";
 import prisma from "@/prisma";
 import { createLinkSchema, listLinkSchema } from "@/validators/linksValidator";
-import { NextRequest } from "next/server";
-import { successResponse } from "../_response";
+import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/auth/session";
-import errorCodes from "../_error-codes";
 import {
   generateRandomSlug,
   getNextPageCursor,
   getShortenLinksSearchFilter,
 } from "@/lib/utils";
+import errorCodes from "../error-codes";
+import { HttpStatusCode } from "axios";
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const data = createLinkSchema.parse(body);
+  const json = await request.json();
+  const parsed = createLinkSchema.safeParse(json);
+
+  if (!parsed.success) return errorCodes.BadRequest(parsed.error.message);
+
+  const { data } = parsed;
 
   const slug = data.slug || generateRandomSlug();
 
@@ -43,14 +47,18 @@ export async function POST(request: NextRequest) {
     throw e;
   }
 
-  return successResponse({ shortenLink }, { status: 201 });
+  return NextResponse.json(shortenLink, { status: HttpStatusCode.Created });
 }
 
 // GET links related to a current user
 export async function GET(request: NextRequest) {
-  const data = listLinkSchema.parse(
+  const parsed = listLinkSchema.safeParse(
     Object.fromEntries(request.nextUrl.searchParams),
   );
+
+  if (!parsed.success) return errorCodes.BadRequest(parsed.error.message);
+
+  const { data } = parsed;
 
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
@@ -68,8 +76,8 @@ export async function GET(request: NextRequest) {
     },
   });
 
-  return successResponse({
-    shortenLinks: shortenLinks.slice(0, data.limit),
+  return NextResponse.json({
+    entries: shortenLinks.slice(0, data.limit),
     nextPage: getNextPageCursor(shortenLinks, "id", data.limit),
   });
 }
