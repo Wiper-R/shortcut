@@ -1,8 +1,8 @@
-import { errorResponse, successResponse } from "@/app/api/_response";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import errorCodes from "@/app/api/_error-codes";
 import prisma from "@/prisma";
+import errorCodes from "@/app/api/error-codes";
+import { validatePasswordSchema } from "@/validators/linksValidator";
 
 type Params = {
   params: { slug: string };
@@ -10,20 +10,19 @@ type Params = {
 
 export async function POST(request: NextRequest, { params }: Params) {
   const json = await request.json();
-  const data = z.object({ password: z.string(), isQR: z.boolean() }).safeParse(json);
+  const parsed = validatePasswordSchema.safeParse(json);
+  if (!parsed.success) {
+    return errorCodes.BadRequest(parsed.error.message);
+  }
+  const { data } = parsed;
   const { slug } = params;
   const link = await prisma.shortenLink.findFirst({ where: { slug } });
   if (!link) return errorCodes.NotFound();
   if (!link.password)
     return errorCodes.BadRequest("This link is not password protected");
 
-  if (data.success) {
-    if (data.data.password == link.password) {
-      await prisma.engagement.create({
-        data: { type: data.data.isQR ? "qr" : "link", shortenLinkId: link.id },
-      });
-      return successResponse(true);
-    }
+  if (data.password == link.password) {
+    return NextResponse.json(true);
   }
 
   return errorCodes.Unauthorized();

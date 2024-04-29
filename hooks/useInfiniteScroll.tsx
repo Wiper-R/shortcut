@@ -1,12 +1,13 @@
-import { fetchApi } from "@/lib/api-helpers";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounced } from "./useDebounced";
 import { useIntersectionObserver } from "./useIntersectionObserver";
 import { useSearchParams } from "next/navigation";
+import client from "@/lib/api-client";
 
 type ApiData<T> = {
   nextPage: string | null;
-} & T;
+  entries: T[];
+};
 
 export function useInfiniteScroll<T = any>(apiEndPoint: string) {
   const search = useSearchParams().get("search");
@@ -27,12 +28,15 @@ export function useInfiniteScroll<T = any>(apiEndPoint: string) {
 
     searchParams.set("limit", "10");
 
-    const res = await fetchApi<ApiData<T>>(
-      apiEndPoint + "?" + searchParams.toString(),
-      {},
-    );
-    if (res.code == "success") return res.data;
-    throw new Error("Unable to fetch data. Cause: " + res.message);
+    try {
+      const res = await client.get<ApiData<T>>(
+        apiEndPoint + "?" + searchParams.toString(),
+        {},
+      );
+      return res.data;
+    } catch (e) {
+      throw new Error("Unable to fetch data. Cause: " + e);
+    }
   };
 
   const handleFetchNextPage = () => {

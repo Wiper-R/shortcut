@@ -1,9 +1,8 @@
-import { NextRequest } from "next/server";
-import { successResponse } from "@/app/api/_response";
 import config from "@/config";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   cookies().delete(config.TOKEN_COOKIE_KEY);
-  return successResponse({});
+  return NextResponse.json(null);
 }

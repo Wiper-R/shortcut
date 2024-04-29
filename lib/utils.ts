@@ -3,6 +3,7 @@ import { type ClassValue, clsx } from "clsx";
 import { customAlphabet } from "nanoid";
 import { twMerge } from "tailwind-merge";
 import * as cheerio from "cheerio";
+import { AxiosError } from "axios";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -108,4 +109,18 @@ export async function getTitleFromURL(url: string) {
   }
 
   return { title, url: res.url };
+}
+
+
+export function getErrorMessage(e: any) {
+  var message: string = "Unknown error";
+  if (e instanceof AxiosError) {
+    message = e.response?.data.message || e.message;
+  }
+
+  else if ("message" in e && e.message) {
+    message = e.message;
+  }
+
+  return message;
 }

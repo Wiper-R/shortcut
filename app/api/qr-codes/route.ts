@@ -1,17 +1,22 @@
 import { getSession } from "@/auth/session";
 import prisma from "@/prisma";
 import { listQrCodeSchema } from "@/validators/qrCodeValidator";
-import { NextRequest } from "next/server";
-import _errorCodes from "../_error-codes";
-import { successResponse } from "../_response";
+import { NextRequest, NextResponse } from "next/server";
 import { getNextPageCursor, getShortenLinksSearchFilter } from "@/lib/utils";
+import errorCodes from "../error-codes";
 
 export async function GET(request: NextRequest) {
-  const data = listQrCodeSchema.parse(
+  const parsed = listQrCodeSchema.safeParse(
     Object.fromEntries(request.nextUrl.searchParams),
   );
+
+  if (!parsed.success) {
+    return errorCodes.BadRequest(parsed.error.message);
+  }
+
+  const { data } = parsed;
   const session = await getSession();
-  if (!session) return _errorCodes.Unauthorized();
+  if (!session) return errorCodes.Unauthorized();
 
   const qrCodes = await prisma.qrCode.findMany({
     where: {
@@ -32,8 +37,8 @@ export async function GET(request: NextRequest) {
     take: data.limit + 1,
   });
 
-  return successResponse({
-    qrCodes: qrCodes.slice(0, data.limit),
+  return NextResponse.json({
+    entries: qrCodes.slice(0, data.limit),
     nextPage: getNextPageCursor(qrCodes, "id", data.limit),
   });
 }

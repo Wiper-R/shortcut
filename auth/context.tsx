@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchApi } from "@/lib/api-helpers";
+import axios from "axios";
 import { cleanUser } from "@/lib/utils";
 import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
@@ -57,17 +57,16 @@ const SessionProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (session.state != "loading") return;
+    // FIXME: Fix this any type
     async function populateUser() {
-      const res = await fetchApi<{ user: ReturnType<typeof cleanUser> }>(
-        "/api/users/@me",
-        {},
-      );
-
-      // FIXME: Fix this any type
-      // TODO: Use axios
-      if (res.code == "success") {
-        dispatch({ type: "login_success", payload: res.data.user });
-      } else {
+      try{
+        const res = await axios.get<{ user: ReturnType<typeof cleanUser> }>(
+          "/api/auth/user",
+          {},
+        );
+        dispatch({ type: "login_success", payload: res.data });
+      }
+      catch (e){
         dispatch({ type: "login_failed" });
       }
     }

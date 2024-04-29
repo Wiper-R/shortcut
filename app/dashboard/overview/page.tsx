@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { OverviewData } from "@/app/api/overview/route";
 import { useMemo } from "react";
+import client from "@/lib/api-client";
 
 Chart.register(
   CategoryScale,
@@ -66,7 +67,7 @@ function InfoCard({
 export default function Page() {
   const { data, isLoading } = useQuery<OverviewData>({
     queryFn: async () => {
-      const res = await axios.get("/api/overview");
+      const res = await client.get("/overview");
       return res.data;
     },
     queryKey: ["overview"],

@@ -91,7 +91,7 @@ export function LinkCard(): JSX.Element {
       </div>
       {/* Button Div */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild className="flex-shrink-0">
+        <DropdownMenuTrigger asChild className="flex-shrink-0 ml-auto">
           <Button variant="outline" size="icon">
             <MenuIcon className="w-5" />
           </Button>

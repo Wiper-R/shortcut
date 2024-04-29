@@ -12,7 +12,10 @@ export async function getSession(): Promise<TSession> {
   const user = await prisma.user.findFirst({
     where: { id: session.payload.sub },
   });
-  if (!user) return null;
+  if (!user) {
+    cookies().delete(config.TOKEN_COOKIE_KEY);
+    return null;
+  };
   // FIXME: Verify token in database
   return { user: cleanUser(user) };
 }

@@ -1,17 +1,21 @@
-import { NextRequest } from "next/server";
-import { successResponse } from "../../_response";
+import { NextRequest, NextResponse } from "next/server";
 import { updateLinkSchema } from "@/validators/linksValidator";
 import prisma from "@/prisma";
-import { requiredRecordsNotFound } from "@/lib/db-errors";
 import { getSession } from "@/auth/session";
-import errorCodes from "../../_error-codes";
+import errorCodes from "../../error-codes";
 
 type Params = { params: { slug: string } };
 
 export async function PATCH(request: NextRequest, { params }: Params) {
   const { slug } = params;
-  const body = await request.json();
-  const data = updateLinkSchema.parse(body);
+  const json = await request.json();
+  const parsed = updateLinkSchema.safeParse(json);
+
+  if (!parsed.success) {
+    return errorCodes.BadRequest(parsed.error.message)
+  }
+
+  const {data} = parsed;
 
   const session = await getSession();
   if (!session) return errorCodes.Unauthorized();
@@ -31,7 +35,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   } catch (e) {
     throw e;
   }
-  return successResponse({ shortenLink });
+  return NextResponse.json(shortenLink);
 }
 
 export async function DELETE(request: NextRequest, { params }: Params) {
@@ -52,5 +56,5 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   } catch (e) {
     throw e;
   }
-  return successResponse(undefined, { status: 200 });
+  return NextResponse.json(null);
 }

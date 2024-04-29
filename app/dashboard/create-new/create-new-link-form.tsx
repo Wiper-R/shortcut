@@ -3,7 +3,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { fetchApi } from "@/lib/api-helpers";
 import { useToast } from "@/components/ui/use-toast";
 import { QRCodeCanvas } from "qrcode.react";
 import { createLinkSchema } from "@/validators/linksValidator";
@@ -20,9 +19,10 @@ import {
 } from "@/components/ui/form";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
 type TitleApiData = {
   title: string | null;
@@ -55,24 +55,17 @@ export function CreateNewLinkForm() {
     queryKey,
     enabled: canFetchTitle,
     retry: 0,
-    queryFn: fetchTitle,
+    queryFn: async () => {
+      try {
+        const res = await client.post<TitleApiData>("/private/title", {
+          url: form.watch("destination"),
+        });
+        return res.data;
+      } catch (e) {
+        return { title: null, url: form.watch("destination") };
+      }
+    },
   });
-
-  async function fetchTitle(): Promise<TitleApiData> {
-    const resp = await fetchApi<TitleApiData>("/api/private/title", {
-      method: "POST",
-      body: JSON.stringify({
-        url: form.watch("destination"),
-      }),
-    });
-
-    if (resp.code == "success") {
-      return resp.data;
-    }
-
-    return { title: null, url: form.watch("destination") };
-  }
-
   const onDestinationBlur = async () => {
     if (form.getFieldState("title").isTouched) {
       console.log("Returning Title Touched");
@@ -96,26 +89,18 @@ export function CreateNewLinkForm() {
       });
       formData.title = formData.title || data.title || "";
       formData.url = data.url;
-      const response = await fetchApi("/api/links", {
-        method: "POST",
-        body: JSON.stringify(formData),
-      });
+      try {
+        await client.post("/links", formData);
 
-      if (response.code === "success") {
         toast({
           title: "Link has been shortened",
           description: "You will be redirected to link manage page.",
         });
         router.push("links");
-      } else {
-        // Handle error response
-        console.error(
-          "Error occurred while shortening link:",
-          response.message,
-        );
+      } catch (e) {
         toast({
           title: "Error",
-          description: response.message,
+          description: getErrorMessage(e),
         });
       }
     } catch (error) {
@@ -146,8 +131,10 @@ export function CreateNewLinkForm() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="title">Title</Label>
-              <Input {...field} id="title" type="text" />
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -156,16 +143,16 @@ export function CreateNewLinkForm() {
           name="destination"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="destination">Destination*</Label>
-              <Input
-                id="destination"
-                type="text"
-                {...field}
-                onBlur={() => {
-                  field.onBlur();
-                  onDestinationBlur();
-                }}
-              />
+              <FormLabel>Destination*</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  onBlur={() => {
+                    field.onBlur();
+                    onDestinationBlur();
+                  }}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -193,13 +180,14 @@ export function CreateNewLinkForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                {...field}
-                id="title"
-                type="password"
-                value={field.value || undefined}
-              />
+              <FormLabel >Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  {...field}
+                  value={field.value || undefined}
+                />
+              </FormControl>
               <FormDescription>
                 Optional: Enter a password to protect your links
               </FormDescription>

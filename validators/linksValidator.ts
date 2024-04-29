@@ -25,7 +25,13 @@ const listLinkSchema = z.object({
   search: z.string().optional(),
 });
 
+
+const validatePasswordSchema = z.object({
+  password: z.string()
+})
+
 export type createLinkSchema = z.infer<typeof createLinkSchema>;
 export type updateLinkSchema = z.infer<typeof updateLinkSchema>;
+export type validatePasswordSchema = z.infer<typeof validatePasswordSchema>;
 
-export { createLinkSchema, updateLinkSchema, listLinkSchema };
+export { createLinkSchema, updateLinkSchema, listLinkSchema, validatePasswordSchema };

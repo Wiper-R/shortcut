@@ -3,5 +3,12 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-  "zenMode.fullScreen": false
+  "zenMode.fullScreen": false,
+  "files.exclude": {
+    ".next": true,
+    "node_modules": true
+  },
+  "cSpell.words": [
+    "signup"
+  ]
 }

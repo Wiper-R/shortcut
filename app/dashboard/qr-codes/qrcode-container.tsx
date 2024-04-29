@@ -12,20 +12,16 @@ export type QRCodeWithShortenLink = QrCode & {
   ShortenLink: ShortenLink & { _count: { Engagement: number } };
 };
 
-type ShortenLinkApiData = {
-  qrCodes: QRCodeWithShortenLink[];
-};
-
 export function QRCodeContainer() {
   const { data, element, isLoading } =
-    useInfiniteScroll<ShortenLinkApiData>("/api/qr-codes");
+    useInfiniteScroll<QRCodeWithShortenLink>("/qr-codes");
   return (
     <div className="mt-4 flex flex-col space-y-4">
       {isLoading ? (
         <Loader className="my-10" />
-      ) : data && data.pages[0].qrCodes.length ? (
+      ) : data && data.pages[0].entries.length ? (
         data.pages.map((page) =>
-          page.qrCodes.map((data) => (
+          page.entries.map((data) => (
             <DataProvider data={data} key={data.id}>
               <QRCodeCard />
             </DataProvider>

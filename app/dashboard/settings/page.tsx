@@ -14,12 +14,13 @@ import { Separator } from "@/components/ui/separator";
 import { LogOutIcon, PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { fetchApi } from "@/lib/api-helpers";
 import { updateUserSchema } from "@/validators/userValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect, useMemo } from "react";
 import { ChangePasswordDialog } from "./update-password-dialog";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
 export default function Page() {
   const router = useRouter();
@@ -37,19 +38,14 @@ export default function Page() {
   }, [user]);
 
   const onValid = async (data: updateUserSchema) => {
-    const resp = await fetchApi("/api/users", {
-      method: "PUT",
-      body: JSON.stringify(data),
-    });
-
-    if (resp.code == "success") {
-      dispatch({ payload: (resp.data as any).user, type: "login_success" });
+    try {
+      const res = await client.patch("/auth/user", data);
+      dispatch({ payload: res.data, type: "login_success" });
       toast({ title: "Success", description: "User has been updated" });
-    } else {
+    } catch (e) {
       toast({
         title: "Failed",
-        description: "Failed to update. Please retry after sometime",
-        variant: "destructive",
+        description: getErrorMessage(e),
       });
     }
   };
@@ -93,7 +89,7 @@ export default function Page() {
         <Button
           variant="destructive"
           onClick={async () => {
-            await fetchApi("/api/auth/logout", {});
+            await client.get("/auth/logout");
             dispatch({ type: "logout" });
             router.push("/");
           }}

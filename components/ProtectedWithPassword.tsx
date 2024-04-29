@@ -4,33 +4,34 @@ import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { fetchApi } from "@/lib/api-helpers";
 import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
-const PasswordValidator = z.object({ password: z.string(), isQR: z.boolean() });
+const PasswordValidator = z.object({ password: z.string() });
 type PasswordValidator = z.infer<typeof PasswordValidator>;
 
-export function ProtectedWithPassword({ link, isQR }: { link: ShortenLink, isQR: boolean }) {
+export function ProtectedWithPassword({
+  link,
+}: {
+  link: ShortenLink;
+}) {
   const form = useForm<PasswordValidator>({
-    resolver: zodResolver(PasswordValidator),
-    defaultValues: {isQR}
+    resolver: zodResolver(PasswordValidator)
   });
   const router = useRouter();
   const { toast } = useToast();
   async function onValid(data: PasswordValidator) {
-    const res = await fetchApi(`/api/links/${link.slug}/validate-password`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (res.code == "success") {
+    try {
+      await client.post(`/links/${link.slug}/validate-password`, data);
       toast({
+        title: "Success",
         description: "Password verification successful, redirecting...",
       });
-      // TODO: Create engagement
       router.push(link.destination);
-    } else {
-      toast({ description: res.message });
+    } catch (e) {
+      toast({ title: "Error", description: getErrorMessage(e) });
     }
   }
   return (

@@ -13,14 +13,11 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/validators/authValidator";
-import { fetchApi } from "@/lib/api-helpers";
-import { cleanUser } from "@/lib/utils";
+import { cleanUser, getErrorMessage } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-
-type SignUpApiResponse = {
-  user: ReturnType<typeof cleanUser>;
-};
+import { AxiosError } from "axios";
+import client from "@/lib/api-client";
 
 export function SignUpForm() {
   const searchParams = useSearchParams();
@@ -31,21 +28,21 @@ export function SignUpForm() {
   const { toast } = useToast();
 
   async function OnValid(data: signUpSchema) {
-    let res = await fetchApi<SignUpApiResponse>("/api/auth/sign-up", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    if (res.code == "success") {
+    try {
+      await client.post<ReturnType<typeof cleanUser>>(
+        "/auth/signup",
+        data,
+      );
+      let cbp = searchParams.get("cbp") || "/dashboard/overview";
+      router.push(cbp);
       toast({
         title: "Sign-up Successful",
         description: "You will be redirected to dashboard",
       });
-      let cbp = searchParams.get("cbp") || "/dashboard";
-      router.push(cbp);
-    } else {
+    } catch (e) {
       toast({
         title: "Sign-up failed!",
-        description: res.message,
+        description: getErrorMessage(e),
       });
     }
   }
