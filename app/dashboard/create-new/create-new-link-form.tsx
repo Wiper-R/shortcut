@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/form";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import client from "@/lib/api-client";
@@ -132,8 +131,10 @@ export function CreateNewLinkForm() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="title">Title</Label>
-              <Input {...field} id="title" type="text" />
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -142,16 +143,16 @@ export function CreateNewLinkForm() {
           name="destination"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="destination">Destination*</Label>
-              <Input
-                id="destination"
-                type="text"
-                {...field}
-                onBlur={() => {
-                  field.onBlur();
-                  onDestinationBlur();
-                }}
-              />
+              <FormLabel>Destination*</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  onBlur={() => {
+                    field.onBlur();
+                    onDestinationBlur();
+                  }}
+                />
+              </FormControl>
             </FormItem>
           )}
         />
@@ -179,13 +180,14 @@ export function CreateNewLinkForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                {...field}
-                id="title"
-                type="password"
-                value={field.value || undefined}
-              />
+              <FormLabel >Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  {...field}
+                  value={field.value || undefined}
+                />
+              </FormControl>
               <FormDescription>
                 Optional: Enter a password to protect your links
               </FormDescription>
