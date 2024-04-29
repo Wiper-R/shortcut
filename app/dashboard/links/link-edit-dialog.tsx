@@ -130,7 +130,6 @@ export function LinkEditDialog({
                     <FormLabel>Password</FormLabel>
                     <Input
                       {...field}
-                      id="title"
                       type="password"
                       value={field.value || undefined}
                     />
