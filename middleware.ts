@@ -7,7 +7,9 @@ export async function middleware(request: NextRequest) {
   var user: User | null = null;
   try {
     const url = new URL("/api/auth/user", request.nextUrl.origin);
-    const req = await fetch(url, { headers: request.headers });
+    const req = await fetch(url, {
+      headers: request.headers,
+    });
     if (req.ok) {
       user = await req.json();
     }
