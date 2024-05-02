@@ -91,7 +91,7 @@ export default function Page() {
           onClick={async () => {
             await client.get("/auth/logout");
             dispatch({ type: "logout" });
-            router.push("/");
+            router.refresh();
           }}
         >
           <LogOutIcon className="w-5" /> <span className="ml-2">Logout</span>
