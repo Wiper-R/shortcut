@@ -1,24 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySession } from "./auth/session";
-import cnf from "./config";
+import { User } from "@prisma/client";
 
 export async function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.append("x-pathname", request.nextUrl.pathname);
+  var user: User | null = null;
+  try {
+    const url = new URL("/api/auth/user", request.nextUrl.origin);
+    const req = await fetch(url, { headers: request.headers });
+    if (req.ok) {
+      user = await req.json();
+    }
+  } catch (e) {
+    console.error(e);
+  }
 
-  const token = request.cookies.get(cnf.TOKEN_COOKIE_KEY);
   const pathname = request.nextUrl.pathname;
-  const session = await verifySession(token?.value || "");
-
-  const sub = session?.payload.sub;
-  if (["/", "/login", "/sign-up"].includes(pathname) && sub) {
+  if (["/", "/login", "/sign-up"].includes(pathname) && user) {
     const url = request.nextUrl.clone();
     // Callback Path
     const cbp = url.searchParams.get("cbp") || "/dashboard";
     url.pathname = cbp;
     url.searchParams.delete("cbp");
     return NextResponse.redirect(url, { headers });
-  } else if (pathname.startsWith("/dashboard") && !sub) {
+  } else if (pathname.startsWith("/dashboard") && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.append("cbp", pathname);
