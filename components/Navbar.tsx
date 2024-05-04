@@ -71,7 +71,7 @@ function Navbar() {
         {/* FIXME: Nav links should take full width*/}
         <nav
           className={cn(
-            "absolute z-10 flex w-full flex-col items-center gap-10 rounded-b-lg bg-white p-4 shadow-sm md:hidden",
+            "absolute z-10 flex w-full flex-col items-center gap-10 rounded-b-lg bg-background p-4 shadow-sm md:hidden",
             !navToggle && "hidden",
             navToggle && "animate-in-from-top",
           )}
