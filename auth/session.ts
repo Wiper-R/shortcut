@@ -1,27 +1,80 @@
 import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
-import prisma from "@/prisma";
-import { TSession } from "./context";
-import config from "@/config";
-import { cleanUser } from "@/lib/utils";
+import { ServerSession } from "./types";
+import { PrismaClient } from "@prisma/client";
+import crypto from "crypto";
 
-export async function getSession(): Promise<TSession> {
-  const token = cookies().get(config.TOKEN_COOKIE_KEY);
-  const session = await verifySession(token?.value || "");
-  if (!session?.payload.sub) return null;
-  const user = await prisma.user.findFirst({
-    where: { id: session.payload.sub },
-  });
-  if (!user) {
-    cookies().delete(config.TOKEN_COOKIE_KEY);
+const prisma = new PrismaClient();
+
+async function getSession(): Promise<ServerSession> {
+  const sessionId = cookies().get("session-id")?.value;
+  if (!sessionId) return null;
+  try {
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+      include: { User: true },
+    });
+
+    // Invalid session
+    if (!session) return null;
+    return { user: session.User };
+  } catch (error) {
+    console.error("Error retrieving session:", error);
     return null;
-  };
-  // FIXME: Verify token in database
-  return { user: cleanUser(user) };
+  }
 }
 
-export async function verifySession(token: string) {
-  if (!token) return null;
-  const secret = new TextEncoder().encode(config.JWT_SECRET);
-  return await jwtVerify(token, secret);
+function generateRandomSessionId() {
+  return crypto.randomBytes(32).toString("hex");
 }
+
+async function generateUniqueSessionId(): Promise<string> {
+  let sessionId;
+  do {
+    sessionId = generateRandomSessionId();
+  } while (!(await isSessionIdUnique(sessionId)));
+  return sessionId;
+}
+
+async function isSessionIdUnique(sessionId: string): Promise<boolean> {
+  try {
+    const existingSession = await prisma.session.findUnique({
+      where: { id: sessionId },
+    });
+    return !existingSession;
+  } catch (error) {
+    console.error("Error checking session ID uniqueness:", error);
+    return false;
+  }
+}
+
+async function createSession(userId: string) {
+  const sessionId = await generateUniqueSessionId();
+  try {
+    await prisma.session.create({
+      data: { userId, id: sessionId },
+      include: { User: true },
+    });
+
+    // Add Token Validation
+    cookies().set("session-id", sessionId, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+  } catch (error) {
+    console.error("Error creating session:", error);
+  }
+}
+
+async function revokeSession() {
+  const sessionId = cookies().get("session-id")?.value;
+  if (sessionId) {
+    // Server-Side Revocation
+    await prisma.session.delete({ where: { id: sessionId } });
+
+    // Client-Side Revocation
+    cookies().delete("session-id");
+  }
+}
+
+export { getSession, createSession, revokeSession };

@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { setTokenCookie } from "@/lib/server-utils";
 import { HttpStatusCode } from "axios";
 import errorCodes from "../../error-codes";
+import { createSession } from "@/auth";
 
 export async function POST(request: NextRequest) {
   const json = await request.json();
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  await setTokenCookie(user.id);
+  await createSession(user.id);
   return NextResponse.json(
     { ...cleanUser(user) },
     { status: HttpStatusCode.Created },

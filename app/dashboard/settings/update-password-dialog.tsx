@@ -13,7 +13,7 @@ import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { KeyRoundIcon } from "lucide-react";
-import useSession from "@/auth/useSession";
+import { useSession } from "@/auth/client";
 import { useRouter } from "next/navigation";
 import { changePasswordSchema } from "@/validators/authValidator";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,14 +25,13 @@ export function ChangePasswordDialog() {
   const form = useForm<changePasswordSchema>({
     resolver: zodResolver(changePasswordSchema),
   });
-  const {toast} = useToast();
+  const { toast } = useToast();
   const onValid = async (data: any) => {
-    try{
+    try {
       await client.patch("/auth/change-password", data);
-      toast({title: "Success", description: "Password has been updated"})
-    }
-    catch (e){
-      toast({title: "Error", description: getErrorMessage(e)})
+      toast({ title: "Success", description: "Password has been updated" });
+    } catch (e) {
+      toast({ title: "Error", description: getErrorMessage(e) });
     }
   };
   return (

@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { setTokenCookie } from "@/lib/server-utils";
 import { HttpStatusCode } from "axios";
 import errorCodes from "../../error-codes";
+import { createSession } from "@/auth";
 
 export async function POST(request: NextRequest) {
   const json = await request.json();
@@ -25,8 +26,6 @@ export async function POST(request: NextRequest) {
   if (!passwordMatch)
     return errorCodes.Unauthorized("Invalid email or password");
 
-  await setTokenCookie(user.id);
-  return NextResponse.json(
-    { ...cleanUser(user) },
-  );
+  await createSession(user.id);
+  return NextResponse.json({ ...cleanUser(user) });
 }
