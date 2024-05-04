@@ -13,12 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import useSession from "@/auth/useSession";
+import { useSession } from "@/auth/client";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 
 export function UserDropdown({ className, ...props }: LucideProps) {
   const { session } = useSession();
-  const user = session.data?.user;
+  const user = session?.user;
 
   return (
     <DropdownMenu>

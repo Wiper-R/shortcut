@@ -1,8 +1,6 @@
-import config from "@/config";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-
+import { revokeSession } from "@/auth";
 export async function GET() {
-  cookies().delete(config.TOKEN_COOKIE_KEY);
+  await revokeSession();
   return NextResponse.json(null);
 }

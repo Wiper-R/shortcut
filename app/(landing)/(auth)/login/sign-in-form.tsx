@@ -16,12 +16,8 @@ import { signInSchema } from "@/validators/authValidator";
 import { cleanUser, getErrorMessage } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import useSession from "@/auth/useSession";
+import { useSession } from "@/auth/client";
 import client from "@/lib/api-client";
-
-type SignInApiResponse = {
-  user: ReturnType<typeof cleanUser>;
-};
 
 export function SignInForm() {
   const searchParams = useSearchParams();

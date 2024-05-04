@@ -1,6 +1,6 @@
 "use client";
 
-import useSession from "@/auth/useSession";
+import { useSession } from "@/auth/client";
 import { Button } from "@/components/ui/button";
 import {
   FormField,
@@ -25,7 +25,7 @@ import { getErrorMessage } from "@/lib/utils";
 export default function Page() {
   const router = useRouter();
   const { session, dispatch } = useSession();
-  const user = session.data?.user;
+  const user = session?.user;
   const form = useForm<updateUserSchema>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: useMemo(() => {
@@ -91,7 +91,7 @@ export default function Page() {
           onClick={async () => {
             await client.get("/auth/logout");
             dispatch({ type: "logout" });
-            router.refresh();
+            // router.push("links");
           }}
         >
           <LogOutIcon className="w-5" /> <span className="ml-2">Logout</span>
