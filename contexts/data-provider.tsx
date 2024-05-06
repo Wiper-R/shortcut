@@ -1,23 +1,26 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { RefetchOptions } from "@tanstack/react-query";
+import { PropsWithChildren, createContext, useContext } from "react";
+
+type RefetchCallback = (options?: RefetchOptions) => any;
 
 type DataProviderContext<T> = {
   data: T;
-  setData: (data: T) => void;
+  refetch: RefetchCallback;
 };
 
-type DataProviderProps<T> = { data: T } & PropsWithChildren;
+type DataProviderProps<T> = DataProviderContext<T> & PropsWithChildren;
 
 const DataProviderContext = createContext<DataProviderContext<any> | null>(
   null,
 );
 
 export function DataProvider<T>({
-  data: _data,
+  data,
+  refetch,
   children,
 }: DataProviderProps<T>) {
-  const [data, setData] = useState(_data);
   return (
-    <DataProviderContext.Provider value={{ data, setData }}>
+    <DataProviderContext.Provider value={{ data, refetch }}>
       {children}
     </DataProviderContext.Provider>
   );

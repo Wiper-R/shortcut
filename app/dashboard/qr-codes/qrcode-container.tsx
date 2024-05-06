@@ -13,7 +13,7 @@ export type QRCodeWithShortenLink = QrCode & {
 };
 
 export function QRCodeContainer() {
-  const { data, element, isLoading } =
+  const { data, element, isLoading, refetch } =
     useInfiniteScroll<QRCodeWithShortenLink>("/qr-codes");
   return (
     <div className="mt-4 flex flex-col space-y-4">
@@ -22,7 +22,7 @@ export function QRCodeContainer() {
       ) : data && data.pages[0].entries.length ? (
         data.pages.map((page) =>
           page.entries.map((data) => (
-            <DataProvider data={data} key={data.id}>
+            <DataProvider data={data} key={data.id} refetch={refetch}>
               <QRCodeCard />
             </DataProvider>
           )),

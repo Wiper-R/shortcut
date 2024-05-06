@@ -20,9 +20,7 @@ export function ThemeSwitch() {
         size="icon"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       >
-        {/* prettier-ignore-start */}
         {isMounted ? theme === "dark" ? <SunIcon /> : <MoonIcon /> : null}
-        {/* prettier-ignore-end */}
       </Button>
     </Suspense>
   );

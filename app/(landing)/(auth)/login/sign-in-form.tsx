@@ -22,7 +22,7 @@ import client from "@/lib/api-client";
 export function SignInForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const useFormReturn = useForm<signInSchema>({
+  const form = useForm<signInSchema>({
     resolver: zodResolver(signInSchema),
   });
   const { toast } = useToast();
@@ -54,9 +54,9 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={useFormReturn.handleSubmit(OnValid, OnInvalid)}>
+    <form onSubmit={form.handleSubmit(OnValid, OnInvalid)}>
       <Card className="p-6">
-        <Form {...useFormReturn}>
+        <Form {...form}>
           <h3 className="text-xl font-medium">Login</h3>
           <div className="mt-6 space-y-4">
             <FormField
@@ -84,7 +84,12 @@ export function SignInForm() {
               )}
             />
           </div>
-          <Button className="mt-8 w-full">Login</Button>
+          <Button
+            className="mt-8 w-full"
+            disabled={form.formState.isSubmitting}
+          >
+            Login
+          </Button>
           <p className="text-sm">
             {"Don't have an account?"}{" "}
             <Link

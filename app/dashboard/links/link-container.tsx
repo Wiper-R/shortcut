@@ -9,7 +9,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
 export function LinkContainer() {
-  const { data, element, isLoading } =
+  const { data, element, isLoading, refetch } =
     useInfiniteScroll<ShortenLink>("/links");
   return (
     <div className="mt-4 flex flex-col space-y-4">
@@ -18,7 +18,7 @@ export function LinkContainer() {
       ) : data && data.pages[0].entries.length ? (
         data.pages.map((page) =>
           page.entries.map((data) => (
-            <DataProvider data={data} key={data.id}>
+            <DataProvider data={data} refetch={refetch} key={data.id}>
               <LinkCard />
             </DataProvider>
           )),

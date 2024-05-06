@@ -47,5 +47,5 @@ export function useInfiniteScroll<T = any>(apiEndPoint: string) {
 
   useDebounced(search, refetch);
   const observed = useIntersectionObserver<HTMLDivElement>(handleFetchNextPage);
-  return { data, element: observed, isLoading };
+  return { data, element: observed, isLoading, refetch };
 }

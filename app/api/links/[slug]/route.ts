@@ -51,7 +51,7 @@ export async function DELETE(request: NextRequest, { params }: Params) {
   if (_existingLink.userId != session.user.id) return errorCodes.Forbidden();
   try {
     await prisma.shortenLink.delete({
-      where: { id: _existingLink.id },
+      where: { id: _existingLink.id }
     });
   } catch (e) {
     throw e;

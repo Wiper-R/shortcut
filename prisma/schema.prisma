@@ -33,7 +33,7 @@ model ShortenLink {
 
 model QrCode {
     id            String      @id @default(auto()) @map("_id") @db.ObjectId
-    ShortenLink   ShortenLink @relation(fields: [shortenLinkId], references: [id])
+    ShortenLink   ShortenLink @relation(fields: [shortenLinkId], references: [id], onDelete: Cascade)
     shortenLinkId String      @unique @db.ObjectId
     fgColor       String
     bgColor       String
@@ -49,8 +49,8 @@ enum EngagementType {
 model Engagement {
     id            String         @id @default(auto()) @map("_id") @db.ObjectId
     type          EngagementType
-    ShortenLink   ShortenLink    @relation(fields: [shortenLinkId], references: [id])
-    shortenLinkId String         @db.ObjectId
+    ShortenLink   ShortenLink?   @relation(fields: [shortenLinkId], references: [id])
+    shortenLinkId String?        @db.ObjectId
     createdAt     DateTime       @default(now())
 
     // TODO: Add more fields like location, ip etc

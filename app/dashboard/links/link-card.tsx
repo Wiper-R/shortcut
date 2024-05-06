@@ -18,9 +18,12 @@ import {
   EditIcon,
   MenuIcon,
   PenIcon,
+  TrashIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
+import client from "@/lib/api-client";
+import { getErrorMessage } from "@/lib/utils";
 
 type ShortenLinkWithEngagements = ShortenLink & {
   _count: {
@@ -29,7 +32,7 @@ type ShortenLinkWithEngagements = ShortenLink & {
 };
 
 export function LinkCard(): JSX.Element {
-  const { data } = useDataProvider<ShortenLinkWithEngagements>();
+  const { data, refetch } = useDataProvider<ShortenLinkWithEngagements>();
   const [isEditing, setIsEditing] = useState(false);
   const { toast } = useToast();
   const copyRef = useRef<HTMLAnchorElement>(null);
@@ -40,6 +43,15 @@ export function LinkCard(): JSX.Element {
       .then(() => toast({ description: "Coped Link to clipboard" }))
       .catch((e) => toast({ description: "Can't copy to clipboard" }));
   }, [copyRef.current]);
+  const handleDelete = async () => {
+    try {
+      await client.delete(`/links/${data.slug}`);
+      toast({ title: "Success", description: "Link deleted successfully" });
+      refetch()
+    } catch (e) {
+      toast({ title: "Error deleting!", description: getErrorMessage(e) });
+    }
+  };
 
   return (
     <Card className="flex gap-2 p-2 md:px-6 md:py-4">
@@ -91,7 +103,7 @@ export function LinkCard(): JSX.Element {
       </div>
       {/* Button Div */}
       <DropdownMenu>
-        <DropdownMenuTrigger asChild className="flex-shrink-0 ml-auto">
+        <DropdownMenuTrigger asChild className="ml-auto flex-shrink-0">
           <Button variant="outline" size="icon">
             <MenuIcon className="w-5" />
           </Button>
@@ -104,6 +116,13 @@ export function LinkCard(): JSX.Element {
           <DropdownMenuItem onClick={copyToClipboard}>
             <CopyIcon className="mr-2 h-4 w-4" />
             <span>Copy</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="bg-destructive text-destructive-foreground"
+            onClick={handleDelete}
+          >
+            <TrashIcon className="mr-2 h-4 w-4" />
+            <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

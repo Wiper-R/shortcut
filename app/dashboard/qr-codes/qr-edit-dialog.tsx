@@ -35,7 +35,7 @@ export function QREditDialog({
   open: boolean;
   setIsOpen: (v: boolean) => void;
 }) {
-  const { data, setData } = useDataProvider<QRCodeWithShortenLink>();
+  const { data, refetch } = useDataProvider<QRCodeWithShortenLink>();
   const form = useForm<updateQrCodeSchema>({
     resolver: zodResolver(updateQrCodeSchema),
     defaultValues: { fgColor: data.fgColor, bgColor: data.bgColor },
@@ -45,7 +45,7 @@ export function QREditDialog({
     try {
       const res = await client.patch(`/qr-codes/${data.id}`, updateData);
       toast({ title: "Success", description: "QR Code has been edited" });
-      setData({ ...data, ...res.data });
+      refetch();
       setIsOpen(false);
     } catch (e) {
       toast({ title: "Error", description: getErrorMessage(e) });

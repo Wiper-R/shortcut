@@ -34,7 +34,7 @@ export function LinkEditDialog({
   setIsOpen: (v: boolean) => void;
 }) {
   const { toast } = useToast();
-  const { data, setData } = useDataProvider<ShortenLink>();
+  const { data, refetch } = useDataProvider<ShortenLink>();
   const form = useForm<updateLinkSchema>({
     resolver: zodResolver(updateLinkSchema),
     defaultValues: data,
@@ -43,10 +43,10 @@ export function LinkEditDialog({
   async function onValid(updateData: updateLinkSchema) {
     // TODO: Add link-context and qr-code context
     try {
-      const res = await client.patch(`/links/${data.slug}`, updateData);
+      await client.patch(`/links/${data.slug}`, updateData);
       toast({ title: "Success", description: "Link has been edited" });
-      setData({ ...data, ...res.data });
       setIsOpen(false);
+      refetch();
     } catch (e) {
       toast({ title: "Error", description: getErrorMessage(e) });
     }
